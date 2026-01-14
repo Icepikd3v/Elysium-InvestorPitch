@@ -1,26 +1,66 @@
 export default function RevenueYearOneChart({ className = "" }) {
+  // Shared layout constants (keep identical across both charts)
+  const W = 920;
+  const H = 360;
+
+  const outer = { x: 18, y: 18, w: 884, h: 324, r: 20 };
+  const title = { x: 52, y: 70 };
+  const subtitle = { x: 52, y: 94 };
+
+  const legend = { x: 680, y: 56 };
+
+  const plot = { x: 70, y: 120, w: 780, h: 180, r: 18 };
+  const baselinePad = 22; // padding inside plot box for baseline/labels
+  const chartBaseY = plot.y + plot.h - baselinePad;
+  const usableH = plot.h - (baselinePad + 16);
+
+  const footer = { x: 52, y: 312, w: 816, h: 28, r: 14 };
+
+  // Mock data (illustrative)
+  const quarters = [
+    { label: "Q1", gross: 4.2, net: 1.6 },
+    { label: "Q2", gross: 6.0, net: 2.8 },
+    { label: "Q3", gross: 7.4, net: 3.7 },
+    { label: "Q4", gross: 9.1, net: 5.2 },
+  ];
+
+  const maxVal = Math.max(...quarters.flatMap((q) => [q.gross, q.net]));
+  const scaleY = usableH / (maxVal * 1.15);
+
+  // bar sizing
+  const groupW = plot.w / quarters.length; // 195
+  const barW = 44;
+  const gap = 10;
+
+  const grossFill = "rgba(0,0,0,0.55)";
+  const netFill = "rgba(0,0,0,0.18)";
+
+  const fmt = (n) => `$${n.toFixed(1)}M`;
+
   return (
     <svg
-      className={["h-full w-full", className].join(" ")}
-      viewBox="0 0 920 360"
+      className={["w-full h-full", className].join(" ")}
+      viewBox={`0 0 ${W} ${H}`}
       role="img"
       aria-label="Projected revenue year one chart mock"
       preserveAspectRatio="xMidYMid meet"
     >
-      <rect x="0" y="0" width="920" height="360" rx="24" fill="#FAFAFA" />
+      {/* Background */}
+      <rect x="0" y="0" width={W} height={H} rx="24" fill="#FAFAFA" />
       <rect
-        x="18"
-        y="18"
-        width="884"
-        height="324"
-        rx="20"
+        x={outer.x}
+        y={outer.y}
+        width={outer.w}
+        height={outer.h}
+        rx={outer.r}
         fill="#FFFFFF"
         stroke="rgba(0,0,0,0.08)"
       />
 
+      {/* Title */}
       <text
-        x="52"
-        y="70"
+        x={title.x}
+        y={title.y}
         fontSize="18"
         fontFamily="ui-sans-serif, system-ui"
         fill="rgba(0,0,0,0.82)"
@@ -29,8 +69,8 @@ export default function RevenueYearOneChart({ className = "" }) {
         Projected Revenue — Year One (Illustrative)
       </text>
       <text
-        x="52"
-        y="94"
+        x={subtitle.x}
+        y={subtitle.y}
         fontSize="12"
         fontFamily="ui-sans-serif, system-ui"
         fill="rgba(0,0,0,0.55)"
@@ -38,9 +78,9 @@ export default function RevenueYearOneChart({ className = "" }) {
         Replace with validated forecast + unit economics in Phase 2
       </text>
 
-      {/* Legend (top-right aligned) */}
-      <g transform="translate(680 56)">
-        <rect width="12" height="12" rx="3" fill="rgba(0,0,0,0.55)" />
+      {/* Legend (same position + spacing as YearTwo) */}
+      <g transform={`translate(${legend.x} ${legend.y})`}>
+        <rect width="12" height="12" rx="3" fill={grossFill} />
         <text
           x="18"
           y="10"
@@ -51,7 +91,7 @@ export default function RevenueYearOneChart({ className = "" }) {
           Gross
         </text>
 
-        <rect x="80" width="12" height="12" rx="3" fill="rgba(0,0,0,0.18)" />
+        <rect x="80" width="12" height="12" rx="3" fill={netFill} />
         <text
           x="98"
           y="10"
@@ -63,142 +103,131 @@ export default function RevenueYearOneChart({ className = "" }) {
         </text>
       </g>
 
-      {/* chart area */}
+      {/* Plot container */}
       <rect
-        x="70"
-        y="120"
-        width="780"
-        height="180"
-        rx="18"
+        x={plot.x}
+        y={plot.y}
+        width={plot.w}
+        height={plot.h}
+        rx={plot.r}
         fill="#FAFAFA"
         stroke="rgba(0,0,0,0.06)"
       />
 
-      {/* grid lines */}
-      {[0, 1, 2, 3].map((i) => (
-        <line
-          key={i}
-          x1="90"
-          y1={150 + i * 40}
-          x2="830"
-          y2={150 + i * 40}
-          stroke="rgba(0,0,0,0.08)"
-          strokeWidth="1"
-        />
-      ))}
+      {/* Grid lines */}
+      {[0, 1, 2, 3].map((i) => {
+        const y = plot.y + 24 + i * 40;
+        return (
+          <line
+            key={i}
+            x1={plot.x + 20}
+            y1={y}
+            x2={plot.x + plot.w - 20}
+            y2={y}
+            stroke="rgba(0,0,0,0.08)"
+            strokeWidth="1"
+          />
+        );
+      })}
 
-      {/* bars */}
-      {renderBars()}
+      {/* Baseline */}
+      <line
+        x1={plot.x + 20}
+        y1={chartBaseY}
+        x2={plot.x + plot.w - 20}
+        y2={chartBaseY}
+        stroke="rgba(0,0,0,0.12)"
+        strokeWidth="1"
+      />
 
-      {/* x labels */}
-      {[
-        { x: 190, label: "Q1" },
-        { x: 360, label: "Q2" },
-        { x: 530, label: "Q3" },
-        { x: 700, label: "Q4" },
-      ].map((t) => (
-        <text
-          key={t.label}
-          x={t.x}
-          y="320"
-          fontSize="11"
-          fontFamily="ui-sans-serif, system-ui"
-          fill="rgba(0,0,0,0.55)"
-        >
-          {t.label}
-        </text>
-      ))}
+      {/* Bars */}
+      {quarters.map((q, idx) => {
+        const groupCenter = plot.x + groupW * idx + groupW / 2;
+        const grossH = Math.max(6, q.gross * scaleY);
+        const netH = Math.max(6, q.net * scaleY);
 
-      {null}
+        const grossX = groupCenter - barW - gap / 2;
+        const netX = groupCenter + gap / 2;
 
-      {/* helper */}
-      {null}
+        const grossY = chartBaseY - grossH;
+        const netY = chartBaseY - netH;
+
+        return (
+          <g key={q.label}>
+            <rect
+              x={grossX}
+              y={grossY}
+              width={barW}
+              height={grossH}
+              rx="12"
+              fill={grossFill}
+            />
+            <rect
+              x={netX}
+              y={netY}
+              width={barW}
+              height={netH}
+              rx="12"
+              fill={netFill}
+            />
+
+            {/* Value labels */}
+            <text
+              x={grossX + barW / 2}
+              y={grossY - 8}
+              textAnchor="middle"
+              fontSize="10"
+              fontFamily="ui-sans-serif, system-ui"
+              fill="rgba(0,0,0,0.55)"
+            >
+              {fmt(q.gross)}
+            </text>
+            <text
+              x={netX + barW / 2}
+              y={netY - 8}
+              textAnchor="middle"
+              fontSize="10"
+              fontFamily="ui-sans-serif, system-ui"
+              fill="rgba(0,0,0,0.55)"
+            >
+              {fmt(q.net)}
+            </text>
+
+            {/* X label */}
+            <text
+              x={groupCenter}
+              y={plot.y + plot.h - 6}
+              textAnchor="middle"
+              fontSize="11"
+              fontFamily="ui-sans-serif, system-ui"
+              fill="rgba(0,0,0,0.55)"
+            >
+              {q.label}
+            </text>
+          </g>
+        );
+      })}
+
+      {/* Footer pill (same as YearTwo) */}
+      <rect
+        x={footer.x}
+        y={footer.y}
+        width={footer.w}
+        height={footer.h}
+        rx={footer.r}
+        fill="rgba(0,0,0,0.04)"
+        stroke="rgba(0,0,0,0.06)"
+      />
+      <text
+        x={footer.x + 18}
+        y={footer.y + 19}
+        fontSize="12"
+        fontFamily="ui-sans-serif, system-ui"
+        fill="rgba(0,0,0,0.62)"
+      >
+        Phase 2 upgrade: replace with validated unit economics + real KPI
+        targets.
+      </text>
     </svg>
   );
-
-  function renderBars() {
-    return (
-      <>
-        {/* Q1 */}
-        <rect
-          x="160"
-          y="190"
-          width="40"
-          height="90"
-          rx="10"
-          fill="rgba(0,0,0,0.55)"
-        />
-        <rect
-          x="205"
-          y="240"
-          width="40"
-          height="40"
-          rx="10"
-          fill="rgba(0,0,0,0.18)"
-        />
-        <rect
-          x="205"
-          y="280"
-          width="40"
-          height="40"
-          rx="10"
-          fill="rgba(0,0,0,0.10)"
-        />
-
-        {/* Q2 */}
-        <rect
-          x="330"
-          y="175"
-          width="40"
-          height="105"
-          rx="10"
-          fill="rgba(0,0,0,0.55)"
-        />
-        <rect
-          x="375"
-          y="205"
-          width="40"
-          height="75"
-          rx="10"
-          fill="rgba(0,0,0,0.18)"
-        />
-
-        {/* Q3 */}
-        <rect
-          x="500"
-          y="185"
-          width="40"
-          height="95"
-          rx="10"
-          fill="rgba(0,0,0,0.55)"
-        />
-        <rect
-          x="545"
-          y="215"
-          width="40"
-          height="65"
-          rx="10"
-          fill="rgba(0,0,0,0.18)"
-        />
-
-        {/* Q4 */}
-        <rect
-          x="670"
-          y="180"
-          width="40"
-          height="100"
-          rx="10"
-          fill="rgba(0,0,0,0.55)"
-        />
-        <rect
-          x="715"
-          y="210"
-          width="40"
-          height="70"
-          rx="10"
-          fill="rgba(0,0,0,0.18)"
-        />
-      </>
-    );
-  }
 }

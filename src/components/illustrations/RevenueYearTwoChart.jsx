@@ -1,26 +1,63 @@
 export default function RevenueYearTwoChart({ className = "" }) {
+  // Shared layout constants (keep identical across both charts)
+  const W = 920;
+  const H = 360;
+
+  const outer = { x: 18, y: 18, w: 884, h: 324, r: 20 };
+  const title = { x: 52, y: 70 };
+  const subtitle = { x: 52, y: 94 };
+
+  const legend = { x: 680, y: 56 };
+
+  const plot = { x: 70, y: 120, w: 780, h: 180, r: 18 };
+  const baselinePad = 22;
+  const chartBaseY = plot.y + plot.h - baselinePad;
+  const usableH = plot.h - (baselinePad + 16);
+
+  const footer = { x: 52, y: 312, w: 816, h: 28, r: 14 };
+
+  const grossFill = "rgba(0,0,0,0.55)";
+  const netFill = "rgba(0,0,0,0.18)";
+
+  // Mock comparison (illustrative)
+  const years = [
+    { label: "Year 1", gross: 26.7, net: 13.3 },
+    { label: "Year 2", gross: 44.5, net: 24.8 },
+  ];
+
+  const maxVal = Math.max(...years.flatMap((y) => [y.gross, y.net]));
+  const scaleY = usableH / (maxVal * 1.15);
+
+  const groupW = plot.w / years.length; // 390
+  const barW = 64;
+  const gap = 14;
+
+  const fmt = (n) => `$${n.toFixed(1)}M`;
+
   return (
     <svg
-      className={["h-full w-full", className].join(" ")}
-      viewBox="0 0 920 360"
+      className={["w-full h-full", className].join(" ")}
+      viewBox={`0 0 ${W} ${H}`}
       role="img"
       aria-label="Year 1 vs Year 2 revenue projection mock"
       preserveAspectRatio="xMidYMid meet"
     >
-      <rect x="0" y="0" width="920" height="360" rx="24" fill="#FAFAFA" />
+      {/* Background */}
+      <rect x="0" y="0" width={W} height={H} rx="24" fill="#FAFAFA" />
       <rect
-        x="18"
-        y="18"
-        width="884"
-        height="324"
-        rx="20"
+        x={outer.x}
+        y={outer.y}
+        width={outer.w}
+        height={outer.h}
+        rx={outer.r}
         fill="#FFFFFF"
         stroke="rgba(0,0,0,0.08)"
       />
 
+      {/* Title */}
       <text
-        x="52"
-        y="70"
+        x={title.x}
+        y={title.y}
         fontSize="18"
         fontFamily="ui-sans-serif, system-ui"
         fill="rgba(0,0,0,0.82)"
@@ -29,19 +66,19 @@ export default function RevenueYearTwoChart({ className = "" }) {
         Revenue Projection — Year 1 vs Year 2 (Illustrative)
       </text>
       <text
-        x="52"
-        y="94"
+        x={subtitle.x}
+        y={subtitle.y}
         fontSize="12"
         fontFamily="ui-sans-serif, system-ui"
         fill="rgba(0,0,0,0.55)"
       >
-        Pitch narrative: operationally profitable mid-Year 1; cash-profitable by
-        end of Year 2 (replace with validated model)
+        Replace with validated model (CAC, LTV, take-rate, gross margin, churn,
+        cohorts).
       </text>
 
-      {/* Legend */}
-      <g transform="translate(720 56)">
-        <rect width="12" height="12" rx="3" fill="rgba(0,0,0,0.55)" />
+      {/* Legend (same position + spacing as YearOne) */}
+      <g transform={`translate(${legend.x} ${legend.y})`}>
+        <rect width="12" height="12" rx="3" fill={grossFill} />
         <text
           x="18"
           y="10"
@@ -52,9 +89,9 @@ export default function RevenueYearTwoChart({ className = "" }) {
           Gross
         </text>
 
-        <rect x="70" width="12" height="12" rx="3" fill="rgba(0,0,0,0.18)" />
+        <rect x="80" width="12" height="12" rx="3" fill={netFill} />
         <text
-          x="88"
+          x="98"
           y="10"
           fontSize="11"
           fontFamily="ui-sans-serif, system-ui"
@@ -64,138 +101,129 @@ export default function RevenueYearTwoChart({ className = "" }) {
         </text>
       </g>
 
-      {/* inner stage */}
+      {/* Plot container */}
       <rect
-        x="70"
-        y="122"
-        width="780"
-        height="175"
-        rx="18"
+        x={plot.x}
+        y={plot.y}
+        width={plot.w}
+        height={plot.h}
+        rx={plot.r}
         fill="#FAFAFA"
         stroke="rgba(0,0,0,0.06)"
       />
 
-      {/* Year 1 block */}
-      <g>
-        <rect
-          x="190"
-          y="210"
-          width="170"
-          height="70"
-          rx="14"
-          fill="rgba(0,0,0,0.55)"
-        />
-        <polygon
-          points="190,210 220,190 390,190 360,210"
-          fill="rgba(0,0,0,0.40)"
-        />
-        <polygon
-          points="360,210 390,190 390,260 360,280"
-          fill="rgba(0,0,0,0.32)"
-        />
+      {/* Grid lines */}
+      {[0, 1, 2, 3].map((i) => {
+        const y = plot.y + 24 + i * 40;
+        return (
+          <line
+            key={i}
+            x1={plot.x + 20}
+            y1={y}
+            x2={plot.x + plot.w - 20}
+            y2={y}
+            stroke="rgba(0,0,0,0.08)"
+            strokeWidth="1"
+          />
+        );
+      })}
 
-        <rect
-          x="270"
-          y="192"
-          width="110"
-          height="40"
-          rx="12"
-          fill="rgba(0,0,0,0.18)"
-        />
-        <text
-          x="325"
-          y="216"
-          textAnchor="middle"
-          fontSize="11"
-          fontFamily="ui-sans-serif, system-ui"
-          fill="rgba(0,0,0,0.65)"
-          fontWeight="600"
-        >
-          Net
-        </text>
+      {/* Baseline */}
+      <line
+        x1={plot.x + 20}
+        y1={chartBaseY}
+        x2={plot.x + plot.w - 20}
+        y2={chartBaseY}
+        stroke="rgba(0,0,0,0.12)"
+        strokeWidth="1"
+      />
 
-        <text
-          x="275"
-          y="305"
-          textAnchor="middle"
-          fontSize="11"
-          fontFamily="ui-sans-serif, system-ui"
-          fill="rgba(0,0,0,0.60)"
-        >
-          Year 1 Gross
-        </text>
-      </g>
+      {/* Bars */}
+      {years.map((y, idx) => {
+        const groupCenter = plot.x + groupW * idx + groupW / 2;
+        const grossH = Math.max(8, y.gross * scaleY);
+        const netH = Math.max(8, y.net * scaleY);
 
-      {/* Year 2 block */}
-      <g>
-        <rect
-          x="450"
-          y="185"
-          width="200"
-          height="95"
-          rx="14"
-          fill="rgba(0,0,0,0.55)"
-        />
-        <polygon
-          points="450,185 480,165 680,165 650,185"
-          fill="rgba(0,0,0,0.40)"
-        />
-        <polygon
-          points="650,185 680,165 680,260 650,280"
-          fill="rgba(0,0,0,0.32)"
-        />
+        const grossX = groupCenter - barW - gap / 2;
+        const netX = groupCenter + gap / 2;
 
-        <rect
-          x="575"
-          y="158"
-          width="120"
-          height="45"
-          rx="12"
-          fill="rgba(0,0,0,0.18)"
-        />
-        <text
-          x="635"
-          y="187"
-          textAnchor="middle"
-          fontSize="11"
-          fontFamily="ui-sans-serif, system-ui"
-          fill="rgba(0,0,0,0.65)"
-          fontWeight="600"
-        >
-          Net
-        </text>
+        const grossY = chartBaseY - grossH;
+        const netY = chartBaseY - netH;
 
-        <text
-          x="550"
-          y="305"
-          textAnchor="middle"
-          fontSize="11"
-          fontFamily="ui-sans-serif, system-ui"
-          fill="rgba(0,0,0,0.60)"
-        >
-          Year 2 Gross
-        </text>
-      </g>
+        return (
+          <g key={y.label}>
+            <rect
+              x={grossX}
+              y={grossY}
+              width={barW}
+              height={grossH}
+              rx="14"
+              fill={grossFill}
+            />
+            <rect
+              x={netX}
+              y={netY}
+              width={barW}
+              height={netH}
+              rx="14"
+              fill={netFill}
+            />
 
-      {/* callout pill */}
+            {/* Value labels */}
+            <text
+              x={grossX + barW / 2}
+              y={grossY - 8}
+              textAnchor="middle"
+              fontSize="10"
+              fontFamily="ui-sans-serif, system-ui"
+              fill="rgba(0,0,0,0.55)"
+            >
+              {fmt(y.gross)}
+            </text>
+            <text
+              x={netX + barW / 2}
+              y={netY - 8}
+              textAnchor="middle"
+              fontSize="10"
+              fontFamily="ui-sans-serif, system-ui"
+              fill="rgba(0,0,0,0.55)"
+            >
+              {fmt(y.net)}
+            </text>
+
+            {/* X label */}
+            <text
+              x={groupCenter}
+              y={plot.y + plot.h - 6}
+              textAnchor="middle"
+              fontSize="11"
+              fontFamily="ui-sans-serif, system-ui"
+              fill="rgba(0,0,0,0.55)"
+            >
+              {y.label}
+            </text>
+          </g>
+        );
+      })}
+
+      {/* Footer pill (same as YearOne) */}
       <rect
-        x="52"
-        y="312"
-        width="816"
-        height="28"
-        rx="14"
+        x={footer.x}
+        y={footer.y}
+        width={footer.w}
+        height={footer.h}
+        rx={footer.r}
         fill="rgba(0,0,0,0.04)"
         stroke="rgba(0,0,0,0.06)"
       />
       <text
-        x="70"
-        y="331"
+        x={footer.x + 18}
+        y={footer.y + 19}
         fontSize="12"
         fontFamily="ui-sans-serif, system-ui"
         fill="rgba(0,0,0,0.62)"
       >
-        Phase 2 upgrade: replace with real forecast (CAC, LTV, take-rate, gross
-        margin, churn, cohorts).
+        Phase 2 upgrade: replace with real forecast + audited assumptions.
       </text>
     </svg>
   );
