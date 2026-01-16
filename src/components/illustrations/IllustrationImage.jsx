@@ -1,3 +1,4 @@
+// src/components/illustrations/IllustrationImage.jsx
 import Image from "next/image";
 
 function cx(...c) {
@@ -42,9 +43,7 @@ export default function IllustrationImage({
         priority={priority}
         sizes={sizes}
         className={cx("select-none", imageClassName)}
-        style={{
-          objectFit: fit,
-        }}
+        style={{ objectFit: fit }}
       />
     </div>
   );
