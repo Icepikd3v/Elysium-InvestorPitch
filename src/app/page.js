@@ -495,26 +495,27 @@ export default function Home() {
                 ]}
               />
               <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-                <a
-                  href={DEMO_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-full bg-black px-6 py-3 text-center text-sm font-semibold text-white hover:bg-black/90"
-                >
-                  Open Smart Mall Demo ↗
-                </a>
-                <a
-                  href="#backend"
-                  className="rounded-full border border-black/15 bg-white px-6 py-3 text-center text-sm font-semibold text-black/80 hover:border-black/25"
-                >
-                  See platform + backend plan
-                </a>
-              </div>
+               <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+  <a
+    href={DEMO_URL}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="rounded-full bg-black px-6 py-3 text-center text-sm font-semibold text-white hover:bg-black/90"
+  >
+    Open Smart Mall Demo ↗
+  </a>
 
-              <div className="mt-2 text-xs text-black/60">
-                Demo login: <strong>email@example.com</strong> • Password:{" "}
-                <strong>123456</strong>
-              </div>
+  <a
+    href="#backend"
+    className="rounded-full border border-black/15 bg-white px-6 py-3 text-center text-sm font-semibold text-black/80 hover:border-black/25"
+  >
+    See platform + backend plan
+  </a>
+</div>
+
+<div className="mt-2 text-xs text-black/60">
+  Demo is a presentation prototype. Access details available upon request.
+</div>
 
               <div className="mt-5 rounded-2xl border border-black/10 bg-black/5 p-4 text-xs text-black/65">
                 <div className="font-semibold text-black/75">
