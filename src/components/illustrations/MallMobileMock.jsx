@@ -9,6 +9,7 @@ export default function MallMobileMock({ className = "" }) {
         preserveAspectRatio="xMidYMid meet"
       >
         <rect x="0" y="0" width="920" height="520" rx="28" fill="#FAFAFA" />
+
         {/* phone stage */}
         <rect
           x="170"
@@ -18,6 +19,7 @@ export default function MallMobileMock({ className = "" }) {
           rx="28"
           fill="rgba(0,0,0,0.03)"
         />
+
         {/* phone body */}
         <rect
           x="350"
@@ -37,6 +39,7 @@ export default function MallMobileMock({ className = "" }) {
           fill="rgba(255,255,255,0.55)"
           stroke="rgba(0,0,0,0.08)"
         />
+
         {/* notch / speaker */}
         <rect
           x="420"
@@ -46,7 +49,8 @@ export default function MallMobileMock({ className = "" }) {
           rx="5"
           fill="rgba(0,0,0,0.10)"
         />
-        {/* header area */}
+
+        {/* header */}
         <rect
           x="382"
           y="124"
@@ -55,6 +59,18 @@ export default function MallMobileMock({ className = "" }) {
           rx="9"
           fill="rgba(0,0,0,0.06)"
         />
+        <text
+          x="460"
+          y="138"
+          textAnchor="middle"
+          fontSize="10.5"
+          fontFamily="ui-sans-serif, system-ui"
+          fill="rgba(0,0,0,0.55)"
+        >
+          Smart Mall (Mock)
+        </text>
+
+        {/* avatar / profile */}
         <circle cx="392" cy="160" r="16" fill="rgba(0,0,0,0.08)" />
         <rect
           x="415"
@@ -72,8 +88,10 @@ export default function MallMobileMock({ className = "" }) {
           rx="5"
           fill="rgba(0,0,0,0.07)"
         />
+
         {/* content tiles */}
-        constCards();
+        {renderCards()}
+
         {/* bottom bar */}
         <rect
           x="382"
@@ -83,6 +101,7 @@ export default function MallMobileMock({ className = "" }) {
           rx="8"
           fill="rgba(0,0,0,0.06)"
         />
+
         {/* caption */}
         <text
           x="460"
@@ -92,13 +111,13 @@ export default function MallMobileMock({ className = "" }) {
           fontFamily="ui-sans-serif, system-ui"
           fill="rgba(0,0,0,0.55)"
         >
-          Mock: Mobile Smart Mall discovery + social feed
+          Mock: Mobile discovery + social feed entry points
         </text>
       </svg>
     </div>
   );
 
-  function constCards() {
+  function renderCards() {
     const cards = [
       [392, 200],
       [476, 200],
@@ -110,6 +129,17 @@ export default function MallMobileMock({ className = "" }) {
 
     return (
       <>
+        <text
+          x="460"
+          y="196"
+          textAnchor="middle"
+          fontSize="10"
+          fontFamily="ui-sans-serif, system-ui"
+          fill="rgba(0,0,0,0.55)"
+        >
+          Ranked tiles
+        </text>
+
         {cards.map(([x, y], idx) => (
           <g key={idx}>
             <rect

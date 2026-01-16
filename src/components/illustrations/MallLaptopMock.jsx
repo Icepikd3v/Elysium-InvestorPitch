@@ -10,6 +10,7 @@ export default function MallLaptopMock({ className = "" }) {
       >
         {/* Soft stage */}
         <rect x="0" y="0" width="920" height="520" rx="28" fill="#FAFAFA" />
+
         {/* device shadow panel */}
         <rect
           x="60"
@@ -19,6 +20,7 @@ export default function MallLaptopMock({ className = "" }) {
           rx="26"
           fill="rgba(0,0,0,0.03)"
         />
+
         {/* Laptop body */}
         <rect
           x="190"
@@ -38,6 +40,7 @@ export default function MallLaptopMock({ className = "" }) {
           fill="rgba(255,255,255,0.55)"
           stroke="rgba(0,0,0,0.08)"
         />
+
         {/* window top bar */}
         <rect
           x="210"
@@ -50,6 +53,19 @@ export default function MallLaptopMock({ className = "" }) {
         <circle cx="235" cy="122" r="6" fill="rgba(0,0,0,0.12)" />
         <circle cx="255" cy="122" r="6" fill="rgba(0,0,0,0.12)" />
         <circle cx="275" cy="122" r="6" fill="rgba(0,0,0,0.12)" />
+
+        {/* header label */}
+        <text
+          x="460"
+          y="128"
+          textAnchor="middle"
+          fontSize="12"
+          fontFamily="ui-sans-serif, system-ui"
+          fill="rgba(0,0,0,0.55)"
+        >
+          Virtual Smart Mall (Mock)
+        </text>
+
         {/* left rail */}
         <rect
           x="230"
@@ -59,19 +75,32 @@ export default function MallLaptopMock({ className = "" }) {
           rx="16"
           fill="rgba(0,0,0,0.06)"
         />
+        <text
+          x="290"
+          y="173"
+          textAnchor="middle"
+          fontSize="10.5"
+          fontFamily="ui-sans-serif, system-ui"
+          fill="rgba(0,0,0,0.55)"
+        >
+          Categories
+        </text>
+
         {[0, 1, 2, 3, 4, 5].map((i) => (
           <rect
             key={i}
             x="248"
-            y={172 + i * 26}
+            y={182 + i * 24}
             width="85"
-            height="12"
+            height="11"
             rx="6"
             fill="rgba(0,0,0,0.07)"
           />
         ))}
+
         {/* tiles grid */}
-        constTiles();
+        {renderTiles()}
+
         {/* assistant rail (right) */}
         <rect
           x="680"
@@ -82,6 +111,17 @@ export default function MallLaptopMock({ className = "" }) {
           fill="rgba(0,0,0,0.08)"
         />
         <circle cx="693" cy="175" r="10" fill="rgba(0,0,0,0.10)" />
+        <text
+          x="693"
+          y="212"
+          textAnchor="middle"
+          fontSize="9"
+          fontFamily="ui-sans-serif, system-ui"
+          fill="rgba(0,0,0,0.45)"
+        >
+          AI
+        </text>
+
         {/* base / keyboard */}
         <path
           d="M 160 380 L 760 380 L 830 440 L 90 440 Z"
@@ -96,6 +136,7 @@ export default function MallLaptopMock({ className = "" }) {
           rx="8"
           fill="rgba(0,0,0,0.06)"
         />
+
         {/* caption */}
         <text
           x="460"
@@ -105,14 +146,13 @@ export default function MallLaptopMock({ className = "" }) {
           fontFamily="ui-sans-serif, system-ui"
           fill="rgba(0,0,0,0.55)"
         >
-          Mock: Smart Mall layout + personalized storefronts + AI assistant
+          Mock: Smart Mall layout + personalized storefronts + AI assistant rail
         </text>
       </svg>
     </div>
   );
 
-  function constTiles() {
-    // kept as separate function to keep the SVG readable
+  function renderTiles() {
     const tiles = [
       [380, 155],
       [520, 155],
@@ -124,6 +164,17 @@ export default function MallLaptopMock({ className = "" }) {
 
     return (
       <>
+        <text
+          x="520"
+          y="150"
+          textAnchor="middle"
+          fontSize="10.5"
+          fontFamily="ui-sans-serif, system-ui"
+          fill="rgba(0,0,0,0.55)"
+        >
+          Storefront tiles (ranked)
+        </text>
+
         {tiles.map(([x, y], idx) => (
           <g key={idx}>
             <rect
@@ -150,6 +201,14 @@ export default function MallLaptopMock({ className = "" }) {
               height="10"
               rx="5"
               fill="rgba(0,0,0,0.07)"
+            />
+            <rect
+              x={x + 14}
+              y={y + 52}
+              width="46"
+              height="10"
+              rx="5"
+              fill="rgba(0,0,0,0.05)"
             />
           </g>
         ))}
