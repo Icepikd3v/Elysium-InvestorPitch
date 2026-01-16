@@ -27,7 +27,7 @@ export default function RaiseFlowIllustration({ className = "" }) {
           fill="rgba(0,0,0,0.82)"
           fontWeight="700"
         >
-          Raise & Milestones (Pitch Flow)
+          Raise & Milestones (Illustrative)
         </text>
         <text
           x="52"
@@ -36,10 +36,40 @@ export default function RaiseFlowIllustration({ className = "" }) {
           fontFamily="ui-sans-serif, system-ui"
           fill="rgba(0,0,0,0.55)"
         >
-          Seed → Build → Pilot → Acquire → Expand (Illustrative)
+          Seed → Build → Pilot → Acquire → Expand (Phase 1 narrative)
         </text>
 
         {renderSteps()}
+
+        {/* Optional public pathway callouts */}
+        <rect
+          x="560"
+          y="112"
+          width="308"
+          height="46"
+          rx="16"
+          fill="rgba(0,0,0,0.04)"
+          stroke="rgba(0,0,0,0.06)"
+        />
+        <text
+          x="576"
+          y="131"
+          fontSize="11.5"
+          fontFamily="ui-sans-serif, system-ui"
+          fill="rgba(0,0,0,0.62)"
+          fontWeight="650"
+        >
+          Public pathway (as applicable)
+        </text>
+        <text
+          x="576"
+          y="149"
+          fontSize="11.5"
+          fontFamily="ui-sans-serif, system-ui"
+          fill="rgba(0,0,0,0.58)"
+        >
+          OTC readiness → reporting → possible NASDAQ pathway
+        </text>
 
         {/* bottom note */}
         <rect
@@ -58,8 +88,8 @@ export default function RaiseFlowIllustration({ className = "" }) {
           fontFamily="ui-sans-serif, system-ui"
           fill="rgba(0,0,0,0.62)"
         >
-          Phase 2 upgrade: add budget breakdown + timeline, diligence checklist,
-          integration plan, compliance requirements.
+          Phase 2: add budget breakdown, diligence checklist, integration plan,
+          and compliance timing criteria.
         </text>
       </svg>
     </div>
@@ -79,18 +109,18 @@ export default function RaiseFlowIllustration({ className = "" }) {
         {/* rail */}
         <line
           x1="110"
-          y1="175"
+          y1="200"
           x2="750"
-          y2="175"
+          y2="200"
           stroke="rgba(0,0,0,0.12)"
           strokeWidth="10"
           strokeLinecap="round"
         />
         <line
           x1="110"
-          y1="175"
+          y1="200"
           x2="270"
-          y2="175"
+          y2="200"
           stroke="rgba(0,0,0,0.20)"
           strokeWidth="10"
           strokeLinecap="round"
@@ -101,25 +131,24 @@ export default function RaiseFlowIllustration({ className = "" }) {
           <g key={s.x}>
             <circle
               cx={s.x}
-              cy={175}
+              cy={200}
               r={16}
               fill="#FFFFFF"
               stroke="rgba(0,0,0,0.22)"
               strokeWidth="2"
             />
-            <circle cx={s.x} cy={175} r={7} fill={`rgba(0,0,0,${s.tone})`} />
+            <circle cx={s.x} cy={200} r={7} fill={`rgba(0,0,0,${s.tone})`} />
 
-            {/* connector arrow */}
             {idx < steps.length - 1 ? (
               <polygon
-                points={`${s.x + 62},175 ${s.x + 52},168 ${s.x + 52},182`}
+                points={`${s.x + 62},200 ${s.x + 52},193 ${s.x + 52},207`}
                 fill="rgba(0,0,0,0.20)"
               />
             ) : null}
 
             <rect
               x={s.x - 70}
-              y="205"
+              y="230"
               width="140"
               height="54"
               rx="16"
@@ -128,7 +157,7 @@ export default function RaiseFlowIllustration({ className = "" }) {
             />
             <text
               x={s.x}
-              y="228"
+              y="253"
               textAnchor="middle"
               fontSize="12"
               fontFamily="ui-sans-serif, system-ui"
@@ -139,7 +168,7 @@ export default function RaiseFlowIllustration({ className = "" }) {
             </text>
             <text
               x={s.x}
-              y="247"
+              y="272"
               textAnchor="middle"
               fontSize="10.5"
               fontFamily="ui-sans-serif, system-ui"

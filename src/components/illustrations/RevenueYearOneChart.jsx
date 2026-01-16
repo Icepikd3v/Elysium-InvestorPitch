@@ -1,5 +1,4 @@
 export default function RevenueYearOneChart({ className = "" }) {
-  // Shared layout constants (keep identical across both charts)
   const W = 920;
   const H = 360;
 
@@ -7,16 +6,16 @@ export default function RevenueYearOneChart({ className = "" }) {
   const title = { x: 52, y: 70 };
   const subtitle = { x: 52, y: 94 };
 
-  const legend = { x: 680, y: 56 };
+  const legend = { x: 662, y: 56 };
 
   const plot = { x: 70, y: 120, w: 780, h: 180, r: 18 };
-  const baselinePad = 22; // padding inside plot box for baseline/labels
+  const baselinePad = 22;
   const chartBaseY = plot.y + plot.h - baselinePad;
-  const usableH = plot.h - (baselinePad + 16);
+  const usableH = plot.h - (baselinePad + 18);
 
   const footer = { x: 52, y: 312, w: 816, h: 28, r: 14 };
 
-  // Mock data (illustrative)
+  // Illustrative data
   const quarters = [
     { label: "Q1", gross: 4.2, net: 1.6 },
     { label: "Q2", gross: 6.0, net: 2.8 },
@@ -27,8 +26,7 @@ export default function RevenueYearOneChart({ className = "" }) {
   const maxVal = Math.max(...quarters.flatMap((q) => [q.gross, q.net]));
   const scaleY = usableH / (maxVal * 1.15);
 
-  // bar sizing
-  const groupW = plot.w / quarters.length; // 195
+  const groupW = plot.w / quarters.length;
   const barW = 44;
   const gap = 10;
 
@@ -36,6 +34,13 @@ export default function RevenueYearOneChart({ className = "" }) {
   const netFill = "rgba(0,0,0,0.18)";
 
   const fmt = (n) => `$${n.toFixed(1)}M`;
+
+  // Y-axis ticks
+  const ticks = 4;
+  const tickVals = Array.from({ length: ticks + 1 }).map((_, i) => {
+    const v = (maxVal * 1.15 * (ticks - i)) / ticks;
+    return Math.round(v * 10) / 10; // 1 decimal
+  });
 
   return (
     <svg
@@ -75,10 +80,10 @@ export default function RevenueYearOneChart({ className = "" }) {
         fontFamily="ui-sans-serif, system-ui"
         fill="rgba(0,0,0,0.55)"
       >
-        Replace with validated forecast + unit economics in Phase 2
+        Illustrative estimates for pitch narrative — not audited financials.
       </text>
 
-      {/* Legend (same position + spacing as YearTwo) */}
+      {/* Legend */}
       <g transform={`translate(${legend.x} ${legend.y})`}>
         <rect width="12" height="12" rx="3" fill={grossFill} />
         <text
@@ -114,25 +119,36 @@ export default function RevenueYearOneChart({ className = "" }) {
         stroke="rgba(0,0,0,0.06)"
       />
 
-      {/* Grid lines */}
-      {[0, 1, 2, 3].map((i) => {
-        const y = plot.y + 24 + i * 40;
+      {/* Y axis labels + grid */}
+      {tickVals.map((v, i) => {
+        const y = plot.y + 20 + i * (usableH / ticks);
         return (
-          <line
-            key={i}
-            x1={plot.x + 20}
-            y1={y}
-            x2={plot.x + plot.w - 20}
-            y2={y}
-            stroke="rgba(0,0,0,0.08)"
-            strokeWidth="1"
-          />
+          <g key={i}>
+            <line
+              x1={plot.x + 48}
+              y1={y}
+              x2={plot.x + plot.w - 20}
+              y2={y}
+              stroke="rgba(0,0,0,0.08)"
+              strokeWidth="1"
+            />
+            <text
+              x={plot.x + 18}
+              y={y + 4}
+              fontSize="10"
+              fontFamily="ui-sans-serif, system-ui"
+              fill="rgba(0,0,0,0.50)"
+              textAnchor="start"
+            >
+              {fmt(v)}
+            </text>
+          </g>
         );
       })}
 
       {/* Baseline */}
       <line
-        x1={plot.x + 20}
+        x1={plot.x + 48}
         y1={chartBaseY}
         x2={plot.x + plot.w - 20}
         y2={chartBaseY}
@@ -208,7 +224,7 @@ export default function RevenueYearOneChart({ className = "" }) {
         );
       })}
 
-      {/* Footer pill (same as YearTwo) */}
+      {/* Footer pill */}
       <rect
         x={footer.x}
         y={footer.y}
@@ -225,8 +241,8 @@ export default function RevenueYearOneChart({ className = "" }) {
         fontFamily="ui-sans-serif, system-ui"
         fill="rgba(0,0,0,0.62)"
       >
-        Phase 2 upgrade: replace with validated unit economics + real KPI
-        targets.
+        Phase 2: replace with validated unit economics (CAC/LTV, take-rate,
+        margin, churn, cohorts).
       </text>
     </svg>
   );
