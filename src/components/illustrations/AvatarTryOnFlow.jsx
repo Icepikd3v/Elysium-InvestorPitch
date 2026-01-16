@@ -1,4 +1,14 @@
-export default function AvatarTryOnFlow({ className = "" }) {
+import IllustrationFrame from "@/components/illustrations/IllustrationFrame";
+
+export default function AvatarTryOnFlow({
+  className = "",
+  variant = "svg", // "svg" | "image"
+  mode = "fill", // "fill" | "aspect" (for svg)
+  priority = false,
+  caption = "Avatar Try-On (Mock) — Phase 2: add consent UX, retention/deletion rules, and rendering pipeline.",
+  imageSrc = "/illustrations/avatar-try-on-laptop.jpg",
+  fit = "cover",
+}) {
   const steps = [
     { title: "Consent", sub: "Opt-in + policy" },
     { title: "Capture", sub: "Phone scan / sizing" },
@@ -7,8 +17,28 @@ export default function AvatarTryOnFlow({ className = "" }) {
     { title: "Outcome", sub: "↑ confidence • ↓ returns" },
   ];
 
+  if (variant === "image") {
+    return (
+      <div className={["h-full w-full", className].join(" ")}>
+        <IllustrationFrame
+          src={imageSrc}
+          alt="Avatar try-on concept flow shown across capture, avatar generation, try-on, and purchase confidence."
+          priority={priority}
+          caption={caption}
+          fit={fit}
+          sizes="(max-width: 768px) 100vw, 700px"
+        />
+      </div>
+    );
+  }
+
   return (
-    <div className={`w-full aspect-[920/360] ${className}`}>
+    <div
+      className={[
+        mode === "aspect" ? "w-full aspect-[920/360]" : "h-full w-full",
+        className,
+      ].join(" ")}
+    >
       <svg
         className="h-full w-full"
         viewBox="0 0 920 360"
@@ -48,7 +78,6 @@ export default function AvatarTryOnFlow({ className = "" }) {
           pipeline.
         </text>
 
-        {/* rail */}
         <line
           x1="90"
           y1="170"
@@ -124,7 +153,6 @@ export default function AvatarTryOnFlow({ className = "" }) {
           );
         })}
 
-        {/* bottom note */}
         <rect
           x="52"
           y="292"
