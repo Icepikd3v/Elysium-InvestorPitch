@@ -1,4 +1,13 @@
 export default function RolloutTimelineIllustration({ className = "" }) {
+  const items = [
+    { label: "Q1", title: "Hire/engage tech team" },
+    { label: "Q2", title: "Complete AI engine framing + interface" },
+    { label: "Q3", title: "Build website + expand over time" },
+    { label: "Q4", title: "Complete coding/testing + phase-in rollout" },
+    { label: "Q5–Q6", title: "Acquire additional platforms" },
+    { label: "Q7–Q8", title: "Begin marketing + scale revenue rollout" },
+  ];
+
   return (
     <div className={`w-full aspect-[920/360] ${className}`}>
       <svg
@@ -38,94 +47,91 @@ export default function RolloutTimelineIllustration({ className = "" }) {
           fontFamily="ui-sans-serif, system-ui"
           fill="rgba(0,0,0,0.55)"
         >
-          Phase 1: narrative + mock visuals • Phase 2: validated metrics + real
-          system diagrams
+          Phase 1: narrative + mock visuals • Phase 2: validated dependencies &
+          execution plan
         </text>
 
         {/* timeline rail */}
         <line
           x1="90"
-          y1="160"
+          y1="150"
           x2="830"
-          y2="160"
+          y2="150"
           stroke="rgba(0,0,0,0.14)"
           strokeWidth="10"
           strokeLinecap="round"
         />
         <line
           x1="90"
-          y1="160"
-          x2="500"
-          y2="160"
+          y1="150"
+          x2="465"
+          y2="150"
           stroke="rgba(0,0,0,0.20)"
           strokeWidth="10"
           strokeLinecap="round"
         />
 
         {/* nodes */}
-        {[
-          { x: 120, label: "Q1", title: "Team + Phase 1 mock" },
-          { x: 230, label: "Q2", title: "AI Engine framing" },
-          { x: 340, label: "Q3", title: "Website + pilot" },
-          { x: 450, label: "Q4", title: "Test + phased rollout" },
-          { x: 610, label: "Q5–Q6", title: "Acquire platforms" },
-          { x: 760, label: "Q7–Q8", title: "Scale revenue + marketing" },
-        ].map((n) => (
-          <g key={n.x}>
-            <circle
-              cx={n.x}
-              cy={160}
-              r={14}
-              fill="#FFFFFF"
-              stroke="rgba(0,0,0,0.25)"
-              strokeWidth="2"
-            />
-            <circle cx={n.x} cy={160} r={6} fill="rgba(0,0,0,0.35)" />
+        {items.map((n, i) => {
+          const x = 120 + i * 120;
 
-            <text
-              x={n.x}
-              y={138}
-              textAnchor="middle"
-              fontSize="11"
-              fontFamily="ui-sans-serif, system-ui"
-              fill="rgba(0,0,0,0.55)"
-              fontWeight="600"
-            >
-              {n.label}
-            </text>
+          return (
+            <g key={n.label}>
+              <circle
+                cx={x}
+                cy={150}
+                r={14}
+                fill="#FFFFFF"
+                stroke="rgba(0,0,0,0.25)"
+                strokeWidth="2"
+              />
+              <circle cx={x} cy={150} r={6} fill="rgba(0,0,0,0.35)" />
 
-            <rect
-              x={n.x - 72}
-              y={190}
-              width={144}
-              height={56}
-              rx={14}
-              fill="#FFFFFF"
-              stroke="rgba(0,0,0,0.08)"
-            />
-            <text
-              x={n.x}
-              y={214}
-              textAnchor="middle"
-              fontSize="12"
-              fontFamily="ui-sans-serif, system-ui"
-              fill="rgba(0,0,0,0.78)"
-              fontWeight="700"
-            >
-              {n.title}
-            </text>
-            <text
-              x={n.x}
-              y={236}
-              textAnchor="middle"
-              fontSize="10"
-              fontFamily="ui-sans-serif, system-ui"
-              fill="rgba(0,0,0,0.50)"
-            >
-              milestone
-            </text>
-          </g>
-        ))}
+              <text
+                x={x}
+                y={128}
+                textAnchor="middle"
+                fontSize="11"
+                fontFamily="ui-sans-serif, system-ui"
+                fill="rgba(0,0,0,0.55)"
+                fontWeight="700"
+              >
+                {n.label}
+              </text>
+
+              <rect
+                x={x - 82}
+                y={178}
+                width={164}
+                height={58}
+                rx={14}
+                fill="#FFFFFF"
+                stroke="rgba(0,0,0,0.08)"
+              />
+              <text
+                x={x}
+                y={201}
+                textAnchor="middle"
+                fontSize="11.5"
+                fontFamily="ui-sans-serif, system-ui"
+                fill="rgba(0,0,0,0.78)"
+                fontWeight="700"
+              >
+                {n.title}
+              </text>
+              <text
+                x={x}
+                y={223}
+                textAnchor="middle"
+                fontSize="10"
+                fontFamily="ui-sans-serif, system-ui"
+                fill="rgba(0,0,0,0.50)"
+              >
+                milestone
+              </text>
+            </g>
+          );
+        })}
 
         {/* footer note */}
         <rect
@@ -144,8 +150,8 @@ export default function RolloutTimelineIllustration({ className = "" }) {
           fontFamily="ui-sans-serif, system-ui"
           fill="rgba(0,0,0,0.62)"
         >
-          Replace with validated dependencies (hiring, data pipelines, model
-          readiness, vendor onboarding, acquisition integration).
+          Phase 2: add hiring plan, data pipeline readiness, vendor onboarding,
+          acquisition integration steps, and KPI gates.
         </text>
       </svg>
     </div>

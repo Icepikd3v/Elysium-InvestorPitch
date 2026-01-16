@@ -5,15 +5,25 @@ export default function SlideSection({
   subtitle,
   children,
   tone = "light", // "light" | "dark"
+  align = "center", // "center" | "top"
+  mediaMaxW = "md", // "md" | "lg" | "full"
 }) {
   const isDark = tone === "dark";
+
+  const mediaWidth =
+    mediaMaxW === "full"
+      ? "w-full"
+      : mediaMaxW === "lg"
+        ? "w-full max-w-2xl"
+        : "w-full max-w-xl";
 
   return (
     <section
       id={id}
       className={[
-        "min-h-[88vh] md:min-h-screen px-6 py-16",
-        "flex items-center",
+        "px-6 py-16",
+        "min-h-[88vh] md:min-h-screen",
+        align === "top" ? "flex items-start" : "flex items-center",
         isDark ? "bg-black text-white" : "bg-[#fafafa] text-black",
         "scroll-mt-24",
       ].join(" ")}
@@ -48,7 +58,17 @@ export default function SlideSection({
             ) : null}
           </div>
 
-          <div>{children}</div>
+          <div
+            className={[
+              "justify-self-center",
+              mediaWidth,
+              isDark
+                ? "rounded-3xl border border-white/10 bg-white/5 p-3 shadow-sm"
+                : "rounded-3xl border border-black/10 bg-white p-3 shadow-sm",
+            ].join(" ")}
+          >
+            {children}
+          </div>
         </div>
       </div>
     </section>

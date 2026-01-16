@@ -8,6 +8,7 @@ export default function DigitalStorefront({ className = "" }) {
         className="h-full w-full"
         role="img"
         aria-label="Digital Storefront mock UI"
+        preserveAspectRatio="xMidYMid meet"
       >
         <rect
           x="0"
@@ -21,28 +22,60 @@ export default function DigitalStorefront({ className = "" }) {
         {/* header */}
         <rect
           x="70"
-          y="60"
+          y="56"
           width="760"
-          height="58"
+          height="62"
           rx="18"
-          fill="rgba(255,255,255,0.85)"
+          fill="rgba(255,255,255,0.90)"
           stroke="rgba(0,0,0,0.10)"
         />
         <text
           x="95"
-          y="96"
+          y="92"
           fontSize="16"
-          fill="rgba(0,0,0,0.70)"
+          fill="rgba(0,0,0,0.72)"
+          fontFamily="ui-sans-serif, system-ui"
+          fontWeight="650"
+        >
+          Virtual Smart Mall • Personalized for You
+        </text>
+        <text
+          x="95"
+          y="110"
+          fontSize="11.5"
+          fill="rgba(0,0,0,0.50)"
           fontFamily="ui-sans-serif, system-ui"
         >
-          Storefront • Personalized for You
+          AI predicts & displays items/services tailored to your signals
+          (illustrative).
+        </text>
+
+        {/* small badge */}
+        <rect
+          x="742"
+          y="66"
+          width="78"
+          height="24"
+          rx="12"
+          fill="rgba(0,0,0,0.05)"
+          stroke="rgba(0,0,0,0.10)"
+        />
+        <text
+          x="781"
+          y="83"
+          textAnchor="middle"
+          fontSize="11"
+          fill="rgba(0,0,0,0.60)"
+          fontFamily="ui-sans-serif, system-ui"
+        >
+          Mock UI
         </text>
 
         {/* search */}
         <rect
           x="520"
-          y="76"
-          width="290"
+          y="78"
+          width="210"
           height="28"
           rx="14"
           fill="rgba(0,0,0,0.04)"
@@ -50,12 +83,33 @@ export default function DigitalStorefront({ className = "" }) {
         />
         <text
           x="540"
-          y="95"
+          y="97"
           fontSize="12"
           fill="rgba(0,0,0,0.45)"
           fontFamily="ui-sans-serif, system-ui"
         >
           Search the mall…
+        </text>
+
+        {/* quick actions */}
+        <rect
+          x="740"
+          y="78"
+          width="90"
+          height="28"
+          rx="14"
+          fill="rgba(0,0,0,0.04)"
+          stroke="rgba(0,0,0,0.10)"
+        />
+        <text
+          x="785"
+          y="97"
+          textAnchor="middle"
+          fontSize="12"
+          fill="rgba(0,0,0,0.55)"
+          fontFamily="ui-sans-serif, system-ui"
+        >
+          Cart
         </text>
 
         {/* left: categories */}
@@ -65,7 +119,7 @@ export default function DigitalStorefront({ className = "" }) {
           width="190"
           height="310"
           rx="22"
-          fill="rgba(255,255,255,0.85)"
+          fill="rgba(255,255,255,0.90)"
           stroke="rgba(0,0,0,0.10)"
         />
         <text
@@ -74,6 +128,7 @@ export default function DigitalStorefront({ className = "" }) {
           fontSize="13"
           fill="rgba(0,0,0,0.70)"
           fontFamily="ui-sans-serif, system-ui"
+          fontWeight="650"
         >
           Categories
         </text>
@@ -82,15 +137,17 @@ export default function DigitalStorefront({ className = "" }) {
           <g key={t}>
             <rect
               x="92"
-              y={190 + i * 40}
+              y={192 + i * 40}
               width="146"
               height="26"
               rx="13"
               fill="rgba(0,0,0,0.03)"
+              stroke="rgba(0,0,0,0.06)"
             />
+            <circle cx="104" cy={205 + i * 40} r="4" fill="rgba(0,0,0,0.20)" />
             <text
-              x="105"
-              y={208 + i * 40}
+              x="115"
+              y={210 + i * 40}
               fontSize="12"
               fill="rgba(0,0,0,0.55)"
               fontFamily="ui-sans-serif, system-ui"
@@ -107,7 +164,7 @@ export default function DigitalStorefront({ className = "" }) {
           width="550"
           height="310"
           rx="22"
-          fill="rgba(255,255,255,0.85)"
+          fill="rgba(255,255,255,0.90)"
           stroke="rgba(0,0,0,0.10)"
         />
         <text
@@ -116,8 +173,9 @@ export default function DigitalStorefront({ className = "" }) {
           fontSize="13"
           fill="rgba(0,0,0,0.70)"
           fontFamily="ui-sans-serif, system-ui"
+          fontWeight="650"
         >
-          Recommended
+          Recommended (Illustrative)
         </text>
 
         {Array.from({ length: 6 }).map((_, i) => {
@@ -140,7 +198,7 @@ export default function DigitalStorefront({ className = "" }) {
               <rect
                 x={x + 14}
                 y={y + 14}
-                width="72"
+                width="92"
                 height="12"
                 rx="6"
                 fill="rgba(0,0,0,0.10)"
@@ -156,7 +214,7 @@ export default function DigitalStorefront({ className = "" }) {
               <rect
                 x={x + 14}
                 y={y + 58}
-                width="90"
+                width="98"
                 height="10"
                 rx="5"
                 fill="rgba(0,0,0,0.05)"
@@ -165,14 +223,15 @@ export default function DigitalStorefront({ className = "" }) {
               <rect
                 x={x + 14}
                 y={y + 80}
-                width="66"
+                width="86"
                 height="18"
                 rx="9"
                 fill="rgba(0,0,0,0.06)"
               />
               <text
-                x={x + 26}
+                x={x + 57}
                 y={y + 93}
+                textAnchor="middle"
                 fontSize="10"
                 fill="rgba(0,0,0,0.55)"
                 fontFamily="ui-sans-serif, system-ui"

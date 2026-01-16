@@ -1,6 +1,4 @@
-"use client";
-
-import { useEffect, useMemo, useState } from "react";
+import ClientNav from "@/components/ClientNav";
 
 import AIBrainDiagram from "@/components/illustrations/AIBrainDiagram";
 import MallLaptopMock from "@/components/illustrations/MallLaptopMock";
@@ -37,6 +35,7 @@ const SECTIONS = [
   { id: "raise", label: "Raise" },
   { id: "backend", label: "Platform" },
   { id: "team", label: "Team" },
+  { id: "contact", label: "Contact" },
 ];
 
 function cx(...classes) {
@@ -137,37 +136,6 @@ function MiniBarRow({ label, valuePct, meta }) {
 }
 
 export default function Home() {
-  const [activeId, setActiveId] = useState("cover");
-  const sections = useMemo(() => SECTIONS, []);
-
-  useEffect(() => {
-    const ids = sections.map((s) => s.id);
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort(
-            (a, b) => (b.intersectionRatio ?? 0) - (a.intersectionRatio ?? 0),
-          )[0];
-
-        if (visible?.target?.id) setActiveId(visible.target.id);
-      },
-      {
-        root: null,
-        threshold: [0.15, 0.25, 0.35],
-        rootMargin: "-20% 0px -65% 0px",
-      },
-    );
-
-    ids.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, [sections]);
-
   return (
     <main className="min-h-screen bg-[#fafafa] text-black">
       {/* Nav */}
@@ -185,25 +153,8 @@ export default function Home() {
             </div>
           </a>
 
-          <nav className="hidden items-center gap-2 text-sm lg:flex">
-            {sections.map((s) => {
-              const isActive = activeId === s.id;
-              return (
-                <a
-                  key={s.id}
-                  href={`#${s.id}`}
-                  className={cx(
-                    "rounded-full px-3 py-1 text-sm transition",
-                    isActive
-                      ? "bg-black text-white"
-                      : "text-black/70 hover:bg-black/5 hover:text-black",
-                  )}
-                >
-                  {s.label}
-                </a>
-              );
-            })}
-          </nav>
+          {/* Client-only nav highlighting */}
+          <ClientNav sections={SECTIONS} />
 
           <a
             href="#contact"
@@ -222,18 +173,25 @@ export default function Home() {
               </span>
               <span>
                 This page + visuals are <strong>AI-assisted mockups</strong> for
-                narrative clarity. The demo is a <strong>mock experience</strong>{" "}
-                (cosmetic) and not production realism.
+                narrative clarity. The demo is a{" "}
+                <strong>mock experience</strong> (cosmetic) and not production
+                realism.
               </span>
             </div>
-            <a
-              href={DEMO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full border border-black/15 bg-white px-4 py-2 font-medium text-black/80 hover:border-black/25"
-            >
-              Open Mock Smart Mall Demo ↗
-            </a>
+            <div className="flex flex-col items-end gap-1">
+              <a
+                href={DEMO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-full border border-black/15 bg-white px-4 py-2 font-medium text-black/80 hover:border-black/25"
+              >
+                Open Mock Smart Mall Demo ↗
+              </a>
+              <div className="text-[11px] text-black/55">
+                Demo login: <strong>email@example.com</strong> • Password:{" "}
+                <strong>123456</strong>
+              </div>
+            </div>
           </div>
         </div>
       </header>
@@ -249,7 +207,7 @@ export default function Home() {
           <div className="relative grid gap-10 md:grid-cols-2 md:items-center">
             <div>
               <div className="flex flex-wrap gap-2">
-                <Pill>Digital Smart Mall</Pill>
+                <Pill>Virtual Smart Mall</Pill>
                 <Pill>AI Brain</Pill>
                 <Pill>Social + eCommerce</Pill>
                 <Pill>AI-assisted mock</Pill>
@@ -260,7 +218,7 @@ export default function Home() {
               </h1>
 
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-black/70">
-                Elysium is envisioned as a <strong>digital smart mall</strong>{" "}
+                Elysium is envisioned as a <strong>virtual smart mall</strong>{" "}
                 that blends social interaction with commerce—powered by an{" "}
                 <strong>AI Brain</strong> that learns from{" "}
                 <strong>word signals</strong> (and optional physical variables)
@@ -276,7 +234,6 @@ export default function Home() {
                   See how the AI Brain works
                 </a>
 
-                {/* UPDATED: external demo link */}
                 <a
                   href={DEMO_URL}
                   target="_blank"
@@ -285,6 +242,11 @@ export default function Home() {
                 >
                   View the Smart Mall experience ↗
                 </a>
+              </div>
+
+              <div className="mt-3 text-xs text-black/60">
+                Demo login: <strong>email@example.com</strong> • Password:{" "}
+                <strong>123456</strong>
               </div>
 
               <div className="mt-4 max-w-xl rounded-2xl border border-black/10 bg-black/5 p-4 text-xs text-black/65">
@@ -546,6 +508,11 @@ export default function Home() {
                 >
                   See platform + backend plan
                 </a>
+              </div>
+
+              <div className="mt-2 text-xs text-black/60">
+                Demo login: <strong>email@example.com</strong> • Password:{" "}
+                <strong>123456</strong>
               </div>
 
               <div className="mt-5 rounded-2xl border border-black/10 bg-black/5 p-4 text-xs text-black/65">
@@ -879,7 +846,7 @@ export default function Home() {
           />
         </div>
 
-        {/* Charts — FIXED ALIGNMENT (single aspect source of truth) */}
+        {/* Charts — FIXED ALIGNMENT */}
         <div className="mt-6 grid items-start gap-6 md:grid-cols-2">
           <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="w-full aspect-[920/360]">
@@ -1083,8 +1050,8 @@ export default function Home() {
                 ]}
               />
               <div className="mt-4 rounded-2xl border border-black/10 bg-black/5 p-4 text-xs text-black/60">
-                Phase 2 upgrade: publish a simple system diagram (frontend →
-                API → DB/storage → rec engine → monitoring).
+                Phase 2 upgrade: publish a simple system diagram (frontend → API
+                → DB/storage → rec engine → monitoring).
               </div>
             </Card>
           </div>
@@ -1164,17 +1131,31 @@ export default function Home() {
 
         <div className="mt-8 grid gap-6 md:grid-cols-12">
           <div className="md:col-span-7 grid gap-4">
-            <Card title="CEO / Founder">
-              Leadership and vision driving platform strategy, execution, and
-              investor communication.
+            <Card title="Dr. Michael Rivera — CEO / Managing Partner">
+              Conceptual design lead and managing partner. Board leadership and
+              strategic execution oversight. Background includes doctorate-level
+              expertise in clinical psychology with emphasis on neurophysiology
+              (as presented in Phase-1 deck).
             </Card>
-            <Card title="CFO / Finance">
-              Financial planning, capital strategy, fundraising support, and
-              staged expansion planning.
+
+            <Card title="Sophia Xue — CFO">
+              Financial strategy, modeling, and capital planning. Background
+              includes senior finance roles spanning equity derivatives and risk
+              monitoring (Nomura, Merrill Lynch, PwC as presented in Phase-1
+              deck).
             </Card>
-            <Card title="Operations & Growth">
-              Product rollout, partnerships, acquisitions, and scaling strategy
-              aligned to milestones.
+
+            <Card title="Jason Lynn — Chief Product Officer (CPO)">
+              Product and platform leadership with consumer privacy and
+              protection focus. Background includes co-founding mParticle (by
+              Rokt) and privacy/consumer protection leadership (as presented in
+              Phase-1 deck).
+            </Card>
+
+            <Card title="Kori Rivera — Director of Marketing">
+              Go-to-market leadership across tourism and consumer platforms,
+              with senior marketing roles (SeaWorld, Disney as presented in
+              Phase-1 deck). Leads rollout and demand creation.
             </Card>
           </div>
 
@@ -1185,10 +1166,10 @@ export default function Home() {
               </div>
               <div className="mt-4 space-y-3">
                 <div className="rounded-2xl border border-black/10 bg-black/5 p-4 text-sm text-black/75">
-                  Build → validate → iterate
+                  Build → validate → iterate (Phase 2 MVP)
                 </div>
                 <div className="rounded-2xl border border-black/10 bg-black/5 p-4 text-sm text-black/75">
-                  Secure + monitor platform activity
+                  Secure + monitor commerce + data pipelines
                 </div>
                 <div className="rounded-2xl border border-black/10 bg-black/5 p-4 text-sm text-black/75">
                   Scale via partnerships + acquisitions
@@ -1251,8 +1232,8 @@ export default function Home() {
       </SectionShell>
 
       <footer className="border-t border-black/10 py-10 text-center text-xs text-black/50">
-        © {new Date().getFullYear()} Elysium — Phase 1 Investor Website (AI-assisted
-        mockup) • Demo is cosmetic-only for concept storytelling
+        © {new Date().getFullYear()} Elysium — Phase 1 Investor Website
+        (AI-assisted mockup) • Demo is cosmetic-only for concept storytelling
       </footer>
     </main>
   );

@@ -1,4 +1,10 @@
-export default function MarketOpportunityIllustration({ className = "" }) {
+export default function MarketOpportunityIllustration({
+  className = "",
+  tam = "$—",
+  sam = "$—",
+  som = "$—",
+  wedge = "First wedge segment",
+}) {
   return (
     <div className={["w-full aspect-[920/360]", className].join(" ")}>
       <svg
@@ -29,7 +35,7 @@ export default function MarketOpportunityIllustration({ className = "" }) {
           fill="rgba(0,0,0,0.82)"
           fontWeight="700"
         >
-          Market Opportunity (Phase 2 Upgrade Slide)
+          Market Opportunity (Illustrative)
         </text>
         <text
           x="52"
@@ -38,10 +44,11 @@ export default function MarketOpportunityIllustration({ className = "" }) {
           fontFamily="ui-sans-serif, system-ui"
           fill="rgba(0,0,0,0.55)"
         >
-          Add TAM / SAM / SOM + first “wedge” segment for investor clarity
+          Phase 2: replace placeholders with validated TAM/SAM/SOM + wedge
+          sizing
         </text>
 
-        {/* Rings (shifted DOWN so labels never collide with subtitle) */}
+        {/* Rings */}
         <g transform="translate(250 210)">
           <circle cx="0" cy="0" r="112" fill="rgba(0,0,0,0.06)" />
           <circle cx="0" cy="0" r="78" fill="rgba(0,0,0,0.10)" />
@@ -116,7 +123,7 @@ export default function MarketOpportunityIllustration({ className = "" }) {
             fontFamily="ui-sans-serif, system-ui"
             fill="rgba(0,0,0,0.60)"
           >
-            Total addressable market (big picture)
+            Total addressable market • {tam}
           </text>
 
           <rect
@@ -145,7 +152,7 @@ export default function MarketOpportunityIllustration({ className = "" }) {
             fontFamily="ui-sans-serif, system-ui"
             fill="rgba(0,0,0,0.60)"
           >
-            Serviceable market (your reachable segments)
+            Serviceable market • {sam}
           </text>
 
           <rect
@@ -174,7 +181,7 @@ export default function MarketOpportunityIllustration({ className = "" }) {
             fontFamily="ui-sans-serif, system-ui"
             fill="rgba(0,0,0,0.60)"
           >
-            Obtainable market (first wedge + near-term capture)
+            Obtainable market • {som} • {wedge}
           </text>
         </g>
       </svg>

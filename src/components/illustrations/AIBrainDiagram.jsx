@@ -1,4 +1,18 @@
 export default function AIBrainDiagram({ className = "" }) {
+  const inputs = [
+    "Behavioral signals (clicks, views, saves)",
+    "Context & intent (search, session goals)",
+    "Social signals (shares, follows, circles)",
+    "Opt-in physical signals (where permitted)",
+  ];
+
+  const outputs = [
+    "Predicts & displays tailored items/services",
+    "Personalized mall layout + storefront order",
+    "Try-on suggestions (avatar concept)",
+    "Higher conversion, fewer returns",
+  ];
+
   return (
     <div className={`w-full aspect-[1100/420] ${className}`}>
       <svg
@@ -53,12 +67,7 @@ export default function AIBrainDiagram({ className = "" }) {
           Inputs
         </text>
 
-        {[
-          "Behavioral signals",
-          "Context & intent",
-          "Social signals",
-          "Optional physical variables",
-        ].map((t, i) => (
+        {inputs.map((t, i) => (
           <g key={t} filter="url(#softShadow)">
             <rect
               x="70"
@@ -103,43 +112,53 @@ export default function AIBrainDiagram({ className = "" }) {
             fill="#fff"
             stroke="rgba(0,0,0,0.10)"
           />
+
           <text
             x="550"
-            y="135"
+            y="130"
             textAnchor="middle"
             fontSize="13"
-            fontWeight="650"
-            fill="rgba(0,0,0,0.78)"
+            fontWeight="700"
+            fill="rgba(0,0,0,0.80)"
           >
             Predictability Engine
           </text>
 
           <text
             x="550"
-            y="165"
+            y="160"
             textAnchor="middle"
             fontSize="12"
             fill="rgba(0,0,0,0.62)"
           >
-            Personalization Logic
+            Personalization + Ranking
           </text>
           <text
             x="550"
-            y="190"
+            y="183"
             textAnchor="middle"
             fontSize="12"
             fill="rgba(0,0,0,0.62)"
           >
-            Security Monitoring
+            Safety + Fraud Monitoring
           </text>
           <text
             x="550"
-            y="215"
+            y="206"
             textAnchor="middle"
             fontSize="12"
             fill="rgba(0,0,0,0.62)"
           >
-            Multilingual Recommendations
+            Multilingual Assistance
+          </text>
+          <text
+            x="550"
+            y="229"
+            textAnchor="middle"
+            fontSize="12"
+            fill="rgba(0,0,0,0.62)"
+          >
+            Governance + Audit Signals
           </text>
 
           {/* “Neural” arcs */}
@@ -175,12 +194,7 @@ export default function AIBrainDiagram({ className = "" }) {
           Outputs
         </text>
 
-        {[
-          "Personalized mall layout",
-          "Tailored product/service recs",
-          "Try-on suggestions (avatar)",
-          "Higher conversion, fewer returns",
-        ].map((t, i) => (
+        {outputs.map((t, i) => (
           <g key={t} filter="url(#softShadow)">
             <rect
               x="770"
@@ -228,6 +242,21 @@ export default function AIBrainDiagram({ className = "" }) {
         ].map(([x, y], idx) => (
           <circle key={idx} cx={x} cy={y} r="4" fill="rgba(0,0,0,0.18)" />
         ))}
+
+        {/* Bottom privacy note */}
+        <rect
+          x="70"
+          y="352"
+          width="960"
+          height="36"
+          rx="14"
+          fill="rgba(0,0,0,0.03)"
+          stroke="rgba(0,0,0,0.06)"
+        />
+        <text x="90" y="374" fontSize="11.5" fill="rgba(0,0,0,0.62)">
+          Note: physical signals are optional/opt-in (where permitted). Phase 2
+          formalizes consent, retention/deletion, and audit controls.
+        </text>
       </svg>
     </div>
   );
