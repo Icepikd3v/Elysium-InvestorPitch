@@ -1,4 +1,14 @@
-export default function AIBrainDiagram({ className = "" }) {
+import IllustrationFrame from "@/components/illustrations/IllustrationFrame";
+
+export default function AIBrainDiagram({
+  className = "",
+  variant = "svg", // "svg" | "image"
+  mode = "fill", // "fill" | "aspect" (for svg)
+  priority = false,
+  caption = "AI Brain (Mock) — Phase 2: replace with validated architecture + governance.",
+  imageSrc = "/illustrations/ai-brain-diagram-1.jpg",
+  fit = "cover",
+}) {
   const inputs = [
     "Behavioral signals (clicks, views, saves)",
     "Context & intent (search, session goals)",
@@ -13,8 +23,28 @@ export default function AIBrainDiagram({ className = "" }) {
     "Higher conversion, fewer returns",
   ];
 
+  if (variant === "image") {
+    return (
+      <div className={["h-full w-full", className].join(" ")}>
+        <IllustrationFrame
+          src={imageSrc}
+          alt="AI Brain diagram showing inputs, predictability engine, and outputs."
+          priority={priority}
+          caption={caption}
+          fit={fit}
+          sizes="(max-width: 768px) 100vw, 700px"
+        />
+      </div>
+    );
+  }
+
   return (
-    <div className={`w-full aspect-[1100/420] ${className}`}>
+    <div
+      className={[
+        mode === "aspect" ? "w-full aspect-[1100/420]" : "h-full w-full",
+        className,
+      ].join(" ")}
+    >
       <svg
         className="h-full w-full"
         viewBox="0 0 1100 420"
@@ -44,7 +74,6 @@ export default function AIBrainDiagram({ className = "" }) {
           </marker>
         </defs>
 
-        {/* Card background */}
         <rect
           x="16"
           y="16"
@@ -55,7 +84,6 @@ export default function AIBrainDiagram({ className = "" }) {
           stroke="rgba(0,0,0,0.10)"
         />
 
-        {/* Left column: Inputs */}
         <text
           x="150"
           y="70"
@@ -90,7 +118,6 @@ export default function AIBrainDiagram({ className = "" }) {
           </g>
         ))}
 
-        {/* Middle: AI Brain */}
         <text
           x="550"
           y="70"
@@ -161,7 +188,6 @@ export default function AIBrainDiagram({ className = "" }) {
             Governance + Audit Signals
           </text>
 
-          {/* “Neural” arcs */}
           <path
             d="M455 285 C510 250, 590 250, 645 285"
             fill="none"
@@ -182,7 +208,6 @@ export default function AIBrainDiagram({ className = "" }) {
           />
         </g>
 
-        {/* Right column: Outputs */}
         <text
           x="920"
           y="70"
@@ -217,7 +242,6 @@ export default function AIBrainDiagram({ className = "" }) {
           </g>
         ))}
 
-        {/* Arrows between columns */}
         <path
           d="M340 150 L402 150"
           stroke="rgba(0,0,0,0.30)"
@@ -231,7 +255,6 @@ export default function AIBrainDiagram({ className = "" }) {
           markerEnd="url(#arrow)"
         />
 
-        {/* Data “nodes” */}
         {[
           [365, 135],
           [380, 150],
@@ -243,7 +266,6 @@ export default function AIBrainDiagram({ className = "" }) {
           <circle key={idx} cx={x} cy={y} r="4" fill="rgba(0,0,0,0.18)" />
         ))}
 
-        {/* Bottom privacy note */}
         <rect
           x="70"
           y="352"

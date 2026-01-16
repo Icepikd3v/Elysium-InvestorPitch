@@ -1,6 +1,37 @@
-export default function MallMobileMock({ className = "" }) {
+import IllustrationFrame from "@/components/illustrations/IllustrationFrame";
+
+export default function MallMobileMock({
+  className = "",
+  variant = "svg", // "svg" | "image"
+  mode = "fill", // "fill" | "aspect"
+  priority = false,
+  caption = "",
+  imageSrc = "/illustrations/mall-mock.jpg",
+  fit = "cover",
+}) {
+  if (variant === "image") {
+    return (
+      <div className={["h-full w-full", className].join(" ")}>
+        <IllustrationFrame
+          src={imageSrc}
+          alt="Smart mall mock experience featuring mobile UI elements in a neon mall environment."
+          priority={priority}
+          caption={caption}
+          fit={fit}
+          sizes="(max-width: 768px) 100vw, 700px"
+          badge="Phase 1 Mock"
+        />
+      </div>
+    );
+  }
+
   return (
-    <div className={["w-full aspect-[920/520]", className].join(" ")}>
+    <div
+      className={[
+        mode === "aspect" ? "w-full aspect-[920/520]" : "h-full w-full",
+        className,
+      ].join(" ")}
+    >
       <svg
         className="h-full w-full"
         viewBox="0 0 920 520"
@@ -10,7 +41,6 @@ export default function MallMobileMock({ className = "" }) {
       >
         <rect x="0" y="0" width="920" height="520" rx="28" fill="#FAFAFA" />
 
-        {/* phone stage */}
         <rect
           x="170"
           y="45"
@@ -20,7 +50,6 @@ export default function MallMobileMock({ className = "" }) {
           fill="rgba(0,0,0,0.03)"
         />
 
-        {/* phone body */}
         <rect
           x="350"
           y="70"
@@ -40,7 +69,6 @@ export default function MallMobileMock({ className = "" }) {
           stroke="rgba(0,0,0,0.08)"
         />
 
-        {/* notch / speaker */}
         <rect
           x="420"
           y="102"
@@ -50,7 +78,6 @@ export default function MallMobileMock({ className = "" }) {
           fill="rgba(0,0,0,0.10)"
         />
 
-        {/* header */}
         <rect
           x="382"
           y="124"
@@ -70,7 +97,6 @@ export default function MallMobileMock({ className = "" }) {
           Smart Mall (Mock)
         </text>
 
-        {/* avatar / profile */}
         <circle cx="392" cy="160" r="16" fill="rgba(0,0,0,0.08)" />
         <rect
           x="415"
@@ -89,10 +115,8 @@ export default function MallMobileMock({ className = "" }) {
           fill="rgba(0,0,0,0.07)"
         />
 
-        {/* content tiles */}
         {renderCards()}
 
-        {/* bottom bar */}
         <rect
           x="382"
           y="385"
@@ -102,7 +126,6 @@ export default function MallMobileMock({ className = "" }) {
           fill="rgba(0,0,0,0.06)"
         />
 
-        {/* caption */}
         <text
           x="460"
           y="475"
