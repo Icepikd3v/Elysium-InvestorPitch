@@ -141,7 +141,8 @@ export default function Home() {
       {/* Nav */}
       <header className="sticky top-0 z-50 border-b border-black/10 bg-[#fafafa]/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <a href={INVESTOR_URL} className="flex items-center gap-3">
+          {/* ✅ use in-page link instead of external domain for local/dev reliability */}
+          <a href="#cover" className="flex items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-black/10 bg-white text-xs font-semibold text-black/70">
               E
             </div>
@@ -178,6 +179,8 @@ export default function Home() {
                 realism.
               </span>
             </div>
+
+            {/* ✅ removed demo credentials */}
             <div className="flex flex-col items-end gap-1">
               <a
                 href={DEMO_URL}
@@ -188,8 +191,7 @@ export default function Home() {
                 Open Mock Smart Mall Demo ↗
               </a>
               <div className="text-[11px] text-black/55">
-                Demo login: <strong>email@example.com</strong> • Password:{" "}
-                <strong>123456</strong>
+                Demo access available upon request.
               </div>
             </div>
           </div>
@@ -244,9 +246,9 @@ export default function Home() {
                 </a>
               </div>
 
+              {/* ✅ removed demo credentials */}
               <div className="mt-3 text-xs text-black/60">
-                Demo login: <strong>email@example.com</strong> • Password:{" "}
-                <strong>123456</strong>
+                Demo access available upon request.
               </div>
 
               <div className="mt-4 max-w-xl rounded-2xl border border-black/10 bg-black/5 p-4 text-xs text-black/65">
@@ -349,7 +351,6 @@ export default function Home() {
           </div>
         </div>
       </SectionShell>
-
       {/* Problem */}
       <SectionShell id="problem">
         <SectionHeader
