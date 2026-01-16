@@ -16,9 +16,14 @@ import MarketOpportunityIllustration from "@/components/illustrations/MarketOppo
 
 /**
  * Phase 1 Investor Website (Pitch Narrative + Illustration-Forward)
- * - Pitch-deck storytelling: Problem → Solution → Product → AI → Avatar → GTM → Rollout → Financials → Raise → Team → Contact
- * - Mock illustrations in Phase 1; Phase 2 swaps in real system diagrams + validated metrics
+ * - Pitch-deck storytelling: Problem → Solution → Product → AI → Avatar → GTM → Rollout → Financials → Raise → Platform → Team → Contact
+ * - Phase 1 is intentionally "mock-forward" for narrative clarity.
+ * - Mock visuals + demo are AI-assisted and not a final/accurate representation of production fidelity.
+ * - Phase 2 swaps in real system diagrams, validated metrics, and implemented backend architecture.
  */
+
+const INVESTOR_URL = "https://www.elysium-digitalglobal.com";
+const DEMO_URL = "https://demo.elysium-digitalglobal.com"; // Smart Mall mock experience (Elysium-prototype)
 
 const SECTIONS = [
   { id: "cover", label: "Overview" },
@@ -31,6 +36,7 @@ const SECTIONS = [
   { id: "rollout", label: "Rollout" },
   { id: "financials", label: "Financials" },
   { id: "raise", label: "Raise" },
+  { id: "backend", label: "Platform" },
   { id: "team", label: "Team" },
 ];
 
@@ -168,7 +174,7 @@ export default function Home() {
       {/* Nav */}
       <header className="sticky top-0 z-50 border-b border-black/10 bg-[#fafafa]/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-3">
+          <a href={INVESTOR_URL} className="flex items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-black/10 bg-white text-xs font-semibold text-black/70">
               E
             </div>
@@ -178,7 +184,7 @@ export default function Home() {
                 Phase 1 Investor Mockup
               </div>
             </div>
-          </div>
+          </a>
 
           <nav className="hidden items-center gap-2 text-sm lg:flex">
             {sections.map((s) => {
@@ -207,6 +213,31 @@ export default function Home() {
             Contact
           </a>
         </div>
+
+        {/* Phase 1 disclaimer ribbon */}
+        <div className="border-t border-black/10 bg-white/60">
+          <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-3 text-xs text-black/65 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="rounded-full border border-black/10 bg-white px-3 py-1 font-medium">
+                Phase 1
+              </span>
+              <span>
+                This page + visuals are <strong>AI-assisted mockups</strong> for
+                narrative clarity. The demo is a{" "}
+                <strong>mock experience</strong> (cosmetic) and not production
+                realism.
+              </span>
+            </div>
+            <a
+              href={DEMO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center rounded-full border border-black/15 bg-white px-4 py-2 font-medium text-black/80 hover:border-black/25"
+            >
+              Open Mock Smart Mall Demo ↗
+            </a>
+          </div>
+        </div>
       </header>
 
       {/* Cover / Hero */}
@@ -223,7 +254,7 @@ export default function Home() {
                 <Pill>Digital Smart Mall</Pill>
                 <Pill>AI Brain</Pill>
                 <Pill>Social + eCommerce</Pill>
-                <Pill>Investor Overview</Pill>
+                <Pill>AI-assisted mock</Pill>
               </div>
 
               <h1 className="mt-6 max-w-xl text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
@@ -246,12 +277,29 @@ export default function Home() {
                 >
                   See how the AI Brain works
                 </a>
+
+                {/* UPDATED: external demo link */}
                 <a
-                  href="#product"
+                  href={DEMO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="rounded-full border border-black/15 bg-white px-6 py-3 text-center text-sm font-semibold text-black/80 hover:border-black/25"
                 >
-                  View the Smart Mall experience
+                  View the Smart Mall experience ↗
                 </a>
+              </div>
+
+              <div className="mt-4 max-w-xl rounded-2xl border border-black/10 bg-black/5 p-4 text-xs text-black/65">
+                <div className="font-semibold text-black/75">
+                  Demo note (important)
+                </div>
+                <div className="mt-1">
+                  The Smart Mall demo is a <strong>mock UI/experience</strong>{" "}
+                  created with AI assistance for presentation purposes. It is{" "}
+                  <strong>not</strong> production-level realism and does not
+                  represent final rendering, physics, inventory, or full
+                  commerce logic yet.
+                </div>
               </div>
 
               <div className="mt-8 flex flex-wrap gap-2 text-xs text-black/60">
@@ -268,12 +316,22 @@ export default function Home() {
               </div>
               <div className="mt-3 flex items-center justify-between px-1 text-xs text-black/60">
                 <span>Digital Storefront (Mock UI)</span>
-                <a
-                  href="#product"
-                  className="underline decoration-black/20 hover:decoration-black/40"
-                >
-                  View details
-                </a>
+                <div className="flex items-center gap-3">
+                  <a
+                    href="#product"
+                    className="underline decoration-black/20 hover:decoration-black/40"
+                  >
+                    View details
+                  </a>
+                  <a
+                    href={DEMO_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline decoration-black/20 hover:decoration-black/40"
+                  >
+                    Open demo ↗
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -451,16 +509,72 @@ export default function Home() {
       <SectionShell id="product">
         <SectionHeader
           kicker="Product experience"
-          title="Digital Smart Mall experience"
-          subtitle="Phase 1 mock illustrations show what a typical end user might see on laptop and mobile: storefronts, guided discovery, and social entry points."
+          title="Smart Mall experience (Phase 1 demo)"
+          subtitle="Phase 1 includes an investor narrative site (this page) plus a separate mock Smart Mall experience (demo) for visual storytelling."
           right={
             <>
-              <Pill>Laptop</Pill>
-              <Pill>Mobile</Pill>
-              <Pill>Storefronts</Pill>
+              <Pill>Investor page</Pill>
+              <Pill>Mock demo</Pill>
+              <Pill>AI-assisted</Pill>
             </>
           }
         />
+
+        <div className="mt-6 grid gap-6 md:grid-cols-12">
+          <div className="md:col-span-7">
+            <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+              <div className="text-sm font-semibold text-black/90">
+                Two-part Phase 1 setup
+              </div>
+              <BulletList
+                items={[
+                  "Investor pitch site (Next.js): narrative + visuals + roadmap (current page)",
+                  "Mock Smart Mall demo (Elysium-prototype): cosmetic walkthrough to show the concept",
+                  "Both are AI-assisted mockups for speed and clarity—not final realism",
+                ]}
+              />
+              <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+                <a
+                  href={DEMO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full bg-black px-6 py-3 text-center text-sm font-semibold text-white hover:bg-black/90"
+                >
+                  Open Smart Mall Demo ↗
+                </a>
+                <a
+                  href="#backend"
+                  className="rounded-full border border-black/15 bg-white px-6 py-3 text-center text-sm font-semibold text-black/80 hover:border-black/25"
+                >
+                  See platform + backend plan
+                </a>
+              </div>
+
+              <div className="mt-5 rounded-2xl border border-black/10 bg-black/5 p-4 text-xs text-black/65">
+                <div className="font-semibold text-black/75">
+                  Presentation disclaimer
+                </div>
+                <div className="mt-1">
+                  The demo is intentionally simplified, AI-assisted, and focused
+                  on <strong>cosmetic storytelling</strong>. It does not yet
+                  represent final 3D detail, accurate store layouts, inventory,
+                  checkout, shipping, fraud prevention, or full data pipelines.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="md:col-span-5">
+            <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
+              <div className="h-[320px]">
+                <DigitalStorefront />
+              </div>
+              <div className="mt-3 text-xs text-black/60">
+                Digital Storefront (Mock UI) — conceptual display only.
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
@@ -468,8 +582,7 @@ export default function Home() {
               <MallLaptopMock />
             </div>
             <div className="mt-3 text-xs text-black/60">
-              Laptop view: mall map + personalized storefront tiles + assistant
-              rail.
+              Laptop view (mock): mall map + storefront tiles + assistant rail.
             </div>
           </div>
 
@@ -478,7 +591,7 @@ export default function Home() {
               <MallMobileMock />
             </div>
             <div className="mt-3 text-xs text-black/60">
-              Mobile view: fast discovery, social feed entry points, and quick
+              Mobile view (mock): fast discovery, social entry points, quick
               conversions.
             </div>
           </div>
@@ -501,7 +614,7 @@ export default function Home() {
         <SectionHeader
           kicker="System narrative"
           title="How the AI Brain works"
-          subtitle="Multiple signal inputs → predictive intelligence → personalized outcomes. Phase 2 can replace this mock with real system diagrams."
+          subtitle="Multiple signal inputs → predictive intelligence → personalized outcomes. Phase 2 replaces this mock with real system diagrams and governance."
           right={
             <>
               <Pill>Behavioral data</Pill>
@@ -525,7 +638,7 @@ export default function Home() {
                 time.
               </Card>
               <Card title="Security Monitoring">
-                AI-supported monitoring can help protect users and transactions.
+                AI-supported monitoring helps protect users and transactions.
               </Card>
               <Card title="Multilingual">
                 Assistance can be presented in the user’s preferred language.
@@ -538,13 +651,14 @@ export default function Home() {
               <BulletList
                 items={[
                   "The AI Brain is the differentiator: predictability + personalization",
-                  "Inputs include behavior, intent/context, social signals, optional physical variables",
-                  "Outputs drive conversion lift and return reduction",
+                  "Inputs: behavior, intent/context, social signals, optional physical variables (opt-in)",
+                  "Outputs: conversion lift, lower returns, improved retention",
                 ]}
               />
               <div className="mt-4 rounded-2xl border border-black/10 bg-black/5 p-4 text-xs text-black/60">
-                Phase 2 upgrade: replace with real architecture (data sources →
-                model layer → rec engine → telemetry → governance).
+                Phase 2 upgrade: real architecture (events → data lake/warehouse
+                → feature store → model layer → rec engine → monitoring &
+                governance).
               </div>
             </Card>
           </div>
@@ -556,7 +670,7 @@ export default function Home() {
         <SectionHeader
           kicker="Try-on concept"
           title="Avatar-based confidence to reduce returns"
-          subtitle="A simple Phase 1 flow that communicates how users can gain confidence before purchase. Phase 2 formalizes privacy, opt-in, and system design."
+          subtitle="Phase 1 communicates the concept. Phase 2 formalizes privacy, opt-in, storage policy, and rendering pipeline."
           right={
             <>
               <Pill>Confidence</Pill>
@@ -636,9 +750,8 @@ export default function Home() {
             Phase 2 upgrade (recommended)
           </div>
           <div className="mt-2 text-sm text-black/70">
-            Add a dedicated illustration for the try-on system: capture →
-            privacy/consent → avatar generation → preview rendering → storage
-            policy.
+            Add a dedicated diagram: capture → privacy/consent → avatar
+            generation → preview rendering → retention & deletion policy.
           </div>
         </div>
       </SectionShell>
@@ -723,7 +836,7 @@ export default function Home() {
             <Card title="Best-practice upgrades (Phase 2)">
               <BulletList
                 items={[
-                  "Add a competitive landscape slide (positioning vs Amazon/Etsy/etc.)",
+                  "Add competitive landscape slide (positioning vs Amazon/Etsy/etc.)",
                   "Add market sizing (TAM/SAM/SOM) + first wedge segment",
                   "Add traction plan: pilot KPIs, cohort retention, conversion lift, return reduction",
                   "Add security/privacy posture: consent, storage policy, monitoring",
@@ -931,6 +1044,111 @@ export default function Home() {
         </div>
       </SectionShell>
 
+      {/* Platform / Backend */}
+      <SectionShell id="backend">
+        <SectionHeader
+          kicker="Platform"
+          title="What backend is required to make Elysium real"
+          subtitle="The pitch and demo are Phase 1 storytelling. A production Smart Mall requires secure accounts, commerce, data persistence, and AI pipelines."
+          right={
+            <>
+              <Pill>Auth</Pill>
+              <Pill>Payments</Pill>
+              <Pill>Data</Pill>
+              <Pill>Security</Pill>
+            </>
+          }
+        />
+
+        <div className="mt-8 grid gap-6 md:grid-cols-12">
+          <div className="md:col-span-7 grid gap-6">
+            <Card title="Core platform services" right="Phase 2 build">
+              <BulletList
+                items={[
+                  "Accounts & identity: sign-up/login, MFA, roles (member/vendor/admin)",
+                  "Product catalog + inventory: items, variants, pricing, availability",
+                  "Cart + checkout: secure payments, taxes, shipping, refunds, chargebacks",
+                  "Orders: order history, fulfillment status, returns workflow",
+                  "Vendor portal: onboarding, product management, analytics dashboard",
+                  "Social layer: follows, sharing, lists, comments (moderation needed)",
+                ]}
+              />
+            </Card>
+
+            <Card title="Data + AI foundation" right="Efficient approach">
+              <BulletList
+                items={[
+                  "Event tracking: clicks, searches, saves, purchases (privacy-aware)",
+                  "Personalization: features + recommendation service (online inference)",
+                  "Model training loop: batch training + evaluation + rollout gates",
+                  "Observability: metrics, logs, tracing, anomaly detection",
+                ]}
+              />
+              <div className="mt-4 rounded-2xl border border-black/10 bg-black/5 p-4 text-xs text-black/60">
+                Phase 2 upgrade: publish a simple system diagram (frontend → API
+                → DB/storage → rec engine → monitoring).
+              </div>
+            </Card>
+          </div>
+
+          <div className="md:col-span-5 grid gap-6">
+            <Card title="Suggested architecture (investor-friendly)">
+              <BulletList
+                items={[
+                  "Frontend: Next.js (app router) for investor site + authenticated app",
+                  "API layer: Next.js API routes or separate Node service (as scale grows)",
+                  "Database: PostgreSQL for relational truth (users, orders, products)",
+                  "Cache/queues: Redis for sessions, rate limits, job queues",
+                  "File storage: object storage for images/assets (CDN-backed)",
+                  "Payments: Stripe for checkout, subscriptions, tax, webhooks",
+                ]}
+              />
+            </Card>
+
+            <Card title="Security & governance (required)">
+              <BulletList
+                items={[
+                  "PII protection: encryption, least privilege, audit logs",
+                  "Fraud controls: velocity limits, webhook verification, monitoring",
+                  "Privacy: opt-in for sensitive signals, retention + deletion policies",
+                  "Compliance readiness: logging, reporting, vendor contracts",
+                ]}
+              />
+            </Card>
+          </div>
+        </div>
+
+        <div className="mt-6 grid gap-4 md:grid-cols-3">
+          <Stat
+            label="Phase 2 output"
+            value="Working MVP"
+            note="Auth + catalog + checkout + basic personalization."
+          />
+          <Stat
+            label="Data persistence"
+            value="Postgres + Storage"
+            note="Orders, users, vendors, assets, audit logs."
+          />
+          <Stat
+            label="Scale plan"
+            value="Services + queues"
+            note="Separate rec engine, background jobs, CDN."
+          />
+        </div>
+
+        <div className="mt-6 rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <h3 className="text-base font-semibold text-black/90">
+            Why this matters to investors
+          </h3>
+          <p className="mt-2 text-sm text-black/70">
+            The differentiator (AI Brain + Smart Mall experience) only becomes
+            defensible when the platform reliably supports secure commerce,
+            persistent data, and monitored AI systems. Phase 2 formalizes this
+            into architecture, implementation milestones, and measurable KPIs.
+          </p>
+        </div>
+      </SectionShell>
+
       {/* Team */}
       <SectionShell id="team">
         <SectionHeader
@@ -1002,9 +1220,11 @@ export default function Home() {
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             <a
               className="rounded-full bg-black px-7 py-3 text-sm font-semibold text-white hover:bg-black/90"
-              href="#"
+              href={DEMO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Request a walkthrough
+              Open the Smart Mall Demo ↗
             </a>
             <a
               className="rounded-full border border-black/15 bg-white px-7 py-3 text-sm font-semibold text-black/80 hover:border-black/25"
@@ -1034,7 +1254,7 @@ export default function Home() {
 
       <footer className="border-t border-black/10 py-10 text-center text-xs text-black/50">
         © {new Date().getFullYear()} Elysium — Phase 1 Investor Website
-        (Mockup)
+        (AI-assisted mockup) • Demo is cosmetic-only for concept storytelling
       </footer>
     </main>
   );
