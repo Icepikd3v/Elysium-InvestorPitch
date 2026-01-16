@@ -1,3 +1,4 @@
+// src/components/illustrations/IllustrationFrame.jsx
 import IllustrationImage from "./IllustrationImage";
 
 function cx(...c) {
@@ -7,9 +8,28 @@ function cx(...c) {
 /**
  * IllustrationFrame
  * - Enforces a predictable "mock frame" so images don’t overflow/overlay.
- * - aspect: Tailwind aspect utility string WITHOUT "aspect-" prefix.
- *   Examples: "video" | "square" | "[16/10]" | "[4/3]"
+ * - aspect supports:
+ *   - "video"  -> 16/9
+ *   - "square" -> 1/1
+ *   - "[16/10]" "[4/3]" etc
+ *   - "16/10"  "4/3"
  */
+function aspectToRatio(aspect) {
+  if (!aspect) return "16 / 9";
+  if (aspect === "video") return "16 / 9";
+  if (aspect === "square") return "1 / 1";
+
+  // Tailwind-style bracket ratios: "[16/10]" -> "16 / 10"
+  const m = String(aspect).match(/^\[(\d+)\s*\/\s*(\d+)\]$/);
+  if (m) return `${m[1]} / ${m[2]}`;
+
+  // Raw ratios like "16/10"
+  const m2 = String(aspect).match(/^(\d+)\s*\/\s*(\d+)$/);
+  if (m2) return `${m2[1]} / ${m2[2]}`;
+
+  return "16 / 9";
+}
+
 export default function IllustrationFrame({
   className = "",
   src,
@@ -21,6 +41,8 @@ export default function IllustrationFrame({
   priority = false,
   children,
 }) {
+  const ratio = aspectToRatio(aspect);
+
   return (
     <figure
       className={cx(
@@ -30,13 +52,9 @@ export default function IllustrationFrame({
     >
       {/* Media area */}
       <div
-        className={cx(
-          "relative w-full overflow-hidden rounded-3xl",
-          // aspect ratio guard (prevents Image fill from spilling)
-          `aspect-${aspect}`,
-        )}
+        className={cx("relative w-full overflow-hidden rounded-3xl")}
         style={{
-          // prevents super-tall sections from making the image feel “not set”
+          aspectRatio: ratio, // ✅ production-safe (no Tailwind purge issues)
           maxHeight: maxH,
         }}
       >
