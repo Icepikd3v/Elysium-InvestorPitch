@@ -223,9 +223,8 @@ export default function Home() {
               </span>
               <span>
                 This page + visuals are <strong>AI-assisted mockups</strong> for
-                narrative clarity. The demo is a{" "}
-                <strong>mock experience</strong> (cosmetic) and not production
-                realism.
+                narrative clarity. The demo is a <strong>mock experience</strong>{" "}
+                (cosmetic) and not production realism.
               </span>
             </div>
             <a
@@ -1085,8 +1084,8 @@ export default function Home() {
                 ]}
               />
               <div className="mt-4 rounded-2xl border border-black/10 bg-black/5 p-4 text-xs text-black/60">
-                Phase 2 upgrade: publish a simple system diagram (frontend → API
-                → DB/storage → rec engine → monitoring).
+                Phase 2 upgrade: publish a simple system diagram (frontend →
+                API → DB/storage → rec engine → monitoring).
               </div>
             </Card>
           </div>
@@ -1253,8 +1252,8 @@ export default function Home() {
       </SectionShell>
 
       <footer className="border-t border-black/10 py-10 text-center text-xs text-black/50">
-        © {new Date().getFullYear()} Elysium — Phase 1 Investor Website
-        (AI-assisted mockup) • Demo is cosmetic-only for concept storytelling
+        © {new Date().getFullYear()} Elysium — Phase 1 Investor Website (AI-assisted
+        mockup) • Demo is cosmetic-only for concept storytelling
       </footer>
     </main>
   );
