@@ -141,7 +141,6 @@ export default function Home() {
       {/* Nav */}
       <header className="sticky top-0 z-50 border-b border-black/10 bg-[#fafafa]/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          {/* ✅ use in-page link instead of external domain for local/dev reliability */}
           <a href="#cover" className="flex items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-black/10 bg-white text-xs font-semibold text-black/70">
               E
@@ -154,7 +153,6 @@ export default function Home() {
             </div>
           </a>
 
-          {/* Client-only nav highlighting */}
           <ClientNav sections={SECTIONS} />
 
           <a
@@ -180,7 +178,6 @@ export default function Home() {
               </span>
             </div>
 
-            {/* ✅ removed demo credentials */}
             <div className="flex flex-col items-end gap-1">
               <a
                 href={DEMO_URL}
@@ -246,7 +243,6 @@ export default function Home() {
                 </a>
               </div>
 
-              {/* ✅ removed demo credentials */}
               <div className="mt-3 text-xs text-black/60">
                 Demo access available upon request.
               </div>
@@ -351,6 +347,7 @@ export default function Home() {
           </div>
         </div>
       </SectionShell>
+
       {/* Problem */}
       <SectionShell id="problem">
         <SectionHeader
@@ -487,6 +484,7 @@ export default function Home() {
               <div className="text-sm font-semibold text-black/90">
                 Two-part Phase 1 setup
               </div>
+
               <BulletList
                 items={[
                   "Investor pitch site (Next.js): narrative + visuals + roadmap (current page)",
@@ -494,28 +492,30 @@ export default function Home() {
                   "Both are AI-assisted mockups for speed and clarity—not final realism",
                 ]}
               />
+
+              {/* ✅ FIXED: single wrapper only */}
               <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-               <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-  <a
-    href={DEMO_URL}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="rounded-full bg-black px-6 py-3 text-center text-sm font-semibold text-white hover:bg-black/90"
-  >
-    Open Smart Mall Demo ↗
-  </a>
+                <a
+                  href={DEMO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full bg-black px-6 py-3 text-center text-sm font-semibold text-white hover:bg-black/90"
+                >
+                  Open Smart Mall Demo ↗
+                </a>
 
-  <a
-    href="#backend"
-    className="rounded-full border border-black/15 bg-white px-6 py-3 text-center text-sm font-semibold text-black/80 hover:border-black/25"
-  >
-    See platform + backend plan
-  </a>
-</div>
+                <a
+                  href="#backend"
+                  className="rounded-full border border-black/15 bg-white px-6 py-3 text-center text-sm font-semibold text-black/80 hover:border-black/25"
+                >
+                  See platform + backend plan
+                </a>
+              </div>
 
-<div className="mt-2 text-xs text-black/60">
-  Demo is a presentation prototype. Access details available upon request.
-</div>
+              <div className="mt-2 text-xs text-black/60">
+                Demo is a presentation prototype. Access details available upon
+                request.
+              </div>
 
               <div className="mt-5 rounded-2xl border border-black/10 bg-black/5 p-4 text-xs text-black/65">
                 <div className="font-semibold text-black/75">
@@ -723,6 +723,7 @@ export default function Home() {
         </div>
       </SectionShell>
 
+      {/* ---- Everything after this point stays the same structure as your original ---- */}
       {/* GTM */}
       <SectionShell id="gtm">
         <SectionHeader
@@ -848,7 +849,6 @@ export default function Home() {
           />
         </div>
 
-        {/* Charts — FIXED ALIGNMENT */}
         <div className="mt-6 grid items-start gap-6 md:grid-cols-2">
           <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="w-full aspect-[920/360]">
@@ -1143,8 +1143,8 @@ export default function Home() {
             <Card title="Sophia Xue — CFO">
               Financial strategy, modeling, and capital planning. Background
               includes senior finance roles spanning equity derivatives and risk
-              monitoring (Nomura, Merrill Lynch, PwC as presented in Phase-1
-              deck).
+              monitoring (Nomura, Merrill Lynch, PwC as presented in Phase
+              learned Phase-1 deck).
             </Card>
 
             <Card title="Jason Lynn — Chief Product Officer (CPO)">
