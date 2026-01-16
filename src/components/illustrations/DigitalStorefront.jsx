@@ -1,8 +1,39 @@
 "use client";
 
-export default function DigitalStorefront({ className = "" }) {
+import IllustrationFrame from "@/components/illustrations/IllustrationFrame";
+
+export default function DigitalStorefront({
+  className = "",
+  variant = "svg", // "svg" | "image"
+  mode = "fill", // "fill" | "aspect" (for svg)
+  priority = false,
+  caption = "",
+  imageSrc = "/illustrations/digital-store-front.jpg",
+  fit = "cover",
+}) {
+  if (variant === "image") {
+    return (
+      <div className={["h-full w-full", className].join(" ")}>
+        <IllustrationFrame
+          src={imageSrc}
+          alt="Digital storefront mock showing category tiles, assistant, and recommended products."
+          priority={priority}
+          caption={caption}
+          fit={fit}
+          sizes="(max-width: 768px) 100vw, 700px"
+          badge="Phase 1 Mock"
+        />
+      </div>
+    );
+  }
+
   return (
-    <div className={`w-full aspect-[900/520] ${className}`}>
+    <div
+      className={[
+        mode === "aspect" ? "w-full aspect-[900/520]" : "h-full w-full",
+        className,
+      ].join(" ")}
+    >
       <svg
         viewBox="0 0 900 520"
         className="h-full w-full"
@@ -19,7 +50,6 @@ export default function DigitalStorefront({ className = "" }) {
           fill="rgba(0,0,0,0.03)"
         />
 
-        {/* header */}
         <rect
           x="70"
           y="56"
@@ -50,7 +80,6 @@ export default function DigitalStorefront({ className = "" }) {
           (illustrative).
         </text>
 
-        {/* small badge */}
         <rect
           x="742"
           y="66"
@@ -71,7 +100,6 @@ export default function DigitalStorefront({ className = "" }) {
           Mock UI
         </text>
 
-        {/* search */}
         <rect
           x="520"
           y="78"
@@ -91,7 +119,6 @@ export default function DigitalStorefront({ className = "" }) {
           Search the mall…
         </text>
 
-        {/* quick actions */}
         <rect
           x="740"
           y="78"
@@ -112,7 +139,6 @@ export default function DigitalStorefront({ className = "" }) {
           Cart
         </text>
 
-        {/* left: categories */}
         <rect
           x="70"
           y="140"
@@ -157,7 +183,6 @@ export default function DigitalStorefront({ className = "" }) {
           </g>
         ))}
 
-        {/* center: product grid */}
         <rect
           x="280"
           y="140"
@@ -242,7 +267,6 @@ export default function DigitalStorefront({ className = "" }) {
           );
         })}
 
-        {/* assistant bar */}
         <rect
           x="70"
           y="465"

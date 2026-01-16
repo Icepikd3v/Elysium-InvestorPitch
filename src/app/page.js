@@ -11,6 +11,10 @@ import RevenueYear1Year2ChartMock from "@/components/illustrations/RevenueYearTw
 import RaiseFlowIllustration from "@/components/illustrations/RaiseFlowIllustration";
 import MarketOpportunityIllustration from "@/components/illustrations/MarketOpportunityIllustration";
 
+import RevenueModelIllustration from "@/components/illustrations/RevenueModelIllustration";
+import AvatarTryOnLaptopMock from "@/components/illustrations/AvatarTryOnLaptopMock";
+import AvatarTryOnMobileMock from "@/components/illustrations/AvatarTryOnMobileMock";
+
 /**
  * Phase 1 Investor Website (Pitch Narrative + Illustration-Forward)
  * - Pitch-deck storytelling: Problem → Solution → Product → AI → Avatar → GTM → Rollout → Financials → Raise → Platform → Team → Contact
@@ -269,8 +273,9 @@ export default function Home() {
             </div>
 
             <div className="rounded-3xl border border-black/10 bg-[#fafafa] p-4">
+              {/* NOTE: for perfect fill, render DigitalStorefront as image variant */}
               <div className="h-[360px] md:h-[380px]">
-                <DigitalStorefront />
+                <DigitalStorefront variant="image" />
               </div>
               <div className="mt-3 flex items-center justify-between px-1 text-xs text-black/60">
                 <span>Digital Storefront (Mock UI)</span>
@@ -336,7 +341,7 @@ export default function Home() {
             <div className="md:col-span-7">
               <div className="rounded-3xl border border-black/10 bg-[#fafafa] p-4">
                 <div className="h-[320px] md:h-[360px]">
-                  <MarketOpportunityIllustration />
+                  <MarketOpportunityIllustration variant="image" />
                 </div>
                 <div className="mt-3 text-xs text-black/60">
                   Market Opportunity (Mock) — Phase 2: replace with validated
@@ -493,7 +498,6 @@ export default function Home() {
                 ]}
               />
 
-              {/* ✅ FIXED: single wrapper only */}
               <div className="mt-5 flex flex-col gap-3 sm:flex-row">
                 <a
                   href={DEMO_URL}
@@ -534,10 +538,7 @@ export default function Home() {
           <div className="md:col-span-5">
             <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
               <div className="h-[320px]">
-                <DigitalStorefront />
-              </div>
-              <div className="mt-3 text-xs text-black/60">
-                Digital Storefront (Mock UI) — conceptual display only.
+                <DigitalStorefront variant="image" />
               </div>
             </div>
           </div>
@@ -546,20 +547,13 @@ export default function Home() {
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="h-[360px]">
-              <MallLaptopMock />
-            </div>
-            <div className="mt-3 text-xs text-black/60">
-              Laptop view (mock): mall map + storefront tiles + assistant rail.
+              <MallLaptopMock variant="image" />
             </div>
           </div>
 
           <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="h-[360px]">
-              <MallMobileMock />
-            </div>
-            <div className="mt-3 text-xs text-black/60">
-              Mobile view (mock): fast discovery, social entry points, quick
-              conversions.
+              <MallMobileMock variant="image" />
             </div>
           </div>
         </div>
@@ -594,8 +588,8 @@ export default function Home() {
         <div className="mt-8 grid gap-6 md:grid-cols-12">
           <div className="md:col-span-7">
             <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
-              <div className="h-[320px]">
-                <AIBrainDiagram />
+              <div className="h-[420px] md:h-[460px]">
+                <AIBrainDiagram variant="image" fit="contain" />
               </div>
             </div>
 
@@ -712,6 +706,21 @@ export default function Home() {
           </Card>
         </div>
 
+        {/* Avatar mock visuals */}
+        <div className="mt-8 grid gap-6 md:grid-cols-12">
+          <div className="md:col-span-7 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="h-[360px] md:h-[420px]">
+              <AvatarTryOnLaptopMock />
+            </div>
+          </div>
+
+          <div className="md:col-span-5 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="h-[360px] md:h-[420px]">
+              <AvatarTryOnMobileMock />
+            </div>
+          </div>
+        </div>
+
         <div className="mt-6 rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="text-sm font-semibold text-black/90">
             Phase 2 upgrade (recommended)
@@ -723,7 +732,6 @@ export default function Home() {
         </div>
       </SectionShell>
 
-      {/* ---- Everything after this point stays the same structure as your original ---- */}
       {/* GTM */}
       <SectionShell id="gtm">
         <SectionHeader
@@ -791,12 +799,9 @@ export default function Home() {
 
         <div className="mt-8 grid gap-6 md:grid-cols-12">
           <div className="md:col-span-7 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="h-[360px]">
-              <RolloutTimelineIllustration />
-            </div>
-            <div className="mt-3 text-xs text-black/60">
-              Rollout Timeline (Mock) — Phase 2: replace with validated plan +
-              dependencies.
+            <div className="h-[420px] md:h-[460px]">
+              {/* FIX: use supported variants ("image" | "svg") */}
+              <RolloutTimelineIllustration variant="image" fit="contain" />
             </div>
           </div>
 
@@ -847,6 +852,12 @@ export default function Home() {
             value="Platform + Partnerships"
             note="Brands, creators, and marketplaces as multipliers."
           />
+        </div>
+
+        <div className="mt-6 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="h-[440px] md:h-[520px]">
+            <RevenueModelIllustration />
+          </div>
         </div>
 
         <div className="mt-6 grid items-start gap-6 md:grid-cols-2">
@@ -965,7 +976,7 @@ export default function Home() {
         <div className="mt-8 grid gap-6 md:grid-cols-12">
           <div className="md:col-span-7 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="h-[360px]">
-              <RaiseFlowIllustration />
+              <RaiseFlowIllustration variant="image" fit="contain" />
             </div>
             <div className="mt-3 text-xs text-black/60">
               Raise Flow (Mock) — Phase 2: add compliance + timing criteria.
@@ -1143,8 +1154,8 @@ export default function Home() {
             <Card title="Sophia Xue — CFO">
               Financial strategy, modeling, and capital planning. Background
               includes senior finance roles spanning equity derivatives and risk
-              monitoring (Nomura, Merrill Lynch, PwC as presented in Phase
-              learned Phase-1 deck).
+              monitoring (Nomura, Merrill Lynch, PwC as presented in Phase-1
+              deck).
             </Card>
 
             <Card title="Jason Lynn — Chief Product Officer (CPO)">

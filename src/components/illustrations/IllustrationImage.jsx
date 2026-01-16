@@ -1,24 +1,50 @@
 import Image from "next/image";
 
+function cx(...c) {
+  return c.filter(Boolean).join(" ");
+}
+
+/**
+ * IllustrationImage
+ * - Safe wrapper around next/image for "framed" mock images.
+ * - Works with public assets: src="/illustrations/foo.jpg"
+ * - Also works with imported static images: import foo from "@/app/assets/foo.jpg"
+ */
 export default function IllustrationImage({
   src,
-  alt,
+  alt = "",
+  fit = "contain", // "contain" | "cover"
   priority = false,
+  sizes = "(min-width: 1024px) 720px, 92vw",
   className = "",
-  sizes = "(max-width: 768px) 100vw, 900px",
-  fit = "cover", // cover | contain
+  imageClassName = "",
 }) {
+  // Soft fail: avoid runtime crash if src is missing
+  if (!src) {
+    return (
+      <div
+        className={cx(
+          "relative flex h-full w-full items-center justify-center rounded-2xl bg-black/5",
+          className,
+        )}
+      >
+        <div className="text-xs text-black/50">Image source missing</div>
+      </div>
+    );
+  }
+
   return (
-    <div
-      className={`relative h-full w-full overflow-hidden rounded-2xl ${className}`}
-    >
+    <div className={cx("relative h-full w-full", className)}>
       <Image
         src={src}
         alt={alt}
         fill
         priority={priority}
         sizes={sizes}
-        className={fit === "contain" ? "object-contain" : "object-cover"}
+        className={cx("select-none", imageClassName)}
+        style={{
+          objectFit: fit,
+        }}
       />
     </div>
   );

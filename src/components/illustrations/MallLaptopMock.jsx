@@ -1,6 +1,37 @@
-export default function MallLaptopMock({ className = "" }) {
+import IllustrationFrame from "@/components/illustrations/IllustrationFrame";
+
+export default function MallLaptopMock({
+  className = "",
+  variant = "svg", // "svg" | "image"
+  mode = "fill", // "fill" | "aspect"
+  priority = false,
+  caption = "",
+  imageSrc = "/illustrations/mall-mock.jpg",
+  fit = "cover",
+}) {
+  if (variant === "image") {
+    return (
+      <div className={["h-full w-full", className].join(" ")}>
+        <IllustrationFrame
+          src={imageSrc}
+          alt="Smart mall mock shown on laptop and mobile with neon mall background."
+          priority={priority}
+          caption={caption}
+          fit={fit}
+          sizes="(max-width: 768px) 100vw, 700px"
+          badge="Phase 1 Mock"
+        />
+      </div>
+    );
+  }
+
   return (
-    <div className={["w-full aspect-[920/520]", className].join(" ")}>
+    <div
+      className={[
+        mode === "aspect" ? "w-full aspect-[920/520]" : "h-full w-full",
+        className,
+      ].join(" ")}
+    >
       <svg
         className="h-full w-full"
         viewBox="0 0 920 520"
@@ -8,10 +39,8 @@ export default function MallLaptopMock({ className = "" }) {
         aria-label="Laptop smart mall mock"
         preserveAspectRatio="xMidYMid meet"
       >
-        {/* Soft stage */}
         <rect x="0" y="0" width="920" height="520" rx="28" fill="#FAFAFA" />
 
-        {/* device shadow panel */}
         <rect
           x="60"
           y="55"
@@ -21,7 +50,6 @@ export default function MallLaptopMock({ className = "" }) {
           fill="rgba(0,0,0,0.03)"
         />
 
-        {/* Laptop body */}
         <rect
           x="190"
           y="85"
@@ -41,7 +69,6 @@ export default function MallLaptopMock({ className = "" }) {
           stroke="rgba(0,0,0,0.08)"
         />
 
-        {/* window top bar */}
         <rect
           x="210"
           y="105"
@@ -54,7 +81,6 @@ export default function MallLaptopMock({ className = "" }) {
         <circle cx="255" cy="122" r="6" fill="rgba(0,0,0,0.12)" />
         <circle cx="275" cy="122" r="6" fill="rgba(0,0,0,0.12)" />
 
-        {/* header label */}
         <text
           x="460"
           y="128"
@@ -66,7 +92,6 @@ export default function MallLaptopMock({ className = "" }) {
           Virtual Smart Mall (Mock)
         </text>
 
-        {/* left rail */}
         <rect
           x="230"
           y="155"
@@ -98,10 +123,8 @@ export default function MallLaptopMock({ className = "" }) {
           />
         ))}
 
-        {/* tiles grid */}
         {renderTiles()}
 
-        {/* assistant rail (right) */}
         <rect
           x="680"
           y="155"
@@ -122,7 +145,6 @@ export default function MallLaptopMock({ className = "" }) {
           AI
         </text>
 
-        {/* base / keyboard */}
         <path
           d="M 160 380 L 760 380 L 830 440 L 90 440 Z"
           fill="rgba(0,0,0,0.04)"
@@ -137,7 +159,6 @@ export default function MallLaptopMock({ className = "" }) {
           fill="rgba(0,0,0,0.06)"
         />
 
-        {/* caption */}
         <text
           x="460"
           y="475"
