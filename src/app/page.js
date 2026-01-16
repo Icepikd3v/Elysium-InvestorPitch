@@ -1,4 +1,3 @@
-// app/page.js (or src/app/page.js)
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
