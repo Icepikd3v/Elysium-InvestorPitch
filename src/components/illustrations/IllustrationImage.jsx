@@ -1,4 +1,3 @@
-// src/components/illustrations/IllustrationImage.jsx
 import Image from "next/image";
 
 function cx(...c) {
@@ -6,10 +5,9 @@ function cx(...c) {
 }
 
 /**
- * IllustrationImage
- * - Safe wrapper around next/image for "framed" mock images.
- * - Works with public assets: src="/illustrations/foo.jpg"
- * - Also works with imported static images: import foo from "@/app/assets/foo.jpg"
+ * IllustrationImage (PROD-SAFE)
+ * - Adds object-fit classes (more consistent than inline style in some cases)
+ * - Optional `unoptimized` toggle if you ever need to bypass Next optimizer
  */
 export default function IllustrationImage({
   src,
@@ -19,8 +17,8 @@ export default function IllustrationImage({
   sizes = "(min-width: 1024px) 720px, 92vw",
   className = "",
   imageClassName = "",
+  unoptimized = false,
 }) {
-  // Soft fail: avoid runtime crash if src is missing
   if (!src) {
     return (
       <div
@@ -34,6 +32,8 @@ export default function IllustrationImage({
     );
   }
 
+  const fitClass = fit === "cover" ? "object-cover" : "object-contain";
+
   return (
     <div className={cx("relative h-full w-full", className)}>
       <Image
@@ -42,8 +42,8 @@ export default function IllustrationImage({
         fill
         priority={priority}
         sizes={sizes}
-        className={cx("select-none", imageClassName)}
-        style={{ objectFit: fit }}
+        unoptimized={unoptimized}
+        className={cx("select-none", fitClass, imageClassName)}
       />
     </div>
   );
