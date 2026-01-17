@@ -4,29 +4,54 @@ function cx(...c) {
   return c.filter(Boolean).join(" ");
 }
 
+function resolveHref(src) {
+  if (!src) return null;
+  if (typeof src === "string") return src;
+  if (typeof src === "object" && src?.src) return src.src; // imported static image
+  return null;
+}
+
+function toAspectRatio(aspect) {
+  // Allow: "video" | "square" | "[16/10]" | "[4/3]" | "16/9" | "4/3"
+  if (!aspect) return "16 / 9";
+  if (aspect === "video") return "16 / 9";
+  if (aspect === "square") return "1 / 1";
+
+  const cleaned = String(aspect).replace("[", "").replace("]", "").trim();
+  // If user passed "16/10" or "4/3"
+  if (cleaned.includes("/")) {
+    const [w, h] = cleaned.split("/").map((x) => x.trim());
+    if (w && h) return `${w} / ${h}`;
+  }
+  return "16 / 9";
+}
+
 /**
- * IllustrationFrame (PROD-SAFE)
- * - Uses CSS aspect-ratio instead of Tailwind dynamic classes (avoids purge issues).
- *
- * aspect:
- *  - "16/10" | "4/3" | "1/1" | "920/360" etc.
+ * IllustrationFrame
+ * - Uses inline aspectRatio (production-safe)
+ * - Optional click-to-expand overlay
  */
 export default function IllustrationFrame({
   className = "",
   src,
   alt = "",
   caption = "",
-  fit = "cover", // "cover" | "contain"
-  aspect = "16/9",
+  fit = "contain", // ✅ default contain to avoid cropping
+  aspect = "video",
   maxH = "520px",
+  minH = "240px",
   priority = false,
-  sizes = "(min-width: 1024px) 720px, 92vw",
   children,
+
+  // zoom
+  zoomEnabled = true,
+  zoomHref,
+  zoomTarget = "_blank",
+  zoomRel = "noreferrer",
+  showZoomBadge = true,
 }) {
-  // Normalize aspect like "16/10" -> "16 / 10" (valid CSS aspect-ratio)
-  const aspectRatio = String(aspect).includes("/")
-    ? String(aspect).replace("/", " / ")
-    : String(aspect);
+  const resolved = zoomHref ?? resolveHref(src);
+  const canZoom = Boolean(zoomEnabled && resolved);
 
   return (
     <figure
@@ -35,12 +60,12 @@ export default function IllustrationFrame({
         className,
       )}
     >
-      {/* Media area */}
       <div
-        className="relative w-full overflow-hidden rounded-3xl"
+        className="relative w-full overflow-hidden rounded-3xl bg-black/5"
         style={{
-          aspectRatio,
+          aspectRatio: toAspectRatio(aspect),
           maxHeight: maxH,
+          minHeight: minH,
         }}
       >
         {children ? (
@@ -51,13 +76,27 @@ export default function IllustrationFrame({
             alt={alt}
             fit={fit}
             priority={priority}
-            sizes={sizes}
             className="h-full w-full"
-            imageClassName="h-full w-full"
           />
         )}
 
-        {/* Subtle highlight */}
+        {/* Click overlay */}
+        {canZoom ? (
+          <a
+            href={resolved}
+            target={zoomTarget}
+            rel={zoomRel}
+            aria-label={alt ? `Open full size: ${alt}` : "Open full size image"}
+            className="absolute inset-0 z-10 cursor-zoom-in"
+          />
+        ) : null}
+
+        {canZoom && showZoomBadge ? (
+          <div className="pointer-events-none absolute bottom-3 right-3 z-20 rounded-full bg-black/60 px-3 py-1 text-xs text-white shadow-sm">
+            Click to expand
+          </div>
+        ) : null}
+
         <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/40" />
       </div>
 
