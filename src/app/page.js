@@ -1,3 +1,5 @@
+"use client";
+
 import ClientNav from "@/components/ClientNav";
 
 import AIBrainDiagram from "@/components/illustrations/AIBrainDiagram";
@@ -23,7 +25,6 @@ import AvatarTryOnMobileMock from "@/components/illustrations/AvatarTryOnMobileM
  * - Phase 2 swaps in real system diagrams, validated metrics, and implemented backend architecture.
  */
 
-const INVESTOR_URL = "https://www.elysium-digitalglobal.com";
 const DEMO_URL = "https://demo.elysium-digitalglobal.com"; // Smart Mall mock experience (Elysium-prototype)
 
 const SECTIONS = [
@@ -177,8 +178,8 @@ export default function Home() {
               <span>
                 This page + visuals are <strong>AI-assisted mockups</strong> for
                 narrative clarity. The demo is a{" "}
-                <strong>mock experience</strong> (cosmetic) and not production
-                realism.
+                <strong>mock experience</strong> (cosmetic) and not{" "}
+                <strong>production-grade</strong>.
               </span>
             </div>
 
@@ -258,9 +259,9 @@ export default function Home() {
                 <div className="mt-1">
                   The Smart Mall demo is a <strong>mock UI/experience</strong>{" "}
                   created with AI assistance for presentation purposes. It is{" "}
-                  <strong>not</strong> production-level realism and does not
-                  represent final rendering, physics, inventory, or full
-                  commerce logic yet.
+                  <strong>not</strong> production-grade and does not represent
+                  final rendering, physics, inventory, or full commerce logic
+                  yet.
                 </div>
               </div>
 
@@ -544,7 +545,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ✅ UPDATED: Replace 2-up grid with ONE large hero image */}
+        {/* ✅ Updated: ONE large hero image */}
         <div className="mt-8">
           <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="h-[420px] md:h-[560px]">
