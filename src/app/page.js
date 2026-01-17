@@ -544,16 +544,14 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
+        {/* ✅ UPDATED: Replace 2-up grid with ONE large hero image */}
+        <div className="mt-8">
           <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="h-[360px]">
-              <MallLaptopMock variant="image" />
+            <div className="h-[420px] md:h-[560px]">
+              <MallLaptopMock variant="image" fit="contain" />
             </div>
-          </div>
-
-          <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="h-[360px]">
-              <MallMobileMock variant="image" />
+            <div className="mt-3 px-1 text-xs text-black/60">
+              Smart Mall Mock (Hero) — click to expand
             </div>
           </div>
         </div>
@@ -706,7 +704,6 @@ export default function Home() {
           </Card>
         </div>
 
-        {/* Avatar mock visuals */}
         <div className="mt-8 grid gap-6 md:grid-cols-12">
           <div className="md:col-span-7 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="h-[360px] md:h-[420px]">
@@ -800,7 +797,6 @@ export default function Home() {
         <div className="mt-8 grid gap-6 md:grid-cols-12">
           <div className="md:col-span-7 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="h-[420px] md:h-[460px]">
-              {/* FIX: use supported variants ("image" | "svg") */}
               <RolloutTimelineIllustration variant="image" fit="contain" />
             </div>
           </div>

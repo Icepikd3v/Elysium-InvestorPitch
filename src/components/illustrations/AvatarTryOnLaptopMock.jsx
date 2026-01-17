@@ -1,13 +1,13 @@
 // components/illustrations/AvatarTryOnLaptopMock.jsx
 
 import IllustrationFrame from "./IllustrationFrame";
-import IllustrationImage from "./IllustrationImage";
 
 export default function AvatarTryOnLaptopMock({
   variant = "image",
   fit = "contain",
   className = "",
   label = "Avatar Try-On (Laptop Mock)",
+  priority = false,
 }) {
   if (variant !== "image") return null;
 
@@ -18,15 +18,11 @@ export default function AvatarTryOnLaptopMock({
       glow={true}
       label={label}
       innerClassName="h-full"
-    >
-      <IllustrationImage
-        src="/illustrations/avatar-try-on-laptop.jpg"
-        alt="Avatar try-on flow shown on a laptop mockup"
-        fit={fit}
-        priority={false}
-        className="h-full w-full"
-        rounded={true}
-      />
-    </IllustrationFrame>
+      // ✅ Key change: let IllustrationFrame render the image so zoom/click works
+      src="/illustrations/avatar-try-on-laptop.jpg"
+      alt="Avatar try-on flow shown on a laptop mockup"
+      fit={fit} // ✅ contain prevents cropping
+      priority={priority}
+    />
   );
 }
