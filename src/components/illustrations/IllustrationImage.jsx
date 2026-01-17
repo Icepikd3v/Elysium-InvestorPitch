@@ -5,19 +5,17 @@ function cx(...c) {
 }
 
 /**
- * IllustrationImage (PROD-SAFE)
- * - Adds object-fit classes (more consistent than inline style in some cases)
- * - Optional `unoptimized` toggle if you ever need to bypass Next optimizer
+ * IllustrationImage
+ * - Safe wrapper around next/image for "framed" mock images.
  */
 export default function IllustrationImage({
   src,
   alt = "",
-  fit = "contain", // "contain" | "cover"
+  fit = "contain", // contain | cover
   priority = false,
   sizes = "(min-width: 1024px) 720px, 92vw",
   className = "",
   imageClassName = "",
-  unoptimized = false,
 }) {
   if (!src) {
     return (
@@ -32,8 +30,6 @@ export default function IllustrationImage({
     );
   }
 
-  const fitClass = fit === "cover" ? "object-cover" : "object-contain";
-
   return (
     <div className={cx("relative h-full w-full", className)}>
       <Image
@@ -42,8 +38,8 @@ export default function IllustrationImage({
         fill
         priority={priority}
         sizes={sizes}
-        unoptimized={unoptimized}
-        className={cx("select-none", fitClass, imageClassName)}
+        className={cx("select-none", imageClassName)}
+        style={{ objectFit: fit }}
       />
     </div>
   );
