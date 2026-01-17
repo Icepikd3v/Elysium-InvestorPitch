@@ -89,7 +89,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#fafafa] px-6">
       <div className="w-full max-w-md rounded-3xl border border-black/10 bg-white p-8 shadow-sm">
-        <h1 className="text-2xl font-semibold text-center mb-2">
+        <h1 className="text-2xl text-black  font-semibold text-center mb-2">
           Elysium Investor Access
         </h1>
 
