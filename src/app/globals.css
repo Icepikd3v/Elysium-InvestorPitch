@@ -28,3 +28,155 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes chartBarGrow {
+  0% {
+    transform: scaleY(0.2);
+    opacity: 0.6;
+  }
+  45% {
+    transform: scaleY(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes chartBarFloat {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.92);
+  }
+}
+
+@keyframes ringPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 0.86;
+  }
+}
+
+@keyframes wedgePop {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.07);
+  }
+}
+
+@keyframes nodePop {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.12);
+  }
+}
+
+@keyframes nodeCorePulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.95;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 0.75;
+  }
+}
+
+@keyframes milestoneCardLift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes progressRailFlow {
+  0%,
+  100% {
+    opacity: 0.8;
+    filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.16));
+  }
+}
+
+.chart-bar {
+  transform-origin: center bottom;
+  animation:
+    chartBarGrow 1s ease-out both,
+    chartBarFloat 3s ease-in-out infinite;
+}
+
+.ring-pulse-slow,
+.ring-pulse-mid,
+.ring-pulse-fast {
+  transform-origin: center;
+  animation: ringPulse 4s ease-in-out infinite;
+}
+
+.ring-pulse-mid {
+  animation-duration: 3.2s;
+  animation-delay: 0.2s;
+}
+
+.ring-pulse-fast {
+  animation-duration: 2.6s;
+  animation-delay: 0.35s;
+}
+
+.wedge-pop {
+  transform-origin: center;
+  animation: wedgePop 2.8s ease-in-out infinite;
+}
+
+.node-pop {
+  transform-origin: center;
+  animation: nodePop 2.8s ease-in-out infinite;
+}
+
+.node-core-pulse {
+  transform-origin: center;
+  animation: nodeCorePulse 2.4s ease-in-out infinite;
+}
+
+.milestone-card {
+  animation: milestoneCardLift 2.8s ease-in-out infinite;
+}
+
+.progress-rail {
+  animation: progressRailFlow 2.6s ease-in-out infinite;
+}
+
+@keyframes shopImageFloat {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-6px) scale(1.01);
+  }
+}
+
+.shop-experience-animated {
+  animation: shopImageFloat 4.5s ease-in-out infinite;
+}

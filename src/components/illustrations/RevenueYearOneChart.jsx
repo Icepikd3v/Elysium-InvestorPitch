@@ -30,8 +30,8 @@ export default function RevenueYearOneChart({ className = "" }) {
   const barW = 44;
   const gap = 10;
 
-  const grossFill = "rgba(0,0,0,0.55)";
-  const netFill = "rgba(0,0,0,0.18)";
+  const grossFill = "#0EA5E9";
+  const netFill = "#14B8A6";
 
   const fmt = (n) => `$${n.toFixed(1)}M`;
 
@@ -51,7 +51,7 @@ export default function RevenueYearOneChart({ className = "" }) {
       preserveAspectRatio="xMidYMid meet"
     >
       {/* Background */}
-      <rect x="0" y="0" width={W} height={H} rx="24" fill="#FAFAFA" />
+      <rect x="0" y="0" width={W} height={H} rx="24" fill="#F6FBFF" />
       <rect
         x={outer.x}
         y={outer.y}
@@ -59,7 +59,7 @@ export default function RevenueYearOneChart({ className = "" }) {
         height={outer.h}
         rx={outer.r}
         fill="#FFFFFF"
-        stroke="rgba(0,0,0,0.08)"
+        stroke="rgba(14,165,233,0.22)"
       />
 
       {/* Title */}
@@ -68,7 +68,7 @@ export default function RevenueYearOneChart({ className = "" }) {
         y={title.y}
         fontSize="18"
         fontFamily="ui-sans-serif, system-ui"
-        fill="rgba(0,0,0,0.82)"
+        fill="rgba(3,34,53,0.9)"
         fontWeight="700"
       >
         Projected Revenue — Year One (Illustrative)
@@ -78,7 +78,7 @@ export default function RevenueYearOneChart({ className = "" }) {
         y={subtitle.y}
         fontSize="12"
         fontFamily="ui-sans-serif, system-ui"
-        fill="rgba(0,0,0,0.55)"
+        fill="rgba(3,34,53,0.55)"
       >
         Illustrative estimates for pitch narrative — not audited financials.
       </text>
@@ -91,7 +91,7 @@ export default function RevenueYearOneChart({ className = "" }) {
           y="10"
           fontSize="11"
           fontFamily="ui-sans-serif, system-ui"
-          fill="rgba(0,0,0,0.60)"
+          fill="rgba(3,34,53,0.62)"
         >
           Gross
         </text>
@@ -102,7 +102,7 @@ export default function RevenueYearOneChart({ className = "" }) {
           y="10"
           fontSize="11"
           fontFamily="ui-sans-serif, system-ui"
-          fill="rgba(0,0,0,0.60)"
+          fill="rgba(3,34,53,0.62)"
         >
           Net (after costs)
         </text>
@@ -115,8 +115,8 @@ export default function RevenueYearOneChart({ className = "" }) {
         width={plot.w}
         height={plot.h}
         rx={plot.r}
-        fill="#FAFAFA"
-        stroke="rgba(0,0,0,0.06)"
+        fill="#F8FCFF"
+        stroke="rgba(14,165,233,0.14)"
       />
 
       {/* Y axis labels + grid */}
@@ -129,7 +129,7 @@ export default function RevenueYearOneChart({ className = "" }) {
               y1={y}
               x2={plot.x + plot.w - 20}
               y2={y}
-              stroke="rgba(0,0,0,0.08)"
+              stroke="rgba(14,165,233,0.18)"
               strokeWidth="1"
             />
             <text
@@ -137,7 +137,7 @@ export default function RevenueYearOneChart({ className = "" }) {
               y={y + 4}
               fontSize="10"
               fontFamily="ui-sans-serif, system-ui"
-              fill="rgba(0,0,0,0.50)"
+              fill="rgba(3,34,53,0.52)"
               textAnchor="start"
             >
               {fmt(v)}
@@ -152,7 +152,7 @@ export default function RevenueYearOneChart({ className = "" }) {
         y1={chartBaseY}
         x2={plot.x + plot.w - 20}
         y2={chartBaseY}
-        stroke="rgba(0,0,0,0.12)"
+        stroke="rgba(3,34,53,0.18)"
         strokeWidth="1"
       />
 
@@ -171,20 +171,24 @@ export default function RevenueYearOneChart({ className = "" }) {
         return (
           <g key={q.label}>
             <rect
+              className="chart-bar"
               x={grossX}
               y={grossY}
               width={barW}
               height={grossH}
               rx="12"
               fill={grossFill}
+              style={{ animationDelay: `${0.12 + idx * 0.14}s` }}
             />
             <rect
+              className="chart-bar"
               x={netX}
               y={netY}
               width={barW}
               height={netH}
               rx="12"
               fill={netFill}
+              style={{ animationDelay: `${0.2 + idx * 0.14}s` }}
             />
 
             {/* Value labels */}
@@ -194,7 +198,7 @@ export default function RevenueYearOneChart({ className = "" }) {
               textAnchor="middle"
               fontSize="10"
               fontFamily="ui-sans-serif, system-ui"
-              fill="rgba(0,0,0,0.55)"
+              fill="rgba(3,34,53,0.62)"
             >
               {fmt(q.gross)}
             </text>
@@ -204,7 +208,7 @@ export default function RevenueYearOneChart({ className = "" }) {
               textAnchor="middle"
               fontSize="10"
               fontFamily="ui-sans-serif, system-ui"
-              fill="rgba(0,0,0,0.55)"
+              fill="rgba(3,34,53,0.62)"
             >
               {fmt(q.net)}
             </text>
@@ -216,7 +220,7 @@ export default function RevenueYearOneChart({ className = "" }) {
               textAnchor="middle"
               fontSize="11"
               fontFamily="ui-sans-serif, system-ui"
-              fill="rgba(0,0,0,0.55)"
+              fill="rgba(3,34,53,0.58)"
             >
               {q.label}
             </text>
@@ -231,15 +235,15 @@ export default function RevenueYearOneChart({ className = "" }) {
         width={footer.w}
         height={footer.h}
         rx={footer.r}
-        fill="rgba(0,0,0,0.04)"
-        stroke="rgba(0,0,0,0.06)"
+        fill="rgba(14,165,233,0.08)"
+        stroke="rgba(14,165,233,0.16)"
       />
       <text
         x={footer.x + 18}
         y={footer.y + 19}
         fontSize="12"
         fontFamily="ui-sans-serif, system-ui"
-        fill="rgba(0,0,0,0.62)"
+        fill="rgba(3,34,53,0.62)"
       >
         Phase 2: replace with validated unit economics (CAC/LTV, take-rate,
         margin, churn, cohorts).
