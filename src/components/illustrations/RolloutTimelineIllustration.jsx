@@ -39,7 +39,7 @@ export default function RolloutTimelineIllustration({
                 width="920"
                 height="360"
                 rx="24"
-                fill="#FAFAFA"
+                fill="#F6FBFF"
               />
               <rect
                 x="18"
@@ -48,7 +48,7 @@ export default function RolloutTimelineIllustration({
                 height="324"
                 rx="20"
                 fill="#FFFFFF"
-                stroke="rgba(0,0,0,0.08)"
+                stroke="rgba(14,165,233,0.2)"
               />
 
               <text
@@ -56,7 +56,7 @@ export default function RolloutTimelineIllustration({
                 y="70"
                 fontSize="18"
                 fontFamily="ui-sans-serif, system-ui"
-                fill="rgba(0,0,0,0.82)"
+                fill="rgba(3,34,53,0.9)"
                 fontWeight="700"
               >
                 Projected Rollout Schedule (Illustrative)
@@ -66,7 +66,7 @@ export default function RolloutTimelineIllustration({
                 y="94"
                 fontSize="12"
                 fontFamily="ui-sans-serif, system-ui"
-                fill="rgba(0,0,0,0.55)"
+                fill="rgba(3,34,53,0.55)"
               >
                 Phase 1: narrative + mock visuals • Phase 2: validated
                 dependencies & execution plan
@@ -77,16 +77,17 @@ export default function RolloutTimelineIllustration({
                 y1="150"
                 x2="830"
                 y2="150"
-                stroke="rgba(0,0,0,0.14)"
+                stroke="rgba(14,165,233,0.2)"
                 strokeWidth="10"
                 strokeLinecap="round"
               />
               <line
+                className="progress-rail"
                 x1="90"
                 y1="150"
                 x2="465"
                 y2="150"
-                stroke="rgba(0,0,0,0.20)"
+                stroke="rgba(14,165,233,0.5)"
                 strokeWidth="10"
                 strokeLinecap="round"
               />
@@ -97,14 +98,23 @@ export default function RolloutTimelineIllustration({
                 return (
                   <g key={n.label}>
                     <circle
+                      className="node-pop"
                       cx={x}
                       cy={150}
                       r={14}
                       fill="#FFFFFF"
-                      stroke="rgba(0,0,0,0.25)"
+                      stroke="rgba(14,165,233,0.45)"
                       strokeWidth="2"
+                      style={{ animationDelay: `${i * 0.14}s` }}
                     />
-                    <circle cx={x} cy={150} r={6} fill="rgba(0,0,0,0.35)" />
+                    <circle
+                      className="node-core-pulse"
+                      cx={x}
+                      cy={150}
+                      r={6}
+                      fill="rgba(20,184,166,0.9)"
+                      style={{ animationDelay: `${i * 0.12}s` }}
+                    />
 
                     <text
                       x={x}
@@ -112,20 +122,22 @@ export default function RolloutTimelineIllustration({
                       textAnchor="middle"
                       fontSize="11"
                       fontFamily="ui-sans-serif, system-ui"
-                      fill="rgba(0,0,0,0.55)"
+                      fill="rgba(3,34,53,0.58)"
                       fontWeight="700"
                     >
                       {n.label}
                     </text>
 
                     <rect
+                      className="milestone-card"
                       x={x - 82}
                       y={178}
                       width={164}
                       height={58}
                       rx={14}
                       fill="#FFFFFF"
-                      stroke="rgba(0,0,0,0.08)"
+                      stroke="rgba(14,165,233,0.2)"
+                      style={{ animationDelay: `${0.2 + i * 0.1}s` }}
                     />
                     <text
                       x={x}
@@ -133,7 +145,7 @@ export default function RolloutTimelineIllustration({
                       textAnchor="middle"
                       fontSize="11.5"
                       fontFamily="ui-sans-serif, system-ui"
-                      fill="rgba(0,0,0,0.78)"
+                      fill="rgba(3,34,53,0.84)"
                       fontWeight="700"
                     >
                       {n.title}
@@ -144,7 +156,7 @@ export default function RolloutTimelineIllustration({
                       textAnchor="middle"
                       fontSize="10"
                       fontFamily="ui-sans-serif, system-ui"
-                      fill="rgba(0,0,0,0.50)"
+                      fill="rgba(3,34,53,0.54)"
                     >
                       milestone
                     </text>
@@ -158,15 +170,15 @@ export default function RolloutTimelineIllustration({
                 width="816"
                 height="44"
                 rx={16}
-                fill="rgba(0,0,0,0.04)"
-                stroke="rgba(0,0,0,0.06)"
+                fill="rgba(14,165,233,0.08)"
+                stroke="rgba(14,165,233,0.16)"
               />
               <text
                 x="70"
                 y="305"
                 fontSize="12"
                 fontFamily="ui-sans-serif, system-ui"
-                fill="rgba(0,0,0,0.62)"
+                fill="rgba(3,34,53,0.64)"
               >
                 Phase 2: add hiring plan, data pipeline readiness, vendor
                 onboarding, acquisition integration steps, and KPI gates.
