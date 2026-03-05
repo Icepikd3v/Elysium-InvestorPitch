@@ -15,7 +15,7 @@ export default function MarketOpportunityIllustration({
         preserveAspectRatio="xMidYMid meet"
       >
         {/* Outer + inner card */}
-        <rect x="0" y="0" width="920" height="360" rx="24" fill="#FAFAFA" />
+        <rect x="0" y="0" width="920" height="360" rx="24" fill="#F7FCFF" />
         <rect
           x="18"
           y="18"
@@ -23,7 +23,7 @@ export default function MarketOpportunityIllustration({
           height="324"
           rx="20"
           fill="#FFFFFF"
-          stroke="rgba(0,0,0,0.08)"
+          stroke="rgba(14,165,233,0.2)"
         />
 
         {/* Title + subtitle */}
@@ -32,7 +32,7 @@ export default function MarketOpportunityIllustration({
           y="70"
           fontSize="18"
           fontFamily="ui-sans-serif, system-ui"
-          fill="rgba(0,0,0,0.82)"
+          fill="rgba(7,44,71,0.9)"
           fontWeight="700"
         >
           Market Opportunity (Illustrative)
@@ -42,7 +42,7 @@ export default function MarketOpportunityIllustration({
           y="94"
           fontSize="12"
           fontFamily="ui-sans-serif, system-ui"
-          fill="rgba(0,0,0,0.55)"
+          fill="rgba(7,44,71,0.55)"
         >
           Phase 2: replace placeholders with validated TAM/SAM/SOM + wedge
           sizing
@@ -50,9 +50,27 @@ export default function MarketOpportunityIllustration({
 
         {/* Rings */}
         <g transform="translate(250 210)">
-          <circle cx="0" cy="0" r="112" fill="rgba(0,0,0,0.06)" />
-          <circle cx="0" cy="0" r="78" fill="rgba(0,0,0,0.10)" />
-          <circle cx="0" cy="0" r="44" fill="rgba(0,0,0,0.18)" />
+          <circle
+            className="ring-pulse-slow"
+            cx="0"
+            cy="0"
+            r="112"
+            fill="rgba(14,165,233,0.2)"
+          />
+          <circle
+            className="ring-pulse-mid"
+            cx="0"
+            cy="0"
+            r="78"
+            fill="rgba(20,184,166,0.28)"
+          />
+          <circle
+            className="ring-pulse-fast"
+            cx="0"
+            cy="0"
+            r="44"
+            fill="rgba(99,102,241,0.35)"
+          />
 
           <text
             x="0"
@@ -60,7 +78,7 @@ export default function MarketOpportunityIllustration({
             textAnchor="middle"
             fontSize="12"
             fontFamily="ui-sans-serif, system-ui"
-            fill="rgba(0,0,0,0.62)"
+            fill="rgba(7,44,71,0.66)"
             fontWeight="600"
           >
             TAM
@@ -71,7 +89,7 @@ export default function MarketOpportunityIllustration({
             textAnchor="middle"
             fontSize="12"
             fontFamily="ui-sans-serif, system-ui"
-            fill="rgba(0,0,0,0.70)"
+            fill="rgba(7,44,71,0.75)"
             fontWeight="600"
           >
             SAM
@@ -82,7 +100,7 @@ export default function MarketOpportunityIllustration({
             textAnchor="middle"
             fontSize="12"
             fontFamily="ui-sans-serif, system-ui"
-            fill="rgba(0,0,0,0.80)"
+            fill="rgba(7,44,71,0.84)"
             fontWeight="700"
           >
             SOM
@@ -90,8 +108,9 @@ export default function MarketOpportunityIllustration({
 
           {/* wedge highlight */}
           <path
+            className="wedge-pop"
             d="M 0 0 L 110 -20 A 112 112 0 0 1 45 103 Z"
-            fill="rgba(0,0,0,0.16)"
+            fill="rgba(245,158,11,0.58)"
           />
         </g>
 
@@ -104,14 +123,14 @@ export default function MarketOpportunityIllustration({
             height="58"
             rx="18"
             fill="#FFFFFF"
-            stroke="rgba(0,0,0,0.08)"
+            stroke="rgba(14,165,233,0.2)"
           />
           <text
             x="482"
             y="154"
             fontSize="12"
             fontFamily="ui-sans-serif, system-ui"
-            fill="rgba(0,0,0,0.78)"
+            fill="rgba(7,44,71,0.84)"
             fontWeight="700"
           >
             TAM
@@ -121,7 +140,7 @@ export default function MarketOpportunityIllustration({
             y="154"
             fontSize="12"
             fontFamily="ui-sans-serif, system-ui"
-            fill="rgba(0,0,0,0.60)"
+            fill="rgba(7,44,71,0.64)"
           >
             Total addressable market • {tam}
           </text>
@@ -133,14 +152,14 @@ export default function MarketOpportunityIllustration({
             height="58"
             rx="18"
             fill="#FFFFFF"
-            stroke="rgba(0,0,0,0.08)"
+            stroke="rgba(20,184,166,0.2)"
           />
           <text
             x="482"
             y="226"
             fontSize="12"
             fontFamily="ui-sans-serif, system-ui"
-            fill="rgba(0,0,0,0.78)"
+            fill="rgba(7,44,71,0.84)"
             fontWeight="700"
           >
             SAM
@@ -150,7 +169,7 @@ export default function MarketOpportunityIllustration({
             y="226"
             fontSize="12"
             fontFamily="ui-sans-serif, system-ui"
-            fill="rgba(0,0,0,0.60)"
+            fill="rgba(7,44,71,0.64)"
           >
             Serviceable market • {sam}
           </text>
@@ -162,14 +181,14 @@ export default function MarketOpportunityIllustration({
             height="58"
             rx="18"
             fill="#FFFFFF"
-            stroke="rgba(0,0,0,0.08)"
+            stroke="rgba(99,102,241,0.2)"
           />
           <text
             x="482"
             y="298"
             fontSize="12"
             fontFamily="ui-sans-serif, system-ui"
-            fill="rgba(0,0,0,0.78)"
+            fill="rgba(7,44,71,0.84)"
             fontWeight="700"
           >
             SOM
@@ -179,7 +198,7 @@ export default function MarketOpportunityIllustration({
             y="298"
             fontSize="12"
             fontFamily="ui-sans-serif, system-ui"
-            fill="rgba(0,0,0,0.60)"
+            fill="rgba(7,44,71,0.64)"
           >
             Obtainable market • {som} • {wedge}
           </text>

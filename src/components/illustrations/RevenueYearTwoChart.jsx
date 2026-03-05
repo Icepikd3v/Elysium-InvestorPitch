@@ -15,8 +15,8 @@ export default function RevenueYearTwoChart({ className = "" }) {
 
   const footer = { x: 52, y: 312, w: 816, h: 28, r: 14 };
 
-  const grossFill = "rgba(0,0,0,0.55)";
-  const netFill = "rgba(0,0,0,0.18)";
+  const grossFill = "#6366F1";
+  const netFill = "#22C55E";
 
   const years = [
     { label: "Year 1", gross: 26.7, net: 13.3 },
@@ -46,7 +46,7 @@ export default function RevenueYearTwoChart({ className = "" }) {
       aria-label="Year 1 vs Year 2 revenue projection mock"
       preserveAspectRatio="xMidYMid meet"
     >
-      <rect x="0" y="0" width={W} height={H} rx="24" fill="#FAFAFA" />
+      <rect x="0" y="0" width={W} height={H} rx="24" fill="#F8F9FF" />
       <rect
         x={outer.x}
         y={outer.y}
@@ -54,7 +54,7 @@ export default function RevenueYearTwoChart({ className = "" }) {
         height={outer.h}
         rx={outer.r}
         fill="#FFFFFF"
-        stroke="rgba(0,0,0,0.08)"
+        stroke="rgba(99,102,241,0.2)"
       />
 
       <text
@@ -62,7 +62,7 @@ export default function RevenueYearTwoChart({ className = "" }) {
         y={title.y}
         fontSize="18"
         fontFamily="ui-sans-serif, system-ui"
-        fill="rgba(0,0,0,0.82)"
+        fill="rgba(32,30,92,0.9)"
         fontWeight="700"
       >
         Revenue Projection — Year 1 vs Year 2 (Illustrative)
@@ -72,7 +72,7 @@ export default function RevenueYearTwoChart({ className = "" }) {
         y={subtitle.y}
         fontSize="12"
         fontFamily="ui-sans-serif, system-ui"
-        fill="rgba(0,0,0,0.55)"
+        fill="rgba(32,30,92,0.55)"
       >
         Illustrative estimates — replace with validated model + assumptions.
       </text>
@@ -85,7 +85,7 @@ export default function RevenueYearTwoChart({ className = "" }) {
           y="10"
           fontSize="11"
           fontFamily="ui-sans-serif, system-ui"
-          fill="rgba(0,0,0,0.60)"
+          fill="rgba(32,30,92,0.62)"
         >
           Gross
         </text>
@@ -96,7 +96,7 @@ export default function RevenueYearTwoChart({ className = "" }) {
           y="10"
           fontSize="11"
           fontFamily="ui-sans-serif, system-ui"
-          fill="rgba(0,0,0,0.60)"
+          fill="rgba(32,30,92,0.62)"
         >
           Net (after costs)
         </text>
@@ -108,8 +108,8 @@ export default function RevenueYearTwoChart({ className = "" }) {
         width={plot.w}
         height={plot.h}
         rx={plot.r}
-        fill="#FAFAFA"
-        stroke="rgba(0,0,0,0.06)"
+        fill="#F6F7FF"
+        stroke="rgba(99,102,241,0.14)"
       />
 
       {/* Y axis labels + grid */}
@@ -122,7 +122,7 @@ export default function RevenueYearTwoChart({ className = "" }) {
               y1={y}
               x2={plot.x + plot.w - 20}
               y2={y}
-              stroke="rgba(0,0,0,0.08)"
+              stroke="rgba(99,102,241,0.17)"
               strokeWidth="1"
             />
             <text
@@ -130,7 +130,7 @@ export default function RevenueYearTwoChart({ className = "" }) {
               y={y + 4}
               fontSize="10"
               fontFamily="ui-sans-serif, system-ui"
-              fill="rgba(0,0,0,0.50)"
+              fill="rgba(32,30,92,0.5)"
               textAnchor="start"
             >
               {fmt(v)}
@@ -144,7 +144,7 @@ export default function RevenueYearTwoChart({ className = "" }) {
         y1={chartBaseY}
         x2={plot.x + plot.w - 20}
         y2={chartBaseY}
-        stroke="rgba(0,0,0,0.12)"
+        stroke="rgba(32,30,92,0.2)"
         strokeWidth="1"
       />
 
@@ -162,20 +162,24 @@ export default function RevenueYearTwoChart({ className = "" }) {
         return (
           <g key={y.label}>
             <rect
+              className="chart-bar"
               x={grossX}
               y={grossY}
               width={barW}
               height={grossH}
               rx="14"
               fill={grossFill}
+              style={{ animationDelay: `${0.2 + idx * 0.2}s` }}
             />
             <rect
+              className="chart-bar"
               x={netX}
               y={netY}
               width={barW}
               height={netH}
               rx="14"
               fill={netFill}
+              style={{ animationDelay: `${0.3 + idx * 0.2}s` }}
             />
 
             <text
@@ -184,7 +188,7 @@ export default function RevenueYearTwoChart({ className = "" }) {
               textAnchor="middle"
               fontSize="10"
               fontFamily="ui-sans-serif, system-ui"
-              fill="rgba(0,0,0,0.55)"
+              fill="rgba(32,30,92,0.62)"
             >
               {fmt(y.gross)}
             </text>
@@ -194,7 +198,7 @@ export default function RevenueYearTwoChart({ className = "" }) {
               textAnchor="middle"
               fontSize="10"
               fontFamily="ui-sans-serif, system-ui"
-              fill="rgba(0,0,0,0.55)"
+              fill="rgba(32,30,92,0.62)"
             >
               {fmt(y.net)}
             </text>
@@ -205,7 +209,7 @@ export default function RevenueYearTwoChart({ className = "" }) {
               textAnchor="middle"
               fontSize="11"
               fontFamily="ui-sans-serif, system-ui"
-              fill="rgba(0,0,0,0.55)"
+              fill="rgba(32,30,92,0.56)"
             >
               {y.label}
             </text>
@@ -219,15 +223,15 @@ export default function RevenueYearTwoChart({ className = "" }) {
         width={footer.w}
         height={footer.h}
         rx={footer.r}
-        fill="rgba(0,0,0,0.04)"
-        stroke="rgba(0,0,0,0.06)"
+        fill="rgba(99,102,241,0.08)"
+        stroke="rgba(99,102,241,0.16)"
       />
       <text
         x={footer.x + 18}
         y={footer.y + 19}
         fontSize="12"
         fontFamily="ui-sans-serif, system-ui"
-        fill="rgba(0,0,0,0.62)"
+        fill="rgba(32,30,92,0.62)"
       >
         Phase 2: validate forecast + assumptions (margin, take-rate, CAC/LTV,
         churn, cohorts).

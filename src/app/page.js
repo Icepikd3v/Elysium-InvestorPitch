@@ -2,20 +2,12 @@
 
 import ClientNav from "@/components/ClientNav";
 
-import AIBrainDiagram from "@/components/illustrations/AIBrainDiagram";
-import MallLaptopMock from "@/components/illustrations/MallLaptopMock";
-import MallMobileMock from "@/components/illustrations/MallMobileMock";
-import DigitalStorefront from "@/components/illustrations/DigitalStorefront";
-
 import RolloutTimelineIllustration from "@/components/illustrations/RolloutTimelineIllustration";
 import RevenueYearOneChartMock from "@/components/illustrations/RevenueYearOneChart";
 import RevenueYear1Year2ChartMock from "@/components/illustrations/RevenueYearTwoChart";
 import RaiseFlowIllustration from "@/components/illustrations/RaiseFlowIllustration";
 import MarketOpportunityIllustration from "@/components/illustrations/MarketOpportunityIllustration";
-
-import RevenueModelIllustration from "@/components/illustrations/RevenueModelIllustration";
-import AvatarTryOnLaptopMock from "@/components/illustrations/AvatarTryOnLaptopMock";
-import AvatarTryOnMobileMock from "@/components/illustrations/AvatarTryOnMobileMock";
+import IllustrationImage from "@/components/illustrations/IllustrationImage";
 
 /**
  * Phase 1 Investor Website (Pitch Narrative + Illustration-Forward)
@@ -25,19 +17,47 @@ import AvatarTryOnMobileMock from "@/components/illustrations/AvatarTryOnMobileM
  * - Phase 2 swaps in real system diagrams, validated metrics, and implemented backend architecture.
  */
 
-const DEMO_URL = "https://demo.elysium-digitalglobal.com"; // Smart Mall mock experience (Elysium-prototype)
+const DEMO_URL = "https://demo.elysium-digitalglobal.com"; // Smart Mall mock experience domain
 
 const SECTIONS = [
   { id: "cover", label: "Overview" },
   { id: "problem", label: "Problem" },
   { id: "solution", label: "Solution" },
-  { id: "product", label: "Experience" },
+  { id: "product", label: "Smart Mall" },
   { id: "ai", label: "AI Brain" },
-  { id: "avatar", label: "Try-On" },
+  { id: "avatar", label: "Shop Experience" },
   { id: "gtm", label: "Go-to-market" },
   { id: "rollout", label: "Rollout" },
   { id: "financials", label: "Financials" },
   { id: "raise", label: "Raise" },
+  { id: "investor-information", label: "Investor Information" },
+  { id: "backend", label: "Platform" },
+  { id: "team", label: "Team" },
+  { id: "contact", label: "Contact" },
+];
+
+const NAV_ITEMS = [
+  {
+    label: "Overview",
+    children: [
+      { id: "cover", label: "Overview" },
+      { id: "problem", label: "Problem" },
+      { id: "solution", label: "Solution" },
+    ],
+  },
+  {
+    label: "Experience",
+    children: [
+      { id: "ai", label: "AI Brain" },
+      { id: "avatar", label: "Shop Experience" },
+    ],
+  },
+  { id: "product", label: "Smart Mall" },
+  { id: "gtm", label: "Go-to-market" },
+  { id: "rollout", label: "Rollout" },
+  { id: "financials", label: "Financials" },
+  { id: "raise", label: "Raise" },
+  { id: "investor-information", label: "Investor Information" },
   { id: "backend", label: "Platform" },
   { id: "team", label: "Team" },
   { id: "contact", label: "Contact" },
@@ -140,6 +160,36 @@ function MiniBarRow({ label, valuePct, meta }) {
   );
 }
 
+function VisualPlaceholder({ title, fileName, prototypeTarget, note, animated }) {
+  return (
+    <div className="relative flex h-full w-full items-center justify-center rounded-2xl border border-dashed border-black/20 bg-gradient-to-br from-white to-black/5 p-5">
+      <div className="w-full max-w-xl rounded-2xl border border-black/10 bg-white/90 p-5 shadow-sm backdrop-blur">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h4 className="text-sm font-semibold text-black/85">{title}</h4>
+          <span className="rounded-full border border-black/10 bg-black/5 px-2.5 py-1 text-[11px] text-black/65">
+            Placeholder
+          </span>
+        </div>
+        <div className="mt-3 space-y-2 text-xs text-black/70">
+          <div>
+            <strong>Capture from prototype:</strong> {prototypeTarget}
+          </div>
+          <div>
+            <strong>Save as:</strong> <code>{fileName}</code>
+          </div>
+          {animated ? (
+            <div>
+              <strong>Format:</strong> animated MP4/WebM/GIF (autoplay loop
+              muted)
+            </div>
+          ) : null}
+          {note ? <div>{note}</div> : null}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#fafafa] text-black">
@@ -158,7 +208,7 @@ export default function Home() {
             </div>
           </a>
 
-          <ClientNav sections={SECTIONS} />
+          <ClientNav sections={SECTIONS} items={NAV_ITEMS} />
 
           <a
             href="#contact"
@@ -274,9 +324,12 @@ export default function Home() {
             </div>
 
             <div className="rounded-3xl border border-black/10 bg-[#fafafa] p-4">
-              {/* NOTE: for perfect fill, render DigitalStorefront as image variant */}
               <div className="h-[360px] md:h-[380px]">
-                <DigitalStorefront variant="image" />
+                <IllustrationImage
+                  src="/illustrations/store2.png"
+                  alt="Smart mall storefront hero visual"
+                  fit="cover"
+                />
               </div>
               <div className="mt-3 flex items-center justify-between px-1 text-xs text-black/60">
                 <span>Digital Storefront (Mock UI)</span>
@@ -539,17 +592,24 @@ export default function Home() {
           <div className="md:col-span-5">
             <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
               <div className="h-[320px]">
-                <DigitalStorefront variant="image" />
+                <IllustrationImage
+                  src="/illustrations/store3.png"
+                  alt="Smart mall preview visual"
+                  fit="cover"
+                />
               </div>
             </div>
           </div>
         </div>
 
-        {/* ✅ Updated: ONE large hero image */}
         <div className="mt-8">
           <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="h-[420px] md:h-[560px]">
-              <MallLaptopMock variant="image" fit="contain" />
+              <IllustrationImage
+                src="/illustrations/product1.png"
+                alt="Smart mall desktop hero showing curated product grid"
+                fit="cover"
+              />
             </div>
             <div className="mt-3 px-1 text-xs text-black/60">
               Smart Mall Mock (Hero) — click to expand
@@ -588,7 +648,11 @@ export default function Home() {
           <div className="md:col-span-7">
             <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
               <div className="h-[420px] md:h-[460px]">
-                <AIBrainDiagram variant="image" fit="contain" />
+                <IllustrationImage
+                  src="/illustrations/AI Personalize.png"
+                  alt="AI brain personalization panel and recommendation signals"
+                  fit="contain"
+                />
               </div>
             </div>
 
@@ -623,13 +687,14 @@ export default function Home() {
             </Card>
           </div>
         </div>
+
       </SectionShell>
 
-      {/* Avatar */}
+      {/* Shop Experience */}
       <SectionShell id="avatar">
         <SectionHeader
-          kicker="Try-on concept"
-          title="Avatar-based confidence to reduce returns"
+          kicker="Shop experience"
+          title="Avatar-based shop experience to reduce returns"
           subtitle="Phase 1 communicates the concept. Phase 2 formalizes privacy, opt-in, storage policy, and rendering pipeline."
           right={
             <>
@@ -708,13 +773,23 @@ export default function Home() {
         <div className="mt-8 grid gap-6 md:grid-cols-12">
           <div className="md:col-span-7 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="h-[360px] md:h-[420px]">
-              <AvatarTryOnLaptopMock />
+              <IllustrationImage
+                src="/illustrations/Product2.png"
+                alt="Shop experience desktop product cards and add-to-cart flow"
+                fit="cover"
+              />
             </div>
           </div>
 
-          <div className="md:col-span-5 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="shop-experience-animated md:col-span-5 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="h-[360px] md:h-[420px]">
-              <AvatarTryOnMobileMock />
+              <VisualPlaceholder
+                title="Shop Experience Mobile (Animated)"
+                fileName="shop-experience-mobile.mp4"
+                prototypeTarget="Mobile try-on interaction sequence (rotate/look switch/add-to-cart)"
+                note="Capture 5-10 seconds and export as a loop."
+                animated
+              />
             </div>
           </div>
         </div>
@@ -728,6 +803,7 @@ export default function Home() {
             generation → preview rendering → retention & deletion policy.
           </div>
         </div>
+
       </SectionShell>
 
       {/* GTM */}
@@ -778,6 +854,34 @@ export default function Home() {
             Better predictability → better conversion → stronger vendor demand.
           </Card>
         </div>
+
+        <div className="mt-8 grid gap-6 md:grid-cols-2">
+          <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="h-[300px] md:h-[360px]">
+              <IllustrationImage
+                src="/illustrations/Prong1.png"
+                alt="Pitch deck slide summarizing prong one traditional marketing development"
+                fit="contain"
+              />
+            </div>
+            <div className="mt-3 text-xs text-black/60">
+              Deck support visual: Prong One traditional marketing.
+            </div>
+          </div>
+
+          <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="h-[300px] md:h-[360px]">
+              <IllustrationImage
+                src="/illustrations/prong2-3.png"
+                alt="Pitch deck slide summarizing prong two and three acquisition strategy"
+                fit="contain"
+              />
+            </div>
+            <div className="mt-3 text-xs text-black/60">
+              Deck support visual: Prong Two and Prong Three acquisitions.
+            </div>
+          </div>
+        </div>
       </SectionShell>
 
       {/* Rollout */}
@@ -798,7 +902,7 @@ export default function Home() {
         <div className="mt-8 grid gap-6 md:grid-cols-12">
           <div className="md:col-span-7 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="h-[420px] md:h-[460px]">
-              <RolloutTimelineIllustration variant="image" fit="contain" />
+              <RolloutTimelineIllustration variant="svg" mode="fill" />
             </div>
           </div>
 
@@ -816,6 +920,7 @@ export default function Home() {
             </Card>
           </div>
         </div>
+
       </SectionShell>
 
       {/* Financials */}
@@ -853,7 +958,24 @@ export default function Home() {
 
         <div className="mt-6 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
           <div className="h-[440px] md:h-[520px]">
-            <RevenueModelIllustration />
+            <IllustrationImage
+              src="/illustrations/graph4.png"
+              alt="Revenue projections year one and two from investor deck"
+              fit="contain"
+            />
+          </div>
+        </div>
+
+        <div className="mt-6 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="h-[420px] md:h-[500px]">
+            <IllustrationImage
+              src="/illustrations/model2.png"
+              alt="Business model and revenue sequence slide from pitch deck"
+              fit="contain"
+            />
+          </div>
+          <div className="mt-3 text-xs text-black/60">
+            Business model slide from current pitch deck export.
           </div>
         </div>
 
@@ -1019,6 +1141,89 @@ export default function Home() {
         </div>
       </SectionShell>
 
+      {/* Investor Information */}
+      <SectionShell id="investor-information">
+        <SectionHeader
+          kicker="Investor Information"
+          title="Pathway for going public"
+          subtitle="Illustrative pathway for readiness, reporting discipline, and exchange qualification milestones."
+          right={
+            <>
+              <Pill>Governance</Pill>
+              <Pill>Reporting</Pill>
+              <Pill>Listing readiness</Pill>
+            </>
+          }
+        />
+
+        <div className="mt-8 grid gap-6 md:grid-cols-12">
+          <div className="md:col-span-7 rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+            <div className="text-sm font-semibold text-black/90">
+              Illustrative public-market pathway
+            </div>
+            <div className="mt-5 space-y-4">
+              <div className="rounded-2xl border border-black/10 bg-black/5 p-4">
+                <div className="text-xs font-medium uppercase tracking-wide text-black/45">
+                  Stage 1
+                </div>
+                <div className="mt-1 text-sm font-semibold text-black/85">
+                  Governance + controls baseline
+                </div>
+                <div className="mt-1 text-xs text-black/60">
+                  Board structure, accounting controls, audit preparation, and
+                  legal readiness.
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-black/10 bg-black/5 p-4">
+                <div className="text-xs font-medium uppercase tracking-wide text-black/45">
+                  Stage 2
+                </div>
+                <div className="mt-1 text-sm font-semibold text-black/85">
+                  OTC-readiness (if pursued)
+                </div>
+                <div className="mt-1 text-xs text-black/60">
+                  Reporting cadence, disclosures, compliance calendar, and
+                  investor communications discipline.
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-black/10 bg-black/5 p-4">
+                <div className="text-xs font-medium uppercase tracking-wide text-black/45">
+                  Stage 3
+                </div>
+                <div className="mt-1 text-sm font-semibold text-black/85">
+                  Uplisting pathway (if criteria are met)
+                </div>
+                <div className="mt-1 text-xs text-black/60">
+                  Revenue, governance, and reporting thresholds aligned with
+                  exchange qualification standards.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="md:col-span-5 grid gap-6">
+            <Card title="Investor diligence package">
+              <BulletList
+                items={[
+                  "Corporate structure, cap table, and governance framework",
+                  "Audited/attestable financial package and controls documentation",
+                  "Risk disclosures: product, privacy, compliance, and execution",
+                  "Milestone map tied to capital plan and growth assumptions",
+                ]}
+              />
+            </Card>
+
+            <Card title="Important note" right="Illustrative only">
+              This section is not legal, tax, or securities advice. Counsel and
+              qualified advisors should define jurisdiction-specific listing and
+              reporting requirements.
+            </Card>
+          </div>
+        </div>
+      </SectionShell>
+
       {/* Platform / Backend */}
       <SectionShell id="backend">
         <SectionHeader
@@ -1162,7 +1367,7 @@ export default function Home() {
               Phase-1 deck).
             </Card>
 
-            <Card title="Kori Rivera — Director of Marketing">
+            <Card title="Kori Rivers — Director of Marketing">
               Go-to-market leadership across tourism and consumer platforms,
               with senior marketing roles (SeaWorld, Disney as presented in
               Phase-1 deck). Leads rollout and demand creation.
@@ -1190,6 +1395,18 @@ export default function Home() {
                 Phase 2 add: org chart + hiring plan + advisors.
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className="mt-6 rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <h3 className="text-base font-semibold text-black/90">
+            Special Advisors to the Company
+          </h3>
+          <p className="mt-2 text-sm text-black/70">
+            David Cheriton, Leon Black, and Paul Erickson.
+          </p>
+          <div className="mt-2 text-xs text-black/55">
+            Advisor names are listed without summary profiles.
           </div>
         </div>
       </SectionShell>
