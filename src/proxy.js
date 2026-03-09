@@ -32,6 +32,9 @@ export function proxy(request) {
   }
 
   const session = request.cookies.get("nda_session")?.value;
+  const REQUIRE_LOGIN = process.env.INVESTOR_REQUIRE_LOGIN !== "false";
+
+  if (!REQUIRE_LOGIN) return NextResponse.next();
 
   // Not authenticated -> redirect to login
   if (session !== "authenticated") {

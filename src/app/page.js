@@ -1,5 +1,8 @@
 "use client";
 
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import ClientNav from "@/components/ClientNav";
 
 import RolloutTimelineIllustration from "@/components/illustrations/RolloutTimelineIllustration";
@@ -18,6 +21,10 @@ import IllustrationImage from "@/components/illustrations/IllustrationImage";
  */
 
 const DEMO_URL = "https://demo.elysium-digitalglobal.com"; // Smart Mall mock experience domain
+// HOLD (Kori go-live pending): keep terms gate code built but disabled for now.
+// Re-enable by switching this back to:
+// process.env.NEXT_PUBLIC_ENABLE_INVESTOR_TERMS_GATE === "true"
+const TERMS_GATE_ENABLED = false;
 
 const SECTIONS = [
   { id: "cover", label: "Overview" },
@@ -143,15 +150,51 @@ function SectionShell({ id, children }) {
   );
 }
 
-function MiniBarRow({ label, valuePct, meta }) {
+function MiniBarRow({
+  label,
+  valuePct,
+  meta,
+  fillClass = "bg-black/35",
+  delayMs = 0,
+  cycleMs = 5200,
+}) {
+  const clamped = Math.max(4, Math.min(100, valuePct));
+  const [renderWidth, setRenderWidth] = useState(0);
+
+  useEffect(() => {
+    let delayTimer;
+    let restartTimer;
+    let loopTimer;
+    let rafId;
+
+    const animateFill = () => {
+      setRenderWidth(0);
+      restartTimer = setTimeout(() => {
+        rafId = requestAnimationFrame(() => setRenderWidth(clamped));
+      }, 90 + delayMs);
+    };
+
+    delayTimer = setTimeout(() => {
+      animateFill();
+      loopTimer = setInterval(animateFill, cycleMs);
+    }, delayMs);
+
+    return () => {
+      clearTimeout(delayTimer);
+      clearTimeout(restartTimer);
+      clearInterval(loopTimer);
+      cancelAnimationFrame(rafId);
+    };
+  }, [clamped, delayMs, cycleMs]);
+
   return (
     <div className="grid grid-cols-12 items-center gap-3">
       <div className="col-span-4 text-xs text-black/60">{label}</div>
       <div className="col-span-6">
         <div className="h-2 w-full rounded-full bg-black/5">
           <div
-            className="h-2 rounded-full bg-black/25"
-            style={{ width: `${Math.max(4, Math.min(100, valuePct))}%` }}
+            className={`h-2 rounded-full transition-[width] duration-[1650ms] ease-out ${fillClass}`}
+            style={{ width: `${renderWidth}%` }}
           />
         </div>
       </div>
@@ -190,7 +233,91 @@ function VisualPlaceholder({ title, fileName, prototypeTarget, note, animated })
   );
 }
 
+function EllyBrainIllustration() {
+  const frames = [
+    {
+      src: "/illustrations/UpdateEllyBrain2.png",
+      alt: "Elly brain visual showing four simultaneous reasoning bubbles",
+      caption: "Elly Command Panel: live scan + ranking output",
+    },
+    {
+      src: "/illustrations/UpdateEllyBrain1.png",
+      alt: "Elly command panel with live scan narration and product ranking",
+      caption: "Elly Brain: 4-bubble live reasoning view",
+    },
+  ];
+
+  return (
+    <div className="rounded-2xl border border-black/10 bg-gradient-to-br from-slate-100 to-white p-3">
+      <div className="grid gap-3 md:grid-cols-2">
+        {frames.map((frame, idx) => (
+          <div
+            key={frame.src}
+            className="rounded-xl border border-black/10 bg-white/70 p-2"
+          >
+            <div className="relative h-[280px] overflow-hidden rounded-lg md:h-[320px]">
+              <IllustrationImage
+                src={frame.src}
+                alt={frame.alt}
+                fit="contain"
+                expandFit="contain"
+                unoptimized
+                className="h-full w-full"
+                sizes="(max-width: 768px) 100vw, 45vw"
+                priority={idx === 0}
+              />
+            </div>
+            <div className="mt-2 rounded-lg border border-white/40 bg-white/80 px-3 py-2 text-xs text-black/75 backdrop-blur">
+              {frame.caption}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
+  const router = useRouter();
+  const [termsStatus, setTermsStatus] = useState(
+    TERMS_GATE_ENABLED ? "pending" : "accepted",
+  );
+
+  const acceptTerms = () => {
+    setTermsStatus("accepted");
+  };
+
+  const rejectTerms = () => {
+    setTermsStatus("rejected");
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        cache: "no-store",
+      });
+    } catch {
+      // no-op: redirect regardless
+    } finally {
+      router.replace("/login");
+      router.refresh();
+    }
+  };
+
+  if (TERMS_GATE_ENABLED && termsStatus === "rejected") {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-[#fafafa] px-6 text-black">
+        <div className="max-w-xl rounded-3xl border border-black/10 bg-white p-8 text-center shadow-sm">
+          <h1 className="text-2xl font-semibold tracking-tight">Access Unavailable</h1>
+          <p className="mt-3 text-sm text-black/70">
+            Access is restricted because the terms and conditions were rejected.
+          </p>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-[#fafafa] text-black">
       {/* Nav */}
@@ -210,12 +337,21 @@ export default function Home() {
 
           <ClientNav sections={SECTIONS} items={NAV_ITEMS} />
 
-          <a
-            href="#contact"
-            className="rounded-full border border-black/15 bg-white px-4 py-2 text-sm font-medium text-black/80 hover:border-black/25"
-          >
-            Contact
-          </a>
+          <div className="flex items-center gap-2">
+            <a
+              href="#cover"
+              className="rounded-full border border-black/15 bg-white px-4 py-2 text-sm font-medium text-black/80 hover:border-black/25"
+            >
+              Home
+            </a>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="rounded-full border border-black/15 bg-white px-4 py-2 text-sm font-medium text-black/80 hover:border-black/25"
+            >
+              Logout
+            </button>
+          </div>
         </div>
 
         {/* Phase 1 disclaimer ribbon */}
@@ -444,25 +580,34 @@ export default function Home() {
           </Card>
         </div>
 
-        <div className="mt-6 rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+        <div className="mt-6 rounded-3xl border border-black/10 bg-gradient-to-br from-white via-cyan-50/70 to-amber-50/70 p-6 shadow-sm">
           <div className="text-sm font-semibold text-black/90">
-            Phase 1 framing (illustrative)
+            Phase 1 framing
           </div>
           <div className="mt-4 space-y-3">
             <MiniBarRow
               label="Returns driven by low confidence"
               valuePct={78}
               meta="High"
+              fillClass="bg-cyan-500/80"
+              delayMs={0}
+              cycleMs={5200}
             />
             <MiniBarRow
               label="Discovery is search-bar driven"
               valuePct={85}
               meta="Common"
+              fillClass="bg-fuchsia-500/75"
+              delayMs={240}
+              cycleMs={5200}
             />
             <MiniBarRow
               label="Social shopping is limited"
               valuePct={72}
               meta="Gap"
+              fillClass="bg-amber-500/80"
+              delayMs={480}
+              cycleMs={5200}
             />
           </div>
           <div className="mt-4 text-xs text-black/45">
@@ -647,13 +792,7 @@ export default function Home() {
         <div className="mt-8 grid gap-6 md:grid-cols-12">
           <div className="md:col-span-7">
             <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
-              <div className="h-[420px] md:h-[460px]">
-                <IllustrationImage
-                  src="/illustrations/AI Personalize.png"
-                  alt="AI brain personalization panel and recommendation signals"
-                  fit="contain"
-                />
-              </div>
+              <EllyBrainIllustration />
             </div>
 
             <div className="mt-4 grid gap-4 md:grid-cols-3">
@@ -1229,7 +1368,7 @@ export default function Home() {
         <SectionHeader
           kicker="Platform"
           title="What backend is required to make Elysium real"
-          subtitle="The pitch and demo are Phase 1 storytelling. A production Smart Mall requires secure accounts, commerce, data persistence, and AI pipelines."
+          subtitle="The pitch and demo are Phase 1 storytelling. A production Smart Mall requires secure accounts, commerce, data persistence, AI pipelines, and a high-fidelity rendering stack for realistic visuals (not low-poly mock quality)."
           right={
             <>
               <Pill>Auth</Pill>
@@ -1251,6 +1390,7 @@ export default function Home() {
                   "Orders: order history, fulfillment status, returns workflow",
                   "Vendor portal: onboarding, product management, analytics dashboard",
                   "Social layer: follows, sharing, lists, comments (moderation needed)",
+                  "Real-time rendering services: scene/profile delivery, variant switching, and latency-aware asset streaming",
                 ]}
               />
             </Card>
@@ -1262,11 +1402,13 @@ export default function Home() {
                   "Personalization: features + recommendation service (online inference)",
                   "Model training loop: batch training + evaluation + rollout gates",
                   "Observability: metrics, logs, tracing, anomaly detection",
+                  "Visual intelligence loop: capture fit/confidence outcomes to improve recommendations and render choices over time",
                 ]}
               />
               <div className="mt-4 rounded-2xl border border-black/10 bg-black/5 p-4 text-xs text-black/60">
-                Phase 2 upgrade: publish a simple system diagram (frontend → API
-                → DB/storage → rec engine → monitoring).
+                Phase 2 upgrade: publish a complete architecture diagram
+                (frontend/app → API/services → DB/storage → rec engine →
+                rendering/asset pipeline → monitoring).
               </div>
             </Card>
           </div>
@@ -1279,7 +1421,8 @@ export default function Home() {
                   "API layer: Next.js API routes or separate Node service (as scale grows)",
                   "Database: PostgreSQL for relational truth (users, orders, products)",
                   "Cache/queues: Redis for sessions, rate limits, job queues",
-                  "File storage: object storage for images/assets (CDN-backed)",
+                  "File storage: object storage for high-resolution assets (CDN-backed, versioned)",
+                  "Rendering pipeline: PBR material workflow, LOD strategy, texture compression, and scene streaming for realistic quality at runtime",
                   "Payments: Stripe for checkout, subscriptions, tax, webhooks",
                 ]}
               />
@@ -1301,8 +1444,8 @@ export default function Home() {
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           <Stat
             label="Phase 2 output"
-            value="Working MVP"
-            note="Auth + catalog + checkout + basic personalization."
+            value="Production-Ready Core"
+            note="Auth + catalog + checkout + personalization + high-fidelity visual pipeline."
           />
           <Stat
             label="Data persistence"
@@ -1312,7 +1455,7 @@ export default function Home() {
           <Stat
             label="Scale plan"
             value="Services + queues"
-            note="Separate rec engine, background jobs, CDN."
+            note="Separate rec engine, rendering/asset services, background jobs, CDN."
           />
         </div>
 
@@ -1323,8 +1466,9 @@ export default function Home() {
           <p className="mt-2 text-sm text-black/70">
             The differentiator (AI Brain + Smart Mall experience) only becomes
             defensible when the platform reliably supports secure commerce,
-            persistent data, and monitored AI systems. Phase 2 formalizes this
-            into architecture, implementation milestones, and measurable KPIs.
+            persistent data, monitored AI systems, and realistic high-resolution
+            rendering. Phase 2 formalizes this into architecture,
+            implementation milestones, and measurable KPIs.
           </p>
         </div>
       </SectionShell>
@@ -1368,9 +1512,7 @@ export default function Home() {
             </Card>
 
             <Card title="Kori Rivers — Director of Marketing">
-              Go-to-market leadership across tourism and consumer platforms,
-              with senior marketing roles (SeaWorld, Disney as presented in
-              Phase-1 deck). Leads rollout and demand creation.
+              (Central Florida major theme park hospitality)
             </Card>
           </div>
 
@@ -1405,9 +1547,6 @@ export default function Home() {
           <p className="mt-2 text-sm text-black/70">
             David Cheriton, Leon Black, and Paul Erickson.
           </p>
-          <div className="mt-2 text-xs text-black/55">
-            Advisor names are listed without summary profiles.
-          </div>
         </div>
       </SectionShell>
 
@@ -1457,6 +1596,44 @@ export default function Home() {
           </div>
         </div>
       </SectionShell>
+
+      {TERMS_GATE_ENABLED && termsStatus === "pending" ? (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 px-6 py-10">
+          <div className="w-full max-w-4xl rounded-3xl border border-black/10 bg-white p-5 shadow-2xl md:p-7">
+            <div className="mx-auto max-h-[56vh] overflow-auto rounded-2xl border border-black/10">
+              <Image
+                src="/illustrations/InvestorPopup.png"
+                alt="Investor terms and conditions"
+                width={1400}
+                height={1800}
+                className="h-auto w-full"
+                priority
+              />
+            </div>
+
+            <p className="mt-5 text-center text-sm font-medium text-black/85 md:text-base">
+              I have read and understand the terms and conditions and accept them.
+            </p>
+
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-center">
+              <button
+                type="button"
+                onClick={acceptTerms}
+                className="rounded-full bg-black px-7 py-3 text-sm font-semibold text-white hover:bg-black/90"
+              >
+                ACCEPT
+              </button>
+              <button
+                type="button"
+                onClick={rejectTerms}
+                className="rounded-full border border-black/20 bg-white px-7 py-3 text-sm font-semibold text-black/80 hover:border-black/35"
+              >
+                REJECT
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       <footer className="border-t border-black/10 py-10 text-center text-xs text-black/50">
         © {new Date().getFullYear()} Elysium — Phase 1 Investor Website
