@@ -141,7 +141,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full rounded-full border border-black/20 bg-white px-5 py-3 text-sm text-black placeholder:text-black/40 caret-black selection:bg-black/10 focus:border-black/40 focus:ring-0 outline-none transition"
-              placeholder="investor@elysium-digitalglobal.com"
+              placeholder=""
               required
               autoFocus
               autoComplete="username"
@@ -157,7 +157,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full rounded-full border border-black/20 bg-white px-5 py-3 text-sm text-black placeholder:text-black/40 caret-black selection:bg-black/10 focus:border-black/40 focus:ring-0 outline-none transition"
-              placeholder="••••••••••"
+              placeholder=""
               required
               autoComplete="current-password"
             />
@@ -176,13 +176,13 @@ export default function LoginPage() {
               loading ? "opacity-70 cursor-not-allowed" : "hover:bg-black/90"
             }`}
           >
-            {loading ? "Verifying..." : "Login"}
+            {loading ? "Verifying..." : "Login to Investor Site"}
           </button>
         </form>
 
         <p className="mt-6 text-xs text-center text-black/50">
-          Credentials provided under NDA. Do not share. Contact Samuel for
-          access.
+          Access credentials are provided directly to approved investors. Do not
+          share.
         </p>
       </div>
 

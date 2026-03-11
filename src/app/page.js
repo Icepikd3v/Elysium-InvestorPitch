@@ -20,7 +20,7 @@ import IllustrationImage from "@/components/illustrations/IllustrationImage";
  * - Phase 2 swaps in real system diagrams, validated metrics, and implemented backend architecture.
  */
 
-const DEMO_URL = "https://demo.elysium-digitalglobal.com"; // Smart Mall mock experience domain
+const DEMO_URL = "https://demo.elysiummall.com"; // Smart Mall mock experience domain
 // HOLD (Kori go-live pending): keep terms gate code built but disabled for now.
 // Re-enable by switching this back to:
 // process.env.NEXT_PUBLIC_ENABLE_INVESTOR_TERMS_GATE === "true"
@@ -376,10 +376,10 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center rounded-full border border-black/15 bg-white px-4 py-2 font-medium text-black/80 hover:border-black/25"
               >
-                Open Mock Smart Mall Demo ↗
+                Open Smart Mall Experience ↗
               </a>
               <div className="text-[11px] text-black/55">
-                Demo access available upon request.
+                Demo hosted at demo.elysiummall.com
               </div>
             </div>
           </div>
@@ -435,7 +435,7 @@ export default function Home() {
               </div>
 
               <div className="mt-3 text-xs text-black/60">
-                Demo access available upon request.
+                Demo hosted at demo.elysiummall.com
               </div>
 
               <div className="mt-4 max-w-xl rounded-2xl border border-black/10 bg-black/5 p-4 text-xs text-black/65">
@@ -482,7 +482,7 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="underline decoration-black/20 hover:decoration-black/40"
                   >
-                    Open demo ↗
+                    Open experience ↗
                   </a>
                 </div>
               </div>
@@ -704,7 +704,7 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className="rounded-full bg-black px-6 py-3 text-center text-sm font-semibold text-white hover:bg-black/90"
                 >
-                  Open Smart Mall Demo ↗
+                  Open Smart Mall Experience ↗
                 </a>
 
                 <a
@@ -716,8 +716,7 @@ export default function Home() {
               </div>
 
               <div className="mt-2 text-xs text-black/60">
-                Demo is a presentation prototype. Access details available upon
-                request.
+                Demo is a presentation prototype hosted at demo.elysiummall.com.
               </div>
 
               <div className="mt-5 rounded-2xl border border-black/10 bg-black/5 p-4 text-xs text-black/65">
@@ -1569,7 +1568,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Open the Smart Mall Demo ↗
+              Open the Smart Mall Experience ↗
             </a>
             <a
               className="rounded-full border border-black/15 bg-white px-7 py-3 text-sm font-semibold text-black/80 hover:border-black/25"
