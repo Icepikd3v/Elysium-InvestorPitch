@@ -15,6 +15,13 @@ export async function POST(request) {
     const envEmail = process.env.NDA_EMAIL?.trim().toLowerCase();
     const envPass = process.env.NDA_PASSWORD ?? "";
 
+    if (!envEmail || !envPass) {
+      return NextResponse.json(
+        { error: "Investor access is not configured" },
+        { status: 500 },
+      );
+    }
+
     const inputEmail = email.trim().toLowerCase();
 
     if (inputEmail === envEmail && password === envPass) {

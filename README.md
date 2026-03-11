@@ -2,6 +2,17 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+Create a local env file before running the site:
+
+```bash
+cp .env.example .env
+```
+
+Required variables:
+- `NDA_EMAIL`
+- `NDA_PASSWORD`
+- `INVESTOR_REQUIRE_LOGIN=true`
+
 First, run the development server:
 
 ```bash
@@ -15,6 +26,9 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+The login form stays blank in the live UI. Credentials should be distributed
+directly to approved investors and never committed to source control.
 
 You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
