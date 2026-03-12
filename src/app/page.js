@@ -234,23 +234,41 @@ function VisualPlaceholder({ title, fileName, prototypeTarget, note, animated })
 }
 
 function EllyBrainIllustration() {
-  const frames = [
+  const supportingFrames = [
     {
       src: "/illustrations/UpdateEllyBrain2.png",
-      alt: "Elly brain visual showing four simultaneous reasoning bubbles",
+      alt: "Elly command panel with live scan narration and product ranking",
       caption: "Elly Command Panel: live scan + ranking output",
     },
     {
-      src: "/illustrations/UpdateEllyBrain1.png",
-      alt: "Elly command panel with live scan narration and product ranking",
+      src: "/illustrations/EllyAIBrain3.png",
+      alt: "Elly brain visual showing four simultaneous reasoning bubbles",
       caption: "Elly Brain: 4-bubble live reasoning view",
     },
   ];
 
   return (
     <div className="rounded-2xl border border-black/10 bg-gradient-to-br from-slate-100 to-white p-3">
-      <div className="grid gap-3 md:grid-cols-2">
-        {frames.map((frame, idx) => (
+      <div className="rounded-xl border border-black/10 bg-white/70 p-3">
+        <div className="relative h-[320px] overflow-hidden rounded-lg md:h-[420px]">
+          <IllustrationImage
+            src="/illustrations/EllyBrain1.png"
+            alt="Primary Elly Brain render"
+            fit="contain"
+            expandFit="contain"
+            unoptimized
+            className="h-full w-full"
+            sizes="(max-width: 768px) 100vw, 70vw"
+            priority
+          />
+        </div>
+        <div className="mt-2 rounded-lg border border-white/40 bg-white/80 px-3 py-2 text-xs text-black/75 backdrop-blur">
+          Elly Brain: hero render
+        </div>
+      </div>
+
+      <div className="mt-3 grid gap-3 md:grid-cols-2">
+        {supportingFrames.map((frame) => (
           <div
             key={frame.src}
             className="rounded-xl border border-black/10 bg-white/70 p-2"
@@ -264,7 +282,6 @@ function EllyBrainIllustration() {
                 unoptimized
                 className="h-full w-full"
                 sizes="(max-width: 768px) 100vw, 45vw"
-                priority={idx === 0}
               />
             </div>
             <div className="mt-2 rounded-lg border border-white/40 bg-white/80 px-3 py-2 text-xs text-black/75 backdrop-blur">
