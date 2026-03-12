@@ -1,6 +1,9 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
+const INVESTOR_EMAIL = "investor@elysiummall.com";
+const INVESTOR_PASSWORD = "Elysium26!";
+
 export async function POST(request) {
   try {
     const { email, password } = await request.json();
@@ -12,19 +15,9 @@ export async function POST(request) {
       );
     }
 
-    const envEmail = process.env.NDA_EMAIL?.trim().toLowerCase();
-    const envPass = process.env.NDA_PASSWORD ?? "";
-
-    if (!envEmail || !envPass) {
-      return NextResponse.json(
-        { error: "Investor access is not configured" },
-        { status: 500 },
-      );
-    }
-
     const inputEmail = email.trim().toLowerCase();
 
-    if (inputEmail === envEmail && password === envPass) {
+    if (inputEmail === INVESTOR_EMAIL && password === INVESTOR_PASSWORD) {
       const cookieStore = await cookies();
 
       cookieStore.set("nda_session", "authenticated", {
