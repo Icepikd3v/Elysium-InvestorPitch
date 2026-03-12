@@ -243,7 +243,7 @@ function EllyBrainIllustration() {
     {
       src: "/illustrations/EllyAIBrain3.png",
       alt: "Elly brain visual showing four simultaneous reasoning bubbles",
-      caption: "Elly Brain: 4-bubble live reasoning view",
+      caption: "Elly Brain: bubble reasoning view",
     },
   ];
 
