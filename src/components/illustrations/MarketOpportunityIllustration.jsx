@@ -6,21 +6,21 @@ export default function MarketOpportunityIllustration({
   wedge = "First wedge segment",
 }) {
   return (
-    <div className={["w-full aspect-[920/360]", className].join(" ")}>
+    <div className={["w-full aspect-[920/420]", className].join(" ")}>
       <svg
         className="h-full w-full"
-        viewBox="0 0 920 360"
+        viewBox="0 0 920 420"
         role="img"
         aria-label="Market opportunity TAM SAM SOM illustration"
         preserveAspectRatio="xMidYMid meet"
       >
         {/* Outer + inner card */}
-        <rect x="0" y="0" width="920" height="360" rx="24" fill="#F7FCFF" />
+        <rect x="0" y="0" width="920" height="420" rx="24" fill="#F7FCFF" />
         <rect
           x="18"
           y="18"
           width="884"
-          height="324"
+          height="384"
           rx="20"
           fill="#FFFFFF"
           stroke="rgba(14,165,233,0.2)"
@@ -114,6 +114,69 @@ export default function MarketOpportunityIllustration({
           />
         </g>
 
+        {/* Bottom acronym legend */}
+        <g>
+          <text
+            x="96"
+            y="366"
+            fontSize="12"
+            fontFamily="ui-sans-serif, system-ui"
+            fill="rgba(7,44,71,0.84)"
+            fontWeight="700"
+          >
+            TAM
+          </text>
+          <text
+            x="132"
+            y="366"
+            fontSize="12"
+            fontFamily="ui-sans-serif, system-ui"
+            fill="rgba(7,44,71,0.62)"
+          >
+            = Total Addressable Market
+          </text>
+
+          <text
+            x="360"
+            y="366"
+            fontSize="12"
+            fontFamily="ui-sans-serif, system-ui"
+            fill="rgba(7,44,71,0.84)"
+            fontWeight="700"
+          >
+            SAM
+          </text>
+          <text
+            x="398"
+            y="366"
+            fontSize="12"
+            fontFamily="ui-sans-serif, system-ui"
+            fill="rgba(7,44,71,0.62)"
+          >
+            = Serviceable Available Market
+          </text>
+
+          <text
+            x="96"
+            y="390"
+            fontSize="12"
+            fontFamily="ui-sans-serif, system-ui"
+            fill="rgba(7,44,71,0.84)"
+            fontWeight="700"
+          >
+            SOM
+          </text>
+          <text
+            x="134"
+            y="390"
+            fontSize="12"
+            fontFamily="ui-sans-serif, system-ui"
+            fill="rgba(7,44,71,0.62)"
+          >
+            = Serviceable Obtainable Market
+          </text>
+        </g>
+
         {/* Right side explanation cards */}
         <g>
           <rect
@@ -142,7 +205,7 @@ export default function MarketOpportunityIllustration({
             fontFamily="ui-sans-serif, system-ui"
             fill="rgba(7,44,71,0.64)"
           >
-            Total addressable market • {tam}
+            Total Addressable Market • {tam}
           </text>
 
           <rect
@@ -171,7 +234,7 @@ export default function MarketOpportunityIllustration({
             fontFamily="ui-sans-serif, system-ui"
             fill="rgba(7,44,71,0.64)"
           >
-            Serviceable market • {sam}
+            Serviceable Available Market • {sam}
           </text>
 
           <rect
@@ -200,7 +263,7 @@ export default function MarketOpportunityIllustration({
             fontFamily="ui-sans-serif, system-ui"
             fill="rgba(7,44,71,0.64)"
           >
-            Obtainable market • {som} • {wedge}
+            Serviceable Obtainable Market • {som} • {wedge}
           </text>
         </g>
       </svg>

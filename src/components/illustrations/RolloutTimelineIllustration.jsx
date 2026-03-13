@@ -94,6 +94,10 @@ export default function RolloutTimelineIllustration({
 
               {items.map((n, i) => {
                 const x = 120 + i * 120;
+                const isUpper = i % 2 === 0;
+                const cardY = isUpper ? 182 : 248;
+                const titleY = isUpper ? 205 : 271;
+                const subtitleY = isUpper ? 226 : 292;
 
                 return (
                   <g key={n.label}>
@@ -131,7 +135,7 @@ export default function RolloutTimelineIllustration({
                     <rect
                       className="milestone-card"
                       x={x - 82}
-                      y={178}
+                      y={cardY}
                       width={164}
                       height={58}
                       rx={14}
@@ -141,7 +145,7 @@ export default function RolloutTimelineIllustration({
                     />
                     <text
                       x={x}
-                      y={201}
+                      y={titleY}
                       textAnchor="middle"
                       fontSize="11.5"
                       fontFamily="ui-sans-serif, system-ui"
@@ -152,7 +156,7 @@ export default function RolloutTimelineIllustration({
                     </text>
                     <text
                       x={x}
-                      y={223}
+                      y={subtitleY}
                       textAnchor="middle"
                       fontSize="10"
                       fontFamily="ui-sans-serif, system-ui"
@@ -166,16 +170,16 @@ export default function RolloutTimelineIllustration({
 
               <rect
                 x="52"
-                y="278"
+                y="314"
                 width="816"
-                height="44"
+                height="28"
                 rx={16}
                 fill="rgba(14,165,233,0.08)"
                 stroke="rgba(14,165,233,0.16)"
               />
               <text
                 x="70"
-                y="305"
+                y="332"
                 fontSize="12"
                 fontFamily="ui-sans-serif, system-ui"
                 fill="rgba(3,34,53,0.64)"
