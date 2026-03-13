@@ -203,36 +203,6 @@ function MiniBarRow({
   );
 }
 
-function VisualPlaceholder({ title, fileName, prototypeTarget, note, animated }) {
-  return (
-    <div className="relative flex h-full w-full items-center justify-center rounded-2xl border border-dashed border-black/20 bg-gradient-to-br from-white to-black/5 p-5">
-      <div className="w-full max-w-xl rounded-2xl border border-black/10 bg-white/90 p-5 shadow-sm backdrop-blur">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <h4 className="text-sm font-semibold text-black/85">{title}</h4>
-          <span className="rounded-full border border-black/10 bg-black/5 px-2.5 py-1 text-[11px] text-black/65">
-            Placeholder
-          </span>
-        </div>
-        <div className="mt-3 space-y-2 text-xs text-black/70">
-          <div>
-            <strong>Capture from prototype:</strong> {prototypeTarget}
-          </div>
-          <div>
-            <strong>Save as:</strong> <code>{fileName}</code>
-          </div>
-          {animated ? (
-            <div>
-              <strong>Format:</strong> animated MP4/WebM/GIF (autoplay loop
-              muted)
-            </div>
-          ) : null}
-          {note ? <div>{note}</div> : null}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function EllyBrainIllustration() {
   const supportingFrames = [
     {
@@ -477,12 +447,13 @@ export default function Home() {
             </div>
 
             <div className="rounded-3xl border border-black/10 bg-[#fafafa] p-4">
-              <div className="h-[360px] md:h-[380px]">
+              <div className="relative h-[360px] md:h-[380px]">
                 <IllustrationImage
                   src="/illustrations/store2.png"
                   alt="Smart mall storefront hero visual"
                   fit="cover"
                 />
+                <div className="pointer-events-none absolute left-[18px] top-[18px] h-[calc(100%-36px)] w-[6px] rounded-full bg-[#fafafa]" />
               </div>
               <div className="mt-3 flex items-center justify-between px-1 text-xs text-black/60">
                 <span>Digital Storefront (Mock UI)</span>
@@ -522,38 +493,32 @@ export default function Home() {
           </div>
 
           {/* Market opportunity */}
-          <div className="relative mt-8 grid gap-6 md:grid-cols-12">
-            <div className="md:col-span-5">
+          <div className="relative mt-8 space-y-6">
+            <div className="grid gap-4 md:grid-cols-3">
               <Stat
                 label="Positioning"
                 value="Virtual Smart Mall"
                 note="Immersive commerce + social layer."
               />
-              <div className="mt-4">
-                <Stat
-                  label="Engine"
-                  value="AI Brain"
-                  note="Predictability + personalization."
-                />
-              </div>
-              <div className="mt-4">
-                <Stat
-                  label="Outcome"
-                  value="↑ Conversion / ↓ Returns"
-                  note="Confidence drives performance."
-                />
-              </div>
+              <Stat
+                label="Engine"
+                value="AI Brain"
+                note="Predictability + personalization."
+              />
+              <Stat
+                label="Outcome"
+                value="↑ Conversion / ↓ Returns"
+                note="Confidence drives performance."
+              />
             </div>
 
-            <div className="md:col-span-7">
-              <div className="rounded-3xl border border-black/10 bg-[#fafafa] p-4">
-                <div className="h-[320px] md:h-[360px]">
-                  <MarketOpportunityIllustration variant="image" />
-                </div>
-                <div className="mt-3 text-xs text-black/60">
-                  Market Opportunity (Mock) — Phase 2: replace with validated
-                  TAM/SAM/SOM.
-                </div>
+            <div className="rounded-3xl border border-black/10 bg-[#fafafa] p-4 md:p-6">
+              <div className="mx-auto w-full max-w-[960px]">
+                <MarketOpportunityIllustration />
+              </div>
+              <div className="mt-3 text-xs text-black/60">
+                Market Opportunity (Mock) — Phase 2: replace with validated
+                TAM/SAM/SOM.
               </div>
             </div>
           </div>
@@ -735,6 +700,9 @@ export default function Home() {
               <div className="mt-2 text-xs text-black/60">
                 Demo is a presentation prototype hosted at demo.elysiummall.com.
               </div>
+              <div className="mt-1 text-xs font-medium text-black/70">
+                Click to use yourself.
+              </div>
 
               <div className="mt-5 rounded-2xl border border-black/10 bg-black/5 p-4 text-xs text-black/65">
                 <div className="font-semibold text-black/75">
@@ -765,7 +733,7 @@ export default function Home() {
 
         <div className="mt-8">
           <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="h-[420px] md:h-[560px]">
+            <div className="h-[280px] md:h-[360px]">
               <IllustrationImage
                 src="/illustrations/product1.png"
                 alt="Smart mall desktop hero showing curated product grid"
@@ -773,7 +741,7 @@ export default function Home() {
               />
             </div>
             <div className="mt-3 px-1 text-xs text-black/60">
-              Smart Mall Mock (Hero) — click to expand
+              Smart Mall Mock (Hero) — click to use yourself
             </div>
           </div>
         </div>
@@ -936,15 +904,16 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="shop-experience-animated md:col-span-5 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="md:col-span-5 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="h-[360px] md:h-[420px]">
-              <VisualPlaceholder
-                title="Shop Experience Mobile (Animated)"
-                fileName="shop-experience-mobile.mp4"
-                prototypeTarget="Mobile try-on interaction sequence (rotate/look switch/add-to-cart)"
-                note="Capture 5-10 seconds and export as a loop."
-                animated
+              <IllustrationImage
+                src="/illustrations/avatar-try-on-mobile.jpg"
+                alt="Mobile avatar try-on mockup for the shop experience"
+                fit="contain"
               />
+            </div>
+            <div className="mt-3 text-xs text-black/60">
+              Shop Experience Mobile Mock — click to expand
             </div>
           </div>
         </div>
@@ -1506,7 +1475,7 @@ export default function Home() {
 
         <div className="mt-8 grid gap-6 md:grid-cols-12">
           <div className="md:col-span-7 grid gap-4">
-            <Card title="Dr. Michael Rivera — CEO / Managing Partner">
+            <Card title="Dr. Michael Rivers — CEO / Managing Partner">
               Conceptual design lead and managing partner. Board leadership and
               strategic execution oversight. Background includes doctorate-level
               expertise in clinical psychology with emphasis on neurophysiology
