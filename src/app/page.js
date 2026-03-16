@@ -398,9 +398,10 @@ export default function Home() {
                 Elysium is envisioned as a <strong>virtual smart mall</strong>{" "}
                 that blends social interaction with commerce—powered by an{" "}
                 <strong>AI Brain</strong> that learns from{" "}
-                <strong>word signals</strong> (and optional physical variables)
-                to improve predictability, reduce returns, and increase
-                conversion.
+                <strong>word data</strong>, physical cues, and reactions, which
+                improves predictability by analyzing a compilation of human
+                variables to &ldquo;learn and know&rdquo; not just one shopper, but
+                like shoppers as well. This enhances the Smart Mall experience.
               </p>
 
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
