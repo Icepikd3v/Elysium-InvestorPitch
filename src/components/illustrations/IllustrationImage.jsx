@@ -22,6 +22,8 @@ export default function IllustrationImage({
   sizes = "(min-width: 1024px) 720px, 92vw",
   className = "",
   imageClassName = "",
+  imageStyle = undefined,
+  expandImageStyle = undefined,
 }) {
   const [open, setOpen] = useState(false);
 
@@ -66,7 +68,7 @@ export default function IllustrationImage({
           priority={priority}
           sizes={sizes}
           className={cx("select-none", imageClassName)}
-          style={{ objectFit: fit }}
+          style={{ objectFit: fit, ...imageStyle }}
         />
       </div>
     );
@@ -91,7 +93,7 @@ export default function IllustrationImage({
           priority={priority}
           sizes={sizes}
           className={cx("select-none", imageClassName)}
-          style={{ objectFit: fit }}
+          style={{ objectFit: fit, ...imageStyle }}
         />
       </button>
 
@@ -119,7 +121,7 @@ export default function IllustrationImage({
               unoptimized={unoptimized}
               sizes="96vw"
               className="select-none"
-              style={{ objectFit: expandFit }}
+              style={{ objectFit: expandFit, ...expandImageStyle }}
               priority
             />
           </div>

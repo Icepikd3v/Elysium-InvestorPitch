@@ -999,6 +999,11 @@ export default function Home() {
                 src="/illustrations/prong2-3.png"
                 alt="Pitch deck slide summarizing prong two and three acquisition strategy"
                 fit="contain"
+                className="overflow-hidden rounded-xl"
+                imageStyle={{
+                  clipPath: "inset(0 0 0 8px)",
+                  transform: "translate(5px, 2px) scale(1.024)",
+                }}
               />
             </div>
             <div className="mt-3 text-xs text-black/60">
