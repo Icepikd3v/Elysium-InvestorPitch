@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 // HOLD (Kori go-live pending): keep terms gate code built but disabled for now.
 // Re-enable by switching this back to:
 // process.env.NEXT_PUBLIC_ENABLE_INVESTOR_TERMS_GATE === "true"
-const TERMS_GATE_ENABLED = false;
+const TERMS_GATE_ENABLED = true;
 
 function safeFromParam(raw) {
   // Prevent open redirects: only allow internal paths
@@ -120,6 +120,47 @@ export default function LoginPage() {
     );
   }
 
+  if (TERMS_GATE_ENABLED && termsStatus === "pending") {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-[#fafafa] px-6 py-10">
+        <div className="w-full max-w-5xl rounded-3xl border border-black/10 bg-white p-6 shadow-2xl md:p-8">
+          <div className="mx-auto max-h-[68vh] overflow-auto rounded-2xl border border-black/10">
+            <Image
+              src="/illustrations/InvestorPopup.png"
+              alt="Investor terms and conditions"
+              width={1400}
+              height={1800}
+              className="h-auto w-full"
+              priority
+            />
+          </div>
+
+          <p className="mt-5 text-center text-sm font-medium text-black/85 md:text-base">
+            I have read and understand the terms and conditions and accept
+            them.
+          </p>
+
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <button
+              type="button"
+              onClick={acceptTerms}
+              className="rounded-full bg-black px-7 py-3 text-sm font-semibold text-white hover:bg-black/90"
+            >
+              ACCEPT
+            </button>
+            <button
+              type="button"
+              onClick={rejectTerms}
+              className="rounded-full border border-black/20 bg-white px-7 py-3 text-sm font-semibold text-black/80 hover:border-black/35"
+            >
+              REJECT
+            </button>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#fafafa] px-6">
       <div className="w-full max-w-md rounded-3xl border border-black/10 bg-white p-8 shadow-sm">
@@ -185,45 +226,6 @@ export default function LoginPage() {
           share.
         </p>
       </div>
-
-      {TERMS_GATE_ENABLED && termsStatus === "pending" ? (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 px-6 py-10">
-          <div className="w-full max-w-4xl rounded-3xl border border-black/10 bg-white p-5 shadow-2xl md:p-7">
-            <div className="mx-auto max-h-[56vh] overflow-auto rounded-2xl border border-black/10">
-              <Image
-                src="/illustrations/InvestorPopup.png"
-                alt="Investor terms and conditions"
-                width={1400}
-                height={1800}
-                className="h-auto w-full"
-                priority
-              />
-            </div>
-
-            <p className="mt-5 text-center text-sm font-medium text-black/85 md:text-base">
-              I have read and understand the terms and conditions and accept
-              them.
-            </p>
-
-            <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-center">
-              <button
-                type="button"
-                onClick={acceptTerms}
-                className="rounded-full bg-black px-7 py-3 text-sm font-semibold text-white hover:bg-black/90"
-              >
-                ACCEPT
-              </button>
-              <button
-                type="button"
-                onClick={rejectTerms}
-                className="rounded-full border border-black/20 bg-white px-7 py-3 text-sm font-semibold text-black/80 hover:border-black/35"
-              >
-                REJECT
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 }
