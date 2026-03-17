@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import ClientNav from "@/components/ClientNav";
 
 import RolloutTimelineIllustration from "@/components/illustrations/RolloutTimelineIllustration";
@@ -21,10 +20,13 @@ import IllustrationImage from "@/components/illustrations/IllustrationImage";
  */
 
 const DEMO_URL = "https://demo.elysiummall.com"; // Smart Mall mock experience domain
+const SOLO_BRAIN_VIDEO = "/soloAIBrain.mp4";
+const FULL_EXPERIENCE_NARRATION_AUDIO =
+  "/voiceovers/full-experience-narration-sequence.mp3";
 // HOLD (Kori go-live pending): keep terms gate code built but disabled for now.
 // Re-enable by switching this back to:
 // process.env.NEXT_PUBLIC_ENABLE_INVESTOR_TERMS_GATE === "true"
-const TERMS_GATE_ENABLED = false;
+const TERMS_GATE_ENABLED = true;
 
 const SECTIONS = [
   { id: "cover", label: "Overview" },
@@ -121,6 +123,95 @@ function BulletList({ items }) {
   );
 }
 
+function SyncedSoloDemoPlayer() {
+  const videoRef = useRef(null);
+  const narrationRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const playNarrationIfPaused = async () => {
+    const narration = narrationRef.current;
+    if (!narration || !narration.paused) return;
+    try {
+      await narration.play();
+    } catch {}
+  };
+
+  const startNarratedPlayback = async () => {
+    const video = videoRef.current;
+    const narration = narrationRef.current;
+    if (!video || !narration) return;
+    video.pause();
+    narration.pause();
+    video.currentTime = 0;
+    narration.currentTime = 0;
+    try {
+      await Promise.all([video.play(), narration.play()]);
+      setIsPlaying(true);
+    } catch {
+      setIsPlaying(false);
+    }
+  };
+
+  const syncOnVideoPlay = async () => {
+    await playNarrationIfPaused();
+  };
+
+  const pausePlayback = () => {
+    [videoRef.current, narrationRef.current].filter(Boolean).forEach((node) => node.pause());
+    setIsPlaying(false);
+  };
+
+  return (
+    <div className="space-y-3">
+      <div className="flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={startNarratedPlayback}
+          className="rounded-full bg-black px-4 py-2 text-xs font-semibold text-white transition hover:bg-black/85"
+        >
+          Play Narrated AI Brain
+        </button>
+        <button
+          type="button"
+          onClick={pausePlayback}
+          className="rounded-full border border-black/15 bg-white px-4 py-2 text-xs font-semibold text-black/70 transition hover:bg-black/5"
+        >
+          Pause
+        </button>
+        <span className="inline-flex items-center rounded-full border border-black/10 bg-black/5 px-3 py-2 text-xs text-black/60">
+          {isPlaying ? "Now playing in sync" : "Ready"}
+        </span>
+      </div>
+
+      <div className="overflow-hidden rounded-2xl border border-black/10 bg-black">
+        <div className="border-b border-white/10 px-3 py-2 text-xs font-medium text-white/80">
+          Solo AI Brain Activity
+        </div>
+        <video
+          ref={videoRef}
+          className="block h-[320px] w-full object-contain md:h-[460px]"
+          src={SOLO_BRAIN_VIDEO}
+          controls
+          muted
+          playsInline
+          preload="metadata"
+          onPlay={syncOnVideoPlay}
+          onPause={() => setIsPlaying(false)}
+        />
+      </div>
+
+      <audio
+        ref={narrationRef}
+        src={FULL_EXPERIENCE_NARRATION_AUDIO}
+        preload="metadata"
+        onEnded={() => {
+          setIsPlaying(false);
+        }}
+      />
+    </div>
+  );
+}
+
 function SectionHeader({ kicker, title, subtitle, right }) {
   return (
     <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
@@ -211,7 +302,7 @@ function EllyBrainIllustration() {
       caption: "Elly Command Panel: live scan + ranking output",
     },
     {
-      src: "/illustrations/EllyAIBrain3.png",
+      src: "/EllyBubbleReasoning.png",
       alt: "Elly brain visual showing four simultaneous reasoning bubbles",
       caption: "Elly Brain: bubble reasoning view",
     },
@@ -265,7 +356,6 @@ function EllyBrainIllustration() {
 }
 
 export default function Home() {
-  const router = useRouter();
   const [termsStatus, setTermsStatus] = useState(
     TERMS_GATE_ENABLED ? "pending" : "accepted",
   );
@@ -276,20 +366,6 @@ export default function Home() {
 
   const rejectTerms = () => {
     setTermsStatus("rejected");
-  };
-
-  const handleLogout = async () => {
-    try {
-      await fetch("/api/auth/logout", {
-        method: "POST",
-        cache: "no-store",
-      });
-    } catch {
-      // no-op: redirect regardless
-    } finally {
-      router.replace("/login");
-      router.refresh();
-    }
   };
 
   if (TERMS_GATE_ENABLED && termsStatus === "rejected") {
@@ -331,13 +407,6 @@ export default function Home() {
             >
               Home
             </a>
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="rounded-full border border-black/15 bg-white px-4 py-2 text-sm font-medium text-black/80 hover:border-black/25"
-            >
-              Logout
-            </button>
           </div>
         </div>
 
@@ -398,10 +467,11 @@ export default function Home() {
                 Elysium is envisioned as a <strong>virtual smart mall</strong>{" "}
                 that blends social interaction with commerce—powered by an{" "}
                 <strong>AI Brain</strong> that learns from{" "}
-                <strong>word data</strong>, physical cues, and reactions, which
-                improves predictability by analyzing a compilation of human
-                variables to &ldquo;learn and know&rdquo; not just one shopper, but
-                like shoppers as well. This enhances the Smart Mall experience.
+                <strong>word data</strong>, <strong>physical cues</strong>, and{" "}
+                <strong>reactions</strong>, which improves predictability by
+                analyzing a compilation of human variables to &ldquo;learn and
+                know&rdquo; not just one shopper, but like shoppers as well. This
+                enhances the Smart Mall experience.
               </p>
 
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
@@ -809,6 +879,18 @@ export default function Home() {
                 governance).
               </div>
             </Card>
+
+            <div className="mt-4 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
+              <div className="text-base font-semibold text-black/90">
+                AI Brain narrated clip
+              </div>
+              <div className="mt-1 text-sm text-black/60">
+                Play to view Solo AI Brain activity with synced narration.
+              </div>
+              <div className="mt-4">
+                <SyncedSoloDemoPlayer />
+              </div>
+            </div>
           </div>
         </div>
 
