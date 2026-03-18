@@ -20,9 +20,16 @@ import IllustrationImage from "@/components/illustrations/IllustrationImage";
  */
 
 const DEMO_URL = "https://demo.elysiummall.com"; // Smart Mall mock experience domain
+const INVESTOR_POPUP_IMAGE = "/illustrations/InvestorPopup.png";
 const SOLO_BRAIN_VIDEO = "/soloAIBrain.mp4";
-const FULL_EXPERIENCE_NARRATION_AUDIO =
+const INVITE_FRIEND_AI_BRAIN_VIDEO = "/InviteFriendAIBrainRun.mp4";
+const ORIGINAL_NARRATION_AUDIO =
   "/voiceovers/full-experience-narration-sequence.mp3";
+const SIMULATION_NARRATION_AUDIO =
+  "/voiceovers/simulation-voiceover-20260318.m4a";
+// Kori note (Mar 18, 2026): start simulation video after first paragraph finishes.
+// Tune this value if updated voiceover pacing changes.
+const SIMULATION_VIDEO_LEAD_IN_SECONDS = 26;
 // HOLD (Kori go-live pending): keep terms gate code built but disabled for now.
 // Re-enable by switching this back to:
 // process.env.NEXT_PUBLIC_ENABLE_INVESTOR_TERMS_GATE === "true"
@@ -38,7 +45,7 @@ const SECTIONS = [
   { id: "gtm", label: "Go-to-market" },
   { id: "rollout", label: "Rollout" },
   { id: "financials", label: "Financials" },
-  { id: "raise", label: "Raise" },
+  { id: "raise", label: "Investor Capitalization" },
   { id: "investor-information", label: "Investor Information" },
   { id: "backend", label: "Platform" },
   { id: "team", label: "Team" },
@@ -65,7 +72,7 @@ const NAV_ITEMS = [
   { id: "gtm", label: "Go-to-market" },
   { id: "rollout", label: "Rollout" },
   { id: "financials", label: "Financials" },
-  { id: "raise", label: "Raise" },
+  { id: "raise", label: "Investor Capitalization" },
   { id: "investor-information", label: "Investor Information" },
   { id: "backend", label: "Platform" },
   { id: "team", label: "Team" },
@@ -197,15 +204,151 @@ function SyncedSoloDemoPlayer() {
           preload="metadata"
           onPlay={syncOnVideoPlay}
           onPause={() => setIsPlaying(false)}
+          onEnded={pausePlayback}
         />
       </div>
 
       <audio
         ref={narrationRef}
-        src={FULL_EXPERIENCE_NARRATION_AUDIO}
+        src={ORIGINAL_NARRATION_AUDIO}
         preload="metadata"
         onEnded={() => {
           setIsPlaying(false);
+        }}
+      />
+    </div>
+  );
+}
+
+function TimedSimulationPlayer() {
+  const videoRef = useRef(null);
+  const narrationRef = useRef(null);
+  const videoLeadInTimeoutRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isWaitingForLeadIn, setIsWaitingForLeadIn] = useState(false);
+  const [hasVideoStarted, setHasVideoStarted] = useState(false);
+
+  const playNarrationIfPaused = async () => {
+    const narration = narrationRef.current;
+    if (!narration || !narration.paused) return;
+    try {
+      await narration.play();
+    } catch {}
+  };
+
+  const startTimedSimulation = async () => {
+    const video = videoRef.current;
+    const narration = narrationRef.current;
+    if (!video || !narration) return;
+    if (videoLeadInTimeoutRef.current) {
+      clearTimeout(videoLeadInTimeoutRef.current);
+      videoLeadInTimeoutRef.current = null;
+    }
+    video.pause();
+    narration.pause();
+    video.currentTime = 0;
+    narration.currentTime = 0;
+    setHasVideoStarted(false);
+    setIsWaitingForLeadIn(false);
+    try {
+      await narration.play();
+
+      setIsPlaying(true);
+      setIsWaitingForLeadIn(true);
+      videoLeadInTimeoutRef.current = setTimeout(async () => {
+        try {
+          await video.play();
+          setIsWaitingForLeadIn(false);
+        } catch {}
+      }, SIMULATION_VIDEO_LEAD_IN_SECONDS * 1000);
+    } catch {
+      setIsPlaying(false);
+      setIsWaitingForLeadIn(false);
+    }
+  };
+
+  const syncOnVideoPlay = async () => {
+    if (videoLeadInTimeoutRef.current) {
+      clearTimeout(videoLeadInTimeoutRef.current);
+      videoLeadInTimeoutRef.current = null;
+    }
+    setHasVideoStarted(true);
+    setIsWaitingForLeadIn(false);
+    await playNarrationIfPaused();
+  };
+
+  const pausePlayback = () => {
+    if (videoLeadInTimeoutRef.current) {
+      clearTimeout(videoLeadInTimeoutRef.current);
+      videoLeadInTimeoutRef.current = null;
+    }
+    [videoRef.current, narrationRef.current].filter(Boolean).forEach((node) => node.pause());
+    setIsPlaying(false);
+    setIsWaitingForLeadIn(false);
+    setHasVideoStarted(false);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (videoLeadInTimeoutRef.current) {
+        clearTimeout(videoLeadInTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <div className="space-y-3">
+      <div className="flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={startTimedSimulation}
+          className="rounded-full bg-black px-4 py-2 text-xs font-semibold text-white transition hover:bg-black/85"
+        >
+          Click Here To Play
+        </button>
+        <button
+          type="button"
+          onClick={pausePlayback}
+          className="rounded-full border border-black/15 bg-white px-4 py-2 text-xs font-semibold text-black/70 transition hover:bg-black/5"
+        >
+          Pause
+        </button>
+        <span className="inline-flex items-center rounded-full border border-black/10 bg-black/5 px-3 py-2 text-xs text-black/60">
+          {isWaitingForLeadIn
+            ? "Audio playing. Video auto-starts at 00:26."
+            : isPlaying && hasVideoStarted
+              ? "Now playing in sync"
+              : isPlaying
+                ? "Audio started"
+              : "Ready"}
+        </span>
+      </div>
+
+      <div className="overflow-hidden rounded-2xl border border-black/10 bg-black">
+        <div className="border-b border-white/10 px-3 py-2 text-xs font-medium text-white/80">
+          Two-Person Simulation Clip
+        </div>
+        <video
+          ref={videoRef}
+          className="block h-[320px] w-full object-contain md:h-[460px]"
+          src={INVITE_FRIEND_AI_BRAIN_VIDEO}
+          controls={false}
+          muted
+          playsInline
+          preload="metadata"
+          onPlay={syncOnVideoPlay}
+          onPause={() => setIsPlaying(false)}
+          onEnded={pausePlayback}
+        />
+      </div>
+
+      <audio
+        ref={narrationRef}
+        src={SIMULATION_NARRATION_AUDIO}
+        preload="metadata"
+        onEnded={() => {
+          setIsPlaying(false);
+          setIsWaitingForLeadIn(false);
         }}
       />
     </div>
@@ -437,6 +580,12 @@ export default function Home() {
               <div className="text-[11px] text-black/55">
                 Demo hosted at demo.elysiummall.com
               </div>
+              <a
+                href="#ai-brain-simulation"
+                className="mt-1 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#0f172a] via-[#1d4ed8] to-[#0ea5e9] px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:brightness-110"
+              >
+                Jump to Simulation Video ↓
+              </a>
             </div>
           </div>
         </div>
@@ -882,13 +1031,25 @@ export default function Home() {
 
             <div className="mt-4 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
               <div className="text-base font-semibold text-black/90">
-                AI Brain narrated clip
+                Original AI Brain narrated clip
               </div>
               <div className="mt-1 text-sm text-black/60">
-                Play to view Solo AI Brain activity with synced narration.
+                Existing clip kept unchanged for reference.
               </div>
               <div className="mt-4">
                 <SyncedSoloDemoPlayer />
+              </div>
+            </div>
+
+            <div
+              id="ai-brain-simulation"
+              className="mt-4 rounded-3xl border border-black/10 bg-white p-4 shadow-sm"
+            >
+              <div className="text-base font-semibold text-black/90">
+                Invite a Friend AI Brain Activity
+              </div>
+              <div className="mt-4">
+                <TimedSimulationPlayer />
               </div>
             </div>
           </div>
@@ -1293,7 +1454,7 @@ export default function Home() {
       <SectionShell id="raise">
         <SectionHeader
           kicker="Capital plan"
-          title="Raise & milestones"
+          title="Investor Capitalization & milestones"
           subtitle="Phase 1 framing: seed round to complete build + rollout, followed by a larger round aligned to expansion."
           right={
             <>
@@ -1675,7 +1836,7 @@ export default function Home() {
           <div className="w-full max-w-4xl rounded-3xl border border-black/10 bg-white p-5 shadow-2xl md:p-7">
             <div className="mx-auto max-h-[56vh] overflow-auto rounded-2xl border border-black/10">
               <Image
-                src="/illustrations/InvestorPopup.png"
+                src={INVESTOR_POPUP_IMAGE}
                 alt="Investor terms and conditions"
                 width={1400}
                 height={1800}
@@ -1683,6 +1844,10 @@ export default function Home() {
                 priority
               />
             </div>
+            <p className="mt-3 text-center text-xs text-black/60 md:text-sm">
+              Legal copy update applied: <strong>Copyright</strong> and{" "}
+              <strong>Trademark</strong>.
+            </p>
 
             <p className="mt-5 text-center text-sm font-medium text-black/85 md:text-base">
               I have read and understand the terms and conditions and accept them.
