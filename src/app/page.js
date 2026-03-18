@@ -277,6 +277,26 @@ function TimedSimulationPlayer() {
     await playNarrationIfPaused();
   };
 
+  const handleVideoPause = () => {
+    const narration = narrationRef.current;
+    if (narration && !narration.paused) {
+      setIsPlaying(true);
+      return;
+    }
+    setIsPlaying(false);
+  };
+
+  const handleVideoEnded = () => {
+    if (videoLeadInTimeoutRef.current) {
+      clearTimeout(videoLeadInTimeoutRef.current);
+      videoLeadInTimeoutRef.current = null;
+    }
+    setHasVideoStarted(false);
+    setIsWaitingForLeadIn(false);
+    const narration = narrationRef.current;
+    setIsPlaying(Boolean(narration && !narration.paused));
+  };
+
   const pausePlayback = () => {
     if (videoLeadInTimeoutRef.current) {
       clearTimeout(videoLeadInTimeoutRef.current);
@@ -337,8 +357,8 @@ function TimedSimulationPlayer() {
           playsInline
           preload="metadata"
           onPlay={syncOnVideoPlay}
-          onPause={() => setIsPlaying(false)}
-          onEnded={pausePlayback}
+          onPause={handleVideoPause}
+          onEnded={handleVideoEnded}
         />
       </div>
 
