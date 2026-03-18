@@ -224,9 +224,32 @@ function TimedSimulationPlayer() {
   const videoRef = useRef(null);
   const narrationRef = useRef(null);
   const videoLeadInTimeoutRef = useRef(null);
+  const countdownIntervalRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isWaitingForLeadIn, setIsWaitingForLeadIn] = useState(false);
   const [hasVideoStarted, setHasVideoStarted] = useState(false);
+  const [leadInCountdown, setLeadInCountdown] = useState(
+    SIMULATION_VIDEO_LEAD_IN_SECONDS,
+  );
+
+  const clearLeadInTimers = () => {
+    if (videoLeadInTimeoutRef.current) {
+      clearTimeout(videoLeadInTimeoutRef.current);
+      videoLeadInTimeoutRef.current = null;
+    }
+    if (countdownIntervalRef.current) {
+      clearInterval(countdownIntervalRef.current);
+      countdownIntervalRef.current = null;
+    }
+  };
+
+  const formatSeconds = (seconds) => {
+    const mins = Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, "0");
+    const secs = (seconds % 60).toString().padStart(2, "0");
+    return `${mins}:${secs}`;
+  };
 
   const playNarrationIfPaused = async () => {
     const narration = narrationRef.current;
@@ -240,40 +263,42 @@ function TimedSimulationPlayer() {
     const video = videoRef.current;
     const narration = narrationRef.current;
     if (!video || !narration) return;
-    if (videoLeadInTimeoutRef.current) {
-      clearTimeout(videoLeadInTimeoutRef.current);
-      videoLeadInTimeoutRef.current = null;
-    }
+    clearLeadInTimers();
     video.pause();
     narration.pause();
     video.currentTime = 0;
     narration.currentTime = 0;
     setHasVideoStarted(false);
     setIsWaitingForLeadIn(false);
+    setLeadInCountdown(SIMULATION_VIDEO_LEAD_IN_SECONDS);
     try {
       await narration.play();
 
       setIsPlaying(true);
       setIsWaitingForLeadIn(true);
+      countdownIntervalRef.current = setInterval(() => {
+        setLeadInCountdown((prev) => (prev <= 1 ? 0 : prev - 1));
+      }, 1000);
       videoLeadInTimeoutRef.current = setTimeout(async () => {
+        clearLeadInTimers();
         try {
           await video.play();
           setIsWaitingForLeadIn(false);
+          setLeadInCountdown(0);
         } catch {}
       }, SIMULATION_VIDEO_LEAD_IN_SECONDS * 1000);
     } catch {
       setIsPlaying(false);
       setIsWaitingForLeadIn(false);
+      clearLeadInTimers();
     }
   };
 
   const syncOnVideoPlay = async () => {
-    if (videoLeadInTimeoutRef.current) {
-      clearTimeout(videoLeadInTimeoutRef.current);
-      videoLeadInTimeoutRef.current = null;
-    }
+    clearLeadInTimers();
     setHasVideoStarted(true);
     setIsWaitingForLeadIn(false);
+    setLeadInCountdown(0);
     await playNarrationIfPaused();
   };
 
@@ -287,37 +312,42 @@ function TimedSimulationPlayer() {
   };
 
   const handleVideoEnded = () => {
-    if (videoLeadInTimeoutRef.current) {
-      clearTimeout(videoLeadInTimeoutRef.current);
-      videoLeadInTimeoutRef.current = null;
+    clearLeadInTimers();
+    const video = videoRef.current;
+    const narration = narrationRef.current;
+    if (video && narration && !narration.paused) {
+      video.currentTime = 0;
+      video
+        .play()
+        .then(() => {
+          setIsPlaying(true);
+          setHasVideoStarted(true);
+        })
+        .catch(() => {});
+      return;
     }
     setHasVideoStarted(false);
     setIsWaitingForLeadIn(false);
-    const narration = narrationRef.current;
     setIsPlaying(Boolean(narration && !narration.paused));
   };
 
   const pausePlayback = () => {
-    if (videoLeadInTimeoutRef.current) {
-      clearTimeout(videoLeadInTimeoutRef.current);
-      videoLeadInTimeoutRef.current = null;
-    }
+    clearLeadInTimers();
     [videoRef.current, narrationRef.current].filter(Boolean).forEach((node) => node.pause());
     setIsPlaying(false);
     setIsWaitingForLeadIn(false);
     setHasVideoStarted(false);
+    setLeadInCountdown(SIMULATION_VIDEO_LEAD_IN_SECONDS);
   };
 
   useEffect(() => {
     return () => {
-      if (videoLeadInTimeoutRef.current) {
-        clearTimeout(videoLeadInTimeoutRef.current);
-      }
+      clearLeadInTimers();
     };
   }, []);
 
   return (
-    <div className="space-y-3">
+    <div id="ai-brain-simulation-play" className="scroll-mt-36 space-y-3">
       <div className="flex flex-wrap gap-2">
         <button
           type="button"
@@ -335,7 +365,7 @@ function TimedSimulationPlayer() {
         </button>
         <span className="inline-flex items-center rounded-full border border-black/10 bg-black/5 px-3 py-2 text-xs text-black/60">
           {isWaitingForLeadIn
-            ? "Audio playing. Video auto-starts at 00:26."
+            ? `Audio playing. Video auto-starts in ${formatSeconds(leadInCountdown)}.`
             : isPlaying && hasVideoStarted
               ? "Now playing in sync"
               : isPlaying
@@ -367,8 +397,16 @@ function TimedSimulationPlayer() {
         src={SIMULATION_NARRATION_AUDIO}
         preload="metadata"
         onEnded={() => {
+          clearLeadInTimers();
+          const video = videoRef.current;
+          if (video) {
+            video.pause();
+            video.currentTime = 0;
+          }
           setIsPlaying(false);
           setIsWaitingForLeadIn(false);
+          setHasVideoStarted(false);
+          setLeadInCountdown(SIMULATION_VIDEO_LEAD_IN_SECONDS);
         }}
       />
     </div>
@@ -545,18 +583,15 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-[#fafafa] text-black">
+    <main id="top" className="min-h-screen bg-[#fafafa] text-black">
       {/* Nav */}
       <header className="sticky top-0 z-50 border-b border-black/10 bg-[#fafafa]/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <a href="#cover" className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-black/10 bg-white text-xs font-semibold text-black/70">
-              E
-            </div>
             <div className="leading-tight">
               <div className="text-sm font-semibold tracking-wide">Elysium</div>
               <div className="text-xs text-black/60">
-                Phase 1 Investor Mockup
+                Phase 1
               </div>
             </div>
           </a>
@@ -565,7 +600,7 @@ export default function Home() {
 
           <div className="flex items-center gap-2">
             <a
-              href="#cover"
+              href="#top"
               className="rounded-full border border-black/15 bg-white px-4 py-2 text-sm font-medium text-black/80 hover:border-black/25"
             >
               Home
@@ -574,13 +609,13 @@ export default function Home() {
         </div>
 
         {/* Phase 1 disclaimer ribbon */}
-        <div className="border-t border-black/10 bg-white/60">
-          <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-3 text-xs text-black/65 md:flex-row md:items-center md:justify-between">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-full border border-black/10 bg-white px-3 py-1 font-medium">
+        <div className="border-t border-black/10 bg-white/70">
+          <div className="mx-auto flex max-w-6xl flex-col gap-3 px-6 py-2.5 text-sm text-black/70 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-wrap items-center gap-2 md:gap-3">
+              <span className="rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-medium">
                 Phase 1
               </span>
-              <span>
+              <span className="leading-relaxed">
                 This page + visuals are <strong>AI-assisted mockups</strong> for
                 narrative clarity. The demo is a{" "}
                 <strong>mock experience</strong> (cosmetic) and not{" "}
@@ -588,23 +623,14 @@ export default function Home() {
               </span>
             </div>
 
-            <div className="flex flex-col items-end gap-1">
+            <div className="shrink-0">
               <a
                 href={DEMO_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-full border border-black/15 bg-white px-4 py-2 font-medium text-black/80 hover:border-black/25"
+                className="inline-flex items-center justify-center rounded-full border border-black/15 bg-white px-4 py-2 text-xs font-medium text-black/80 hover:border-black/25 md:text-sm"
               >
                 Open Smart Mall Experience ↗
-              </a>
-              <div className="text-[11px] text-black/55">
-                Demo hosted at demo.elysiummall.com
-              </div>
-              <a
-                href="#ai-brain-simulation"
-                className="mt-1 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#0f172a] via-[#1d4ed8] to-[#0ea5e9] px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:brightness-110"
-              >
-                Jump to Simulation Video ↓
               </a>
             </div>
           </div>
@@ -1063,7 +1089,7 @@ export default function Home() {
 
             <div
               id="ai-brain-simulation"
-              className="mt-4 rounded-3xl border border-black/10 bg-white p-4 shadow-sm"
+              className="mt-4 scroll-mt-36 rounded-3xl border border-black/10 bg-white p-4 shadow-sm"
             >
               <div className="text-base font-semibold text-black/90">
                 Invite a Friend AI Brain Activity
@@ -1864,12 +1890,7 @@ export default function Home() {
                 priority
               />
             </div>
-            <p className="mt-3 text-center text-xs text-black/60 md:text-sm">
-              Legal copy update applied: <strong>Copyright</strong> and{" "}
-              <strong>Trademark</strong>.
-            </p>
-
-            <p className="mt-5 text-center text-sm font-medium text-black/85 md:text-base">
+            <p className="mt-8 text-center text-sm font-medium text-black/85 md:mt-10 md:text-base">
               I have read and understand the terms and conditions and accept them.
             </p>
 
