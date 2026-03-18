@@ -22,7 +22,7 @@ import IllustrationImage from "@/components/illustrations/IllustrationImage";
 const DEMO_URL = "https://demo.elysiummall.com"; // Smart Mall mock experience domain
 const INVESTOR_POPUP_IMAGE = "/illustrations/InvestorPopup.png";
 const SOLO_BRAIN_VIDEO = "/soloAIBrain.mp4";
-const INVITE_FRIEND_AI_BRAIN_VIDEO = "/InviteFriendAIBrainRun.mp4";
+const INVITE_FRIEND_AI_BRAIN_VIDEO = "/InviteFriendSimDemo.mp4";
 const ORIGINAL_NARRATION_AUDIO =
   "/voiceovers/full-experience-narration-sequence.mp3";
 const SIMULATION_NARRATION_AUDIO =
