@@ -20,7 +20,7 @@ import IllustrationImage from "@/components/illustrations/IllustrationImage";
  */
 
 const DEMO_URL = "https://demo.elysiummall.com"; // Smart Mall mock experience domain
-const INVESTOR_POPUP_IMAGE = "/InvestorPopupFinal.png";
+const INVESTOR_POPUP_IMAGE = "/NDAPopupFinal.png";
 const SOLO_BRAIN_VIDEO = "/soloAIBrain.mp4";
 const INVITE_FRIEND_AI_BRAIN_VIDEO = "/InviteFriendSimDemo.mp4";
 const ORIGINAL_NARRATION_AUDIO =
@@ -347,7 +347,7 @@ function TimedSimulationPlayer() {
   }, []);
 
   return (
-    <div id="ai-brain-simulation-play" className="scroll-mt-36 space-y-3">
+    <div id="ai-brain-simulation-play" className="scroll-mt-56 md:scroll-mt-48 space-y-3">
       <div className="flex flex-wrap gap-2">
         <button
           type="button"
@@ -610,20 +610,12 @@ export default function Home() {
 
         {/* Phase 1 disclaimer ribbon */}
         <div className="border-t border-black/10 bg-white/70">
-          <div className="mx-auto flex max-w-6xl flex-col gap-3 px-6 py-2.5 text-sm text-black/70 md:flex-row md:items-center md:justify-between">
-            <div className="flex flex-wrap items-center gap-2 md:gap-3">
-              <span className="rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-medium">
-                Phase 1
-              </span>
-              <span className="leading-relaxed">
-                This page + visuals are <strong>AI-assisted mockups</strong> for
-                narrative clarity. The demo is a{" "}
-                <strong>mock experience</strong> (cosmetic) and not{" "}
-                <strong>production-grade</strong>.
-              </span>
-            </div>
+          <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-6 py-2.5">
+            <span className="rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-medium text-black/75">
+              Phase 1
+            </span>
 
-            <div className="shrink-0">
+            <div className="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
               <a
                 href={DEMO_URL}
                 target="_blank"
@@ -631,6 +623,12 @@ export default function Home() {
                 className="inline-flex items-center justify-center rounded-full border border-black/15 bg-white px-4 py-2 text-xs font-medium text-black/80 hover:border-black/25 md:text-sm"
               >
                 Open Smart Mall Experience ↗
+              </a>
+              <a
+                href="#ai-brain-simulation-play"
+                className="inline-flex items-center justify-center rounded-full border border-[#1d4ed8]/30 bg-[#eaf2ff] px-3 py-1.5 text-xs font-semibold text-[#1d4ed8] transition hover:bg-[#dbeafe]"
+              >
+                Jump to Simulation Video ↓
               </a>
             </div>
           </div>
