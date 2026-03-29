@@ -19,7 +19,7 @@ export default function ClientNav({ sections, items = [] }) {
           )[0];
         if (visible?.target?.id) setActiveId(visible.target.id);
       },
-      { threshold: [0.15, 0.25, 0.35], rootMargin: "-20% 0px -65% 0px" },
+      { threshold: [0.1, 0.2, 0.35], rootMargin: "-120px 0px -55% 0px" },
     );
 
     ids.forEach((id) => {
@@ -31,7 +31,7 @@ export default function ClientNav({ sections, items = [] }) {
   }, [sections]);
 
   return (
-    <nav className="hidden items-center gap-2 text-sm lg:flex">
+    <nav className="hidden min-w-0 flex-1 flex-wrap items-center justify-center gap-2 pr-1 text-sm lg:flex">
       {items.map((item) => {
         if (item.children?.length) {
           const isGroupActive = item.children.some((c) => c.id === activeId);
@@ -41,7 +41,7 @@ export default function ClientNav({ sections, items = [] }) {
               <button
                 type="button"
                 className={cx(
-                  "rounded-full px-3 py-1 text-sm transition",
+                  "rounded-full px-2.5 py-1 text-sm whitespace-nowrap transition",
                   isGroupActive
                     ? "bg-black text-white"
                     : "text-black/70 hover:bg-black/5 hover:text-black",
@@ -50,15 +50,16 @@ export default function ClientNav({ sections, items = [] }) {
                 {item.label}
               </button>
 
-              <div className="pointer-events-none absolute left-0 top-full z-50 mt-2 min-w-[190px] translate-y-1 rounded-2xl border border-black/10 bg-white p-2 opacity-0 shadow-lg transition duration-150 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100">
+              <div className="pointer-events-none absolute left-0 top-full z-50 mt-2 min-w-[170px] translate-y-1 rounded-2xl border border-black/10 bg-white p-2 opacity-0 shadow-lg transition duration-150 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100">
                 {item.children.map((child) => {
                   const isActive = activeId === child.id;
                   return (
                     <a
                       key={child.id}
                       href={`#${child.id}`}
+                      onClick={() => setActiveId(child.id)}
                       className={cx(
-                        "mb-1 block rounded-xl px-3 py-2 text-sm transition last:mb-0",
+                        "mb-1 block rounded-xl px-3 py-2 text-sm whitespace-nowrap transition last:mb-0",
                         isActive
                           ? "bg-black text-white"
                           : "text-black/70 hover:bg-black/5 hover:text-black",
@@ -78,8 +79,9 @@ export default function ClientNav({ sections, items = [] }) {
           <a
             key={item.id}
             href={`#${item.id}`}
+            onClick={() => setActiveId(item.id)}
             className={cx(
-              "rounded-full px-3 py-1 text-sm transition",
+              "rounded-full px-2.5 py-1 text-sm whitespace-nowrap transition",
               isActive
                 ? "bg-black text-white"
                 : "text-black/70 hover:bg-black/5 hover:text-black",

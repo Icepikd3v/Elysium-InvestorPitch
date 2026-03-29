@@ -12,6 +12,7 @@ Required variables:
 - `NDA_EMAIL`
 - `NDA_PASSWORD`
 - `INVESTOR_REQUIRE_LOGIN=true`
+- `NEXT_PUBLIC_DEMO_URL` (optional; defaults to `https://demo.elysiummall.com`)
 
 First, run the development server:
 

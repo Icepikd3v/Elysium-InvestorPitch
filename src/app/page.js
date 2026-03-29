@@ -19,7 +19,8 @@ import IllustrationImage from "@/components/illustrations/IllustrationImage";
  * - Phase 2 swaps in real system diagrams, validated metrics, and implemented backend architecture.
  */
 
-const DEMO_URL = "https://demo.elysiummall.com"; // Smart Mall mock experience domain
+const DEMO_URL =
+  process.env.NEXT_PUBLIC_DEMO_URL || "https://demo.elysiummall.com";
 const INVESTOR_POPUP_IMAGE = "/NDAPopupFinal.png";
 const SOLO_BRAIN_VIDEO = "/soloAIBrain.mp4";
 const INVITE_FRIEND_AI_BRAIN_VIDEO = "/InviteFriendSimDemo.mp4";
@@ -27,6 +28,7 @@ const ORIGINAL_NARRATION_AUDIO =
   "/voiceovers/full-experience-narration-sequence.mp3";
 const SIMULATION_NARRATION_AUDIO =
   "/voiceovers/simulation-voiceover-20260318.m4a";
+const PASSWORD_REQUEST_EMAIL = "koririvers@outlook.com";
 // Kori note (Mar 18, 2026): start simulation video after first paragraph finishes.
 // Tune this value if updated voiceover pacing changes.
 const SIMULATION_VIDEO_LEAD_IN_SECONDS = 26;
@@ -39,43 +41,33 @@ const SECTIONS = [
   { id: "cover", label: "Overview" },
   { id: "problem", label: "Problem" },
   { id: "solution", label: "Solution" },
-  { id: "product", label: "Smart Mall" },
+  { id: "contracts", label: "Contracts" },
+  { id: "product", label: "SmartMall" },
   { id: "ai", label: "AI Brain" },
   { id: "avatar", label: "Shop Experience" },
   { id: "gtm", label: "Go-to-market" },
   { id: "rollout", label: "Rollout" },
   { id: "financials", label: "Financials" },
+  { id: "capitalization", label: "Capitalization" },
   { id: "raise", label: "Investor Capitalization" },
   { id: "investor-information", label: "Investor Information" },
   { id: "backend", label: "Platform" },
   { id: "team", label: "Team" },
+  { id: "management-team", label: "Management Team" },
   { id: "contact", label: "Contact" },
 ];
 
 const NAV_ITEMS = [
-  {
-    label: "Overview",
-    children: [
-      { id: "cover", label: "Overview" },
-      { id: "problem", label: "Problem" },
-      { id: "solution", label: "Solution" },
-    ],
-  },
-  {
-    label: "Experience",
-    children: [
-      { id: "ai", label: "AI Brain" },
-      { id: "avatar", label: "Shop Experience" },
-    ],
-  },
-  { id: "product", label: "Smart Mall" },
-  { id: "gtm", label: "Go-to-market" },
-  { id: "rollout", label: "Rollout" },
-  { id: "financials", label: "Financials" },
-  { id: "raise", label: "Investor Capitalization" },
-  { id: "investor-information", label: "Investor Information" },
+  { id: "cover", label: "Overview" },
+  { id: "ai", label: "AI Brain" },
+  { id: "product", label: "SmartMall" },
+  { id: "gtm", label: "Marketing Plan" },
+  { id: "contracts", label: "Contracts" },
+  { id: "rollout", label: "Financials/IPO" },
+  { id: "raise", label: "Capitalization" },
+  { id: "team", label: "Management" },
+  { id: "management-team", label: "Team" },
   { id: "backend", label: "Platform" },
-  { id: "team", label: "Team" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -436,7 +428,7 @@ function SectionHeader({ kicker, title, subtitle, right }) {
 
 function SectionShell({ id, children }) {
   return (
-    <section id={id} className="mx-auto max-w-6xl px-6 py-16">
+    <section id={id} className="mx-auto max-w-6xl scroll-mt-36 px-6 py-16 md:scroll-mt-40">
       {children}
     </section>
   );
@@ -560,6 +552,13 @@ export default function Home() {
   const [termsStatus, setTermsStatus] = useState(
     TERMS_GATE_ENABLED ? "pending" : "accepted",
   );
+  const [showPasswordRequestModal, setShowPasswordRequestModal] = useState(false);
+  const [passwordRequestForm, setPasswordRequestForm] = useState({
+    fullName: "",
+    contactNumber: "",
+    emailAddress: "",
+    comments: "",
+  });
 
   const acceptTerms = () => {
     setTermsStatus("accepted");
@@ -567,6 +566,40 @@ export default function Home() {
 
   const rejectTerms = () => {
     setTermsStatus("rejected");
+  };
+
+  const updatePasswordRequestForm = (field) => (event) => {
+    const { value } = event.target;
+    setPasswordRequestForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const closePasswordRequestModal = () => {
+    setShowPasswordRequestModal(false);
+    setPasswordRequestForm({
+      fullName: "",
+      contactNumber: "",
+      emailAddress: "",
+      comments: "",
+    });
+  };
+
+  const sendPasswordRequest = (event) => {
+    event.preventDefault();
+    const subject = "Elysium Password Request";
+    const body = [
+      "Password request details:",
+      `Full Name: ${passwordRequestForm.fullName}`,
+      `Contact Number: ${passwordRequestForm.contactNumber}`,
+      `Email Address: ${passwordRequestForm.emailAddress}`,
+      "",
+      "Comments:",
+      passwordRequestForm.comments || "(none)",
+    ].join("\n");
+
+    if (typeof window !== "undefined") {
+      window.location.href = `mailto:${PASSWORD_REQUEST_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+    closePasswordRequestModal();
   };
 
   if (TERMS_GATE_ENABLED && termsStatus === "rejected") {
@@ -586,50 +619,54 @@ export default function Home() {
     <main id="top" className="min-h-screen bg-[#fafafa] text-black">
       {/* Nav */}
       <header className="sticky top-0 z-50 border-b border-black/10 bg-[#fafafa]/80 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <a href="#cover" className="flex items-center gap-3">
-            <div className="leading-tight">
-              <div className="text-sm font-semibold tracking-wide">Elysium</div>
-              <div className="text-xs text-black/60">
-                Phase 1
-              </div>
-            </div>
+        <div className="mx-auto flex max-w-[1400px] items-center gap-4 px-5 py-4">
+          <a href="#cover" className="shrink-0 leading-tight">
+            <div className="text-sm font-semibold tracking-wide">Elysium</div>
+            <div className="text-xs text-black/60">Phase 1</div>
+          </a>
+
+          <a
+            href="#top"
+            className="ml-4 hidden rounded-full border border-black/15 bg-white px-3 py-1.5 text-sm font-medium text-black/80 hover:border-black/25 lg:inline-flex"
+          >
+            Home
           </a>
 
           <ClientNav sections={SECTIONS} items={NAV_ITEMS} />
-
-          <div className="flex items-center gap-2">
-            <a
-              href="#top"
-              className="rounded-full border border-black/15 bg-white px-4 py-2 text-sm font-medium text-black/80 hover:border-black/25"
-            >
-              Home
-            </a>
-          </div>
         </div>
 
         {/* Phase 1 disclaimer ribbon */}
         <div className="border-t border-black/10 bg-white/70">
-          <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-6 py-2.5">
+          <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-3 px-5 py-2.5">
             <span className="rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-medium text-black/75">
               Phase 1
             </span>
 
             <div className="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
               <a
-                href={DEMO_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-full border border-black/15 bg-white px-4 py-2 text-xs font-medium text-black/80 hover:border-black/25 md:text-sm"
-              >
-                Open Smart Mall Experience ↗
-              </a>
-              <a
                 href="#ai-brain-simulation-play"
                 className="inline-flex items-center justify-center rounded-full border border-[#1d4ed8]/30 bg-[#eaf2ff] px-3 py-1.5 text-xs font-semibold text-[#1d4ed8] transition hover:bg-[#dbeafe]"
               >
-                Jump to Simulation Video ↓
+                SmartMall Simulation Video
               </a>
+              <a
+                href={DEMO_URL}
+                className="inline-flex items-center justify-center rounded-full border border-black/15 bg-white px-4 py-2 text-xs font-medium text-black/80 hover:border-black/25 md:text-sm"
+              >
+                Full Demo Site ↗
+              </a>
+              <div className="group relative">
+                <button
+                  type="button"
+                  onClick={() => setShowPasswordRequestModal(true)}
+                  className="inline-flex items-center justify-center rounded-full border border-black/15 bg-white px-4 py-2 text-xs font-medium text-black/80 hover:border-black/25 md:text-sm"
+                >
+                  Request Password
+                </button>
+                <div className="pointer-events-none absolute right-0 top-full mt-1 rounded-md bg-black px-2 py-1 text-[11px] text-white opacity-0 transition group-hover:opacity-100">
+                  Requires Password
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -646,7 +683,7 @@ export default function Home() {
           <div className="relative grid gap-10 md:grid-cols-2 md:items-center">
             <div>
               <div className="flex flex-wrap gap-2">
-                <Pill>Virtual Smart Mall</Pill>
+                <Pill>Virtual SmartMall</Pill>
                 <Pill>AI Brain</Pill>
                 <Pill>Social + eCommerce</Pill>
                 <Pill>AI-assisted mock</Pill>
@@ -664,7 +701,7 @@ export default function Home() {
                 <strong>reactions</strong>, which improves predictability by
                 analyzing a compilation of human variables to &ldquo;learn and
                 know&rdquo; not just one shopper, but like shoppers as well. This
-                enhances the Smart Mall experience.
+                enhances the SmartMall experience.
               </p>
 
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
@@ -677,11 +714,9 @@ export default function Home() {
 
                 <a
                   href={DEMO_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="rounded-full border border-black/15 bg-white px-6 py-3 text-center text-sm font-semibold text-black/80 hover:border-black/25"
                 >
-                  View the Smart Mall experience ↗
+                  View the SmartMall experience ↗
                 </a>
               </div>
 
@@ -694,7 +729,7 @@ export default function Home() {
                   Demo note (important)
                 </div>
                 <div className="mt-1">
-                  The Smart Mall demo is a <strong>mock UI/experience</strong>{" "}
+                  The SmartMall demo is a <strong>mock UI/experience</strong>{" "}
                   created with AI assistance for presentation purposes. It is{" "}
                   <strong>not</strong> production-grade and does not represent
                   final rendering, physics, inventory, or full commerce logic
@@ -730,8 +765,6 @@ export default function Home() {
                   </a>
                   <a
                     href={DEMO_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="underline decoration-black/20 hover:decoration-black/40"
                   >
                     Open experience ↗
@@ -761,7 +794,7 @@ export default function Home() {
             <div className="grid gap-4 md:grid-cols-3">
               <Stat
                 label="Positioning"
-                value="Virtual Smart Mall"
+                value="Virtual SmartMall"
                 note="Immersive commerce + social layer."
               />
               <Stat
@@ -867,7 +900,7 @@ export default function Home() {
       <SectionShell id="solution">
         <SectionHeader
           kicker="The solution"
-          title="A Smart Mall that feels guided, social, and predictive"
+          title="A SmartMall that feels guided, social, and predictive"
           subtitle="Elysium turns shopping into an interactive experience where AI improves predictability, boosts confidence, and reduces returns."
           right={
             <>
@@ -917,8 +950,8 @@ export default function Home() {
       <SectionShell id="product">
         <SectionHeader
           kicker="Product experience"
-          title="Smart Mall experience (Phase 1 demo)"
-          subtitle="Phase 1 includes an investor narrative site (this page) plus a separate mock Smart Mall experience (demo) for visual storytelling."
+          title="SmartMall experience (Phase 1 demo)"
+          subtitle="Phase 1 includes an investor narrative site (this page) plus a separate mock SmartMall experience (demo) for visual storytelling."
           right={
             <>
               <Pill>Investor page</Pill>
@@ -938,7 +971,7 @@ export default function Home() {
               <BulletList
                 items={[
                   "Investor pitch site (Next.js): narrative + visuals + roadmap (current page)",
-                  "Mock Smart Mall demo (Elysium-prototype): cosmetic walkthrough to show the concept",
+                  "Mock SmartMall demo (Elysium-prototype): cosmetic walkthrough to show the concept",
                   "Both are AI-assisted mockups for speed and clarity—not final realism",
                 ]}
               />
@@ -946,11 +979,9 @@ export default function Home() {
               <div className="mt-5 flex flex-col gap-3 sm:flex-row">
                 <a
                   href={DEMO_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="rounded-full bg-black px-6 py-3 text-center text-sm font-semibold text-white hover:bg-black/90"
                 >
-                  Open Smart Mall Experience ↗
+                  Open SmartMall Experience ↗
                 </a>
 
                 <a
@@ -1005,7 +1036,7 @@ export default function Home() {
               />
             </div>
             <div className="mt-3 px-1 text-xs text-black/60">
-              Smart Mall Mock (Hero) — click to use yourself
+              SmartMall Mock (Hero) — click to use yourself
             </div>
           </div>
         </div>
@@ -1219,6 +1250,7 @@ export default function Home() {
       </SectionShell>
 
       {/* GTM */}
+      <div id="contracts" className="scroll-mt-56 md:scroll-mt-48" />
       <SectionShell id="gtm">
         <SectionHeader
           kicker="Growth"
@@ -1379,6 +1411,7 @@ export default function Home() {
               src="/illustrations/graph4.png"
               alt="Revenue projections year one and two from investor deck"
               fit="contain"
+              unoptimized
             />
           </div>
         </div>
@@ -1495,6 +1528,7 @@ export default function Home() {
       </SectionShell>
 
       {/* Raise */}
+      <div id="capitalization" className="scroll-mt-56 md:scroll-mt-48" />
       <SectionShell id="raise">
         <SectionHeader
           kicker="Capital plan"
@@ -1646,7 +1680,7 @@ export default function Home() {
         <SectionHeader
           kicker="Platform"
           title="What backend is required to make Elysium real"
-          subtitle="The pitch and demo are Phase 1 storytelling. A production Smart Mall requires secure accounts, commerce, data persistence, AI pipelines, and a high-fidelity rendering stack for realistic visuals (not low-poly mock quality)."
+          subtitle="The pitch and demo are Phase 1 storytelling. A production SmartMall requires secure accounts, commerce, data persistence, AI pipelines, and a high-fidelity rendering stack for realistic visuals (not low-poly mock quality)."
           right={
             <>
               <Pill>Auth</Pill>
@@ -1742,7 +1776,7 @@ export default function Home() {
             Why this matters to investors
           </h3>
           <p className="mt-2 text-sm text-black/70">
-            The differentiator (AI Brain + Smart Mall experience) only becomes
+            The differentiator (AI Brain + SmartMall experience) only becomes
             defensible when the platform reliably supports secure commerce,
             persistent data, monitored AI systems, and realistic high-resolution
             rendering. Phase 2 formalizes this into architecture,
@@ -1828,6 +1862,8 @@ export default function Home() {
         </div>
       </SectionShell>
 
+      <div id="management-team" className="scroll-mt-56 md:scroll-mt-48" />
+
       {/* Contact */}
       <SectionShell id="contact">
         <div className="rounded-3xl border border-black/10 bg-white p-10 text-center shadow-sm">
@@ -1844,16 +1880,14 @@ export default function Home() {
             <a
               className="rounded-full bg-black px-7 py-3 text-sm font-semibold text-white hover:bg-black/90"
               href={DEMO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
             >
-              Open the Smart Mall Experience ↗
+              Full Demo Site ↗
             </a>
             <a
               className="rounded-full border border-black/15 bg-white px-7 py-3 text-sm font-semibold text-black/80 hover:border-black/25"
               href="mailto:sam.d3v.35@gmail.com"
             >
-              Contact
+              Contact Us
             </a>
           </div>
 
@@ -1874,6 +1908,83 @@ export default function Home() {
           </div>
         </div>
       </SectionShell>
+
+      {showPasswordRequestModal ? (
+        <div className="fixed inset-0 z-[95] flex items-center justify-center bg-black/60 px-6 py-10">
+          <div className="w-full max-w-lg rounded-2xl border border-black/10 bg-white p-6 shadow-2xl">
+            <div className="text-xs font-semibold uppercase tracking-wide text-black/45">
+              Requires Password
+            </div>
+            <h3 className="mt-2 text-xl font-semibold text-black/90">Request Password</h3>
+            <form className="mt-4 space-y-3" onSubmit={sendPasswordRequest}>
+              <div>
+                <label className="mb-1 block text-sm font-medium text-black/70" htmlFor="pw-full-name">
+                  Full Name
+                </label>
+                <input
+                  id="pw-full-name"
+                  value={passwordRequestForm.fullName}
+                  onChange={updatePasswordRequestForm("fullName")}
+                  required
+                  className="w-full rounded-xl border border-black/15 px-3 py-2 text-sm outline-none focus:border-black/35"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-sm font-medium text-black/70" htmlFor="pw-contact-number">
+                  Contact Number
+                </label>
+                <input
+                  id="pw-contact-number"
+                  value={passwordRequestForm.contactNumber}
+                  onChange={updatePasswordRequestForm("contactNumber")}
+                  required
+                  className="w-full rounded-xl border border-black/15 px-3 py-2 text-sm outline-none focus:border-black/35"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-sm font-medium text-black/70" htmlFor="pw-email-address">
+                  Email Address
+                </label>
+                <input
+                  id="pw-email-address"
+                  type="email"
+                  value={passwordRequestForm.emailAddress}
+                  onChange={updatePasswordRequestForm("emailAddress")}
+                  required
+                  className="w-full rounded-xl border border-black/15 px-3 py-2 text-sm outline-none focus:border-black/35"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-sm font-medium text-black/70" htmlFor="pw-comments">
+                  Comment
+                </label>
+                <textarea
+                  id="pw-comments"
+                  value={passwordRequestForm.comments}
+                  onChange={updatePasswordRequestForm("comments")}
+                  rows={3}
+                  className="w-full rounded-xl border border-black/15 px-3 py-2 text-sm outline-none focus:border-black/35"
+                />
+              </div>
+              <div className="flex flex-wrap justify-end gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={closePasswordRequestModal}
+                  className="rounded-full border border-black/15 bg-white px-5 py-2 text-sm font-semibold text-black/75 hover:border-black/30"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="rounded-full bg-black px-5 py-2 text-sm font-semibold text-white hover:bg-black/90"
+                >
+                  Send
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      ) : null}
 
       {TERMS_GATE_ENABLED && termsStatus === "pending" ? (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 px-6 py-10">
@@ -1913,8 +2024,18 @@ export default function Home() {
       ) : null}
 
       <footer className="border-t border-black/10 py-10 text-center text-xs text-black/50">
-        © {new Date().getFullYear()} Elysium — Phase 1 Investor Website
-        (AI-assisted mockup) • Demo is cosmetic-only for concept storytelling
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 sm:flex-row">
+          <span>
+            © {new Date().getFullYear()} Elysium — Phase 1 Investor Website
+            (AI-assisted mockup) • Demo is cosmetic-only for concept storytelling
+          </span>
+          <div className="flex items-center gap-3 text-xs">
+            <span>Post News in Window Frames</span>
+            <a className="underline decoration-black/20 hover:decoration-black/45" href="#contact">
+              Contact Us
+            </a>
+          </div>
+        </div>
       </footer>
     </main>
   );
