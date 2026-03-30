@@ -35,40 +35,46 @@ export default function ClientNav({ sections, items = [] }) {
       {items.map((item) => {
         if (item.children?.length) {
           const isGroupActive = item.children.some((c) => c.id === activeId);
+          const primaryChild = item.children[0];
 
           return (
             <div key={item.label} className="group relative">
-              <button
-                type="button"
+              <a
+                href={primaryChild ? `#${primaryChild.id}` : "#cover"}
+                onClick={() => {
+                  if (primaryChild?.id) setActiveId(primaryChild.id);
+                }}
                 className={cx(
-                  "rounded-full px-2.5 py-1 text-sm whitespace-nowrap transition",
+                  "inline-flex rounded-full px-2.5 py-1 text-sm whitespace-nowrap transition",
                   isGroupActive
                     ? "bg-black text-white"
                     : "text-black/70 hover:bg-black/5 hover:text-black",
                 )}
               >
                 {item.label}
-              </button>
+              </a>
 
-              <div className="pointer-events-none absolute left-0 top-full z-50 mt-2 min-w-[170px] translate-y-1 rounded-2xl border border-black/10 bg-white p-2 opacity-0 shadow-lg transition duration-150 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100">
-                {item.children.map((child) => {
-                  const isActive = activeId === child.id;
-                  return (
-                    <a
-                      key={child.id}
-                      href={`#${child.id}`}
-                      onClick={() => setActiveId(child.id)}
-                      className={cx(
-                        "mb-1 block rounded-xl px-3 py-2 text-sm whitespace-nowrap transition last:mb-0",
-                        isActive
-                          ? "bg-black text-white"
-                          : "text-black/70 hover:bg-black/5 hover:text-black",
-                      )}
-                    >
-                      {child.label}
-                    </a>
-                  );
-                })}
+              <div className="pointer-events-none absolute left-0 top-full z-50 min-w-[170px] pt-1 opacity-0 transition duration-150 group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
+                <div className="rounded-2xl border border-black/10 bg-white p-2 shadow-lg">
+                  {item.children.map((child) => {
+                    const isActive = activeId === child.id;
+                    return (
+                      <a
+                        key={child.id}
+                        href={`#${child.id}`}
+                        onClick={() => setActiveId(child.id)}
+                        className={cx(
+                          "mb-1 block rounded-xl px-3 py-2 text-sm whitespace-nowrap transition last:mb-0",
+                          isActive
+                            ? "bg-black text-white"
+                            : "text-black/70 hover:bg-black/5 hover:text-black",
+                        )}
+                      >
+                        {child.label}
+                      </a>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           );

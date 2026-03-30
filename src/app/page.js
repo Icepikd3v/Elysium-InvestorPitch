@@ -13,7 +13,7 @@ import IllustrationImage from "@/components/illustrations/IllustrationImage";
 
 /**
  * Phase 1 Investor Website (Pitch Narrative + Illustration-Forward)
- * - Pitch-deck storytelling: Problem → Solution → Product → AI → Avatar → GTM → Rollout → Financials → Raise → Platform → Team → Contact
+ * - Pitch storytelling: Problem → Solution → Product → AI → Avatar → GTM → Rollout → Financials → Raise → Platform → Team → Contact
  * - Phase 1 is intentionally "mock-forward" for narrative clarity.
  * - Mock visuals + demo are AI-assisted and not a final/accurate representation of production fidelity.
  * - Phase 2 swaps in real system diagrams, validated metrics, and implemented backend architecture.
@@ -28,7 +28,7 @@ const ORIGINAL_NARRATION_AUDIO =
   "/voiceovers/full-experience-narration-sequence.mp3";
 const SIMULATION_NARRATION_AUDIO =
   "/voiceovers/simulation-voiceover-20260318.m4a";
-const PASSWORD_REQUEST_EMAIL = "koririvers@outlook.com";
+const PASSWORD_REQUEST_EMAIL = "kori@elysiummall.com";
 // Kori note (Mar 18, 2026): start simulation video after first paragraph finishes.
 // Tune this value if updated voiceover pacing changes.
 const SIMULATION_VIDEO_LEAD_IN_SECONDS = 26;
@@ -38,6 +38,25 @@ const SIMULATION_VIDEO_LEAD_IN_SECONDS = 26;
 const TERMS_GATE_ENABLED = true;
 
 const SECTIONS = [
+  { id: "overview-summary", label: "Overview Summary" },
+  { id: "overview-market-solution", label: "Elysium Market Solution" },
+  { id: "overview-enhanced-shopping", label: "Enhanced Shopping" },
+  { id: "ai-brain-core", label: "AI Brain" },
+  { id: "ai-advance-avatar", label: "Advance Avatar" },
+  { id: "ai-social-media", label: "Social Media" },
+  { id: "market-plan-summary", label: "Plan Summary" },
+  { id: "marketing-phases", label: "Marketing Phases" },
+  { id: "rollout-plan", label: "Roll Out Plan" },
+  { id: "financial-projections", label: "Financial Projections" },
+  { id: "financial-budget", label: "Budget FY1/FY2" },
+  { id: "ipo-readiness", label: "IPO" },
+  { id: "ipo-team", label: "IPO Team" },
+  { id: "capital-raise-pre-ipo", label: "Capital Raise Pre-IPO" },
+  { id: "draft-cap-table", label: "Draft Cap Table" },
+  { id: "investor-overview", label: "Investor" },
+  { id: "board-directors", label: "Board of Directors" },
+  { id: "management-leadership", label: "Management" },
+  { id: "special-advisors", label: "Special Advisors" },
   { id: "cover", label: "Overview" },
   { id: "problem", label: "Problem" },
   { id: "solution", label: "Solution" },
@@ -53,22 +72,60 @@ const SECTIONS = [
   { id: "investor-information", label: "Investor Information" },
   { id: "backend", label: "Platform" },
   { id: "team", label: "Team" },
-  { id: "management-team", label: "Management Team" },
   { id: "contact", label: "Contact" },
 ];
 
 const NAV_ITEMS = [
-  { id: "cover", label: "Overview" },
-  { id: "ai", label: "AI Brain" },
-  { id: "product", label: "SmartMall" },
-  { id: "gtm", label: "Marketing Plan" },
-  { id: "contracts", label: "Contracts" },
-  { id: "rollout", label: "Financials/IPO" },
-  { id: "raise", label: "Capitalization" },
-  { id: "team", label: "Management" },
-  { id: "management-team", label: "Team" },
-  { id: "backend", label: "Platform" },
-  { id: "contact", label: "Contact" },
+  {
+    label: "Overview",
+    children: [
+      { id: "overview-summary", label: "Summary" },
+      { id: "overview-market-solution", label: "Elysium market solution" },
+      { id: "overview-enhanced-shopping", label: "Enhanced Shopping" },
+    ],
+  },
+  {
+    label: "AI Brain/SmartMall",
+    children: [
+      { id: "ai-brain-core", label: "AI Brain" },
+      { id: "ai-advance-avatar", label: "Advance Avatar" },
+      { id: "ai-social-media", label: "Social Media" },
+    ],
+  },
+  {
+    label: "Market Plan/Contracts",
+    children: [
+      { id: "market-plan-summary", label: "Plan summary" },
+      { id: "marketing-phases", label: "Marketing Phases" },
+      { id: "rollout-plan", label: "Roll out Plan" },
+    ],
+  },
+  {
+    label: "Financials/IPO",
+    children: [
+      { id: "financial-projections", label: "Projections" },
+      { id: "financial-budget", label: "Budget: FY1 & FY2" },
+      { id: "ipo-readiness", label: "IPO" },
+      { id: "ipo-team", label: "IPO Team" },
+    ],
+  },
+  {
+    label: "Capitalization/Investors",
+    children: [
+      { id: "capital-raise-pre-ipo", label: "Capital Raise Pre-IPO" },
+      { id: "draft-cap-table", label: "Draft Cap Table" },
+      { id: "investor-overview", label: "Investor" },
+    ],
+  },
+  {
+    label: "Management Team",
+    children: [
+      { id: "board-directors", label: "Board of Directors" },
+      { id: "management-leadership", label: "Management" },
+      { id: "special-advisors", label: "Special Advisors" },
+    ],
+  },
+  { id: "contact", label: "Contact Us" },
 ];
 
 function cx(...classes) {
@@ -119,6 +176,95 @@ function BulletList({ items }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+function SectionEvidencePanel({ title, pages = [], summary = [], takeaway, id }) {
+  const hasPages = pages.length > 0;
+  const evidenceGridClass =
+    pages.length === 1
+      ? "grid gap-4 lg:col-span-8"
+      : "grid gap-4 2xl:grid-cols-2 lg:col-span-8";
+
+  if (!hasPages) {
+    return (
+      <div id={id} className="mt-6 scroll-mt-56 rounded-3xl border border-black/10 bg-white p-5 shadow-sm md:p-6">
+        <div className="text-xl font-semibold text-black/90">{title}</div>
+        <div className="mt-4 grid gap-4 md:grid-cols-3">
+          {summary.map((item, index) => (
+            <div key={item} className="rounded-2xl border border-black/10 bg-[#fafafa] p-4">
+              <div className="text-xs font-semibold uppercase tracking-wide text-black/45">
+                Key Point {index + 1}
+              </div>
+              <div className="mt-2 text-sm leading-relaxed text-black/75">{item}</div>
+            </div>
+          ))}
+        </div>
+        {takeaway ? (
+          <div className="mt-4 rounded-2xl border border-black/10 bg-black/5 p-4 text-sm text-black/80">
+            <div className="text-xs font-semibold uppercase tracking-wide text-black/55">
+              Investor Takeaway
+            </div>
+            <div className="mt-1">{takeaway}</div>
+          </div>
+        ) : null}
+      </div>
+    );
+  }
+
+  return (
+    <div id={id} className="mt-6 scroll-mt-56 rounded-3xl border border-black/10 bg-white p-5 shadow-sm md:p-6">
+      <div className="text-xl font-semibold text-black/90">{title}</div>
+
+      <div className="mt-4 grid gap-5 lg:grid-cols-12">
+        <div className="lg:col-span-4">
+          <div className="rounded-2xl border border-black/10 bg-[#fafafa] p-4">
+            <div className="text-sm font-semibold text-black/85">
+              What This Section Shows
+            </div>
+            <ul className="mt-3 space-y-2 text-sm leading-relaxed text-black/70">
+              {summary.map((item) => (
+                <li key={item} className="flex gap-2">
+                  <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-black/40" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+            {takeaway ? (
+              <div className="mt-4 rounded-xl border border-black/10 bg-white p-3 text-sm text-black/75">
+                <div className="text-xs font-semibold uppercase tracking-wide text-black/55">
+                  Investor Takeaway
+                </div>
+                <div className="mt-1">{takeaway}</div>
+              </div>
+            ) : null}
+          </div>
+        </div>
+
+        <div className={evidenceGridClass}>
+          {pages.map((page) => (
+            <div
+              key={page}
+              className="overflow-hidden rounded-2xl border border-black/10 bg-[#f8f8f8] p-2"
+            >
+              <div className="aspect-[16/9] w-full">
+                <IllustrationImage
+                  src={`/Slide/page%20${page}.png`}
+                  alt={`${title} visual`}
+                  fit="contain"
+                  imageStyle={{
+                    objectPosition: "top center",
+                    clipPath: "inset(1px 12px 12px 1px)",
+                    transform: "translate(-1px, -1px) scale(1.03)",
+                  }}
+                  unoptimized
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -553,6 +699,7 @@ export default function Home() {
     TERMS_GATE_ENABLED ? "pending" : "accepted",
   );
   const [showPasswordRequestModal, setShowPasswordRequestModal] = useState(false);
+  const [expandedChart, setExpandedChart] = useState(null);
   const [passwordRequestForm, setPasswordRequestForm] = useState({
     fullName: "",
     contactNumber: "",
@@ -600,6 +747,39 @@ export default function Home() {
       window.location.href = `mailto:${PASSWORD_REQUEST_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     }
     closePasswordRequestModal();
+  };
+
+  const renderChartByKey = (chartKey, expanded = false) => {
+    const containerClass = expanded ? "h-full w-full" : "h-full w-full";
+
+    switch (chartKey) {
+      case "rollout":
+        return (
+          <div className={containerClass}>
+            <RolloutTimelineIllustration variant="svg" mode="fill" />
+          </div>
+        );
+      case "revenue-y1":
+        return (
+          <div className={containerClass}>
+            <RevenueYearOneChartMock />
+          </div>
+        );
+      case "revenue-y1y2":
+        return (
+          <div className={containerClass}>
+            <RevenueYear1Year2ChartMock />
+          </div>
+        );
+      case "raise-flow":
+        return (
+          <div className={containerClass}>
+            <RaiseFlowIllustration />
+          </div>
+        );
+      default:
+        return null;
+    }
   };
 
   if (TERMS_GATE_ENABLED && termsStatus === "rejected") {
@@ -672,6 +852,7 @@ export default function Home() {
         </div>
       </header>
 
+      <div id="overview-summary" className="scroll-mt-56 md:scroll-mt-48" />
       {/* Cover / Hero */}
       <SectionShell id="cover">
         <div className="relative overflow-hidden rounded-3xl border border-black/10 bg-white p-8 shadow-sm md:p-10">
@@ -752,7 +933,6 @@ export default function Home() {
                   alt="Smart mall storefront hero visual"
                   fit="cover"
                 />
-                <div className="pointer-events-none absolute left-[18px] top-[18px] h-[calc(100%-36px)] w-[6px] rounded-full bg-[#fafafa]" />
               </div>
               <div className="mt-3 flex items-center justify-between px-1 text-xs text-black/60">
                 <span>Digital Storefront (Mock UI)</span>
@@ -820,6 +1000,16 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        <SectionEvidencePanel
+          title="Overview"
+          summary={[
+            "Elysium is positioned as a multi-dimensional virtual SmartMall led by an AI Brain.",
+            "The concept combines commerce with social interaction to improve discovery and conversion.",
+            "The overview frames an execution plan supported by management and early investor backing.",
+          ]}
+          takeaway="The opportunity is framed as a new category blend: social platform + ecommerce platform in one environment."
+        />
       </SectionShell>
 
       {/* Problem */}
@@ -897,6 +1087,10 @@ export default function Home() {
       </SectionShell>
 
       {/* Solution */}
+      <div
+        id="overview-market-solution"
+        className="scroll-mt-56 md:scroll-mt-48"
+      />
       <SectionShell id="solution">
         <SectionHeader
           kicker="The solution"
@@ -944,6 +1138,16 @@ export default function Home() {
             Social + guidance drives engagement and purchases.
           </Card>
         </div>
+
+        <SectionEvidencePanel
+          title="Elysium Market Solution"
+          summary={[
+            "Current online shopping pain points include low predictability, limited interaction, and high return risk.",
+            "The SmartMall model introduces real-time shopper guidance, social interaction, and adaptive suggestions.",
+            "The solution narrative ties AI-driven assistance directly to reduced abandonment and improved satisfaction.",
+          ]}
+          takeaway="The section argues that stronger shopper confidence can improve both conversion and vendor performance."
+        />
       </SectionShell>
 
       {/* Product Experience */}
@@ -960,6 +1164,18 @@ export default function Home() {
             </>
           }
         />
+
+        <div id="ai-social-media" className="mt-6 scroll-mt-56 rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-black/90">Social Media Experience</h3>
+          <BulletList
+            items={[
+              "Group shopping supports real-time visual and audio interaction inside the virtual mall.",
+              "AI suggestions adapt in real time based on shopper behavior and social interactions.",
+              "Bio-measurement and behavioral signals improve predictability across shopper groups.",
+              "Shoppers can share, record, and comment on shopping experiences as they happen.",
+            ]}
+          />
+        </div>
 
         <div className="mt-6 grid gap-6 md:grid-cols-12">
           <div className="md:col-span-7">
@@ -1051,9 +1267,20 @@ export default function Home() {
             relevance and reducing friction vs. static listings.
           </Card>
         </div>
+
+        <SectionEvidencePanel
+          title="Social Media"
+          summary={[
+            "Group shopping enables real-time visual and audio interaction within the SmartMall.",
+            "Recommendations are informed by social behavior, prior shopping behavior, and in-session context.",
+            "The platform emphasizes sharing, commentary, and continuous social participation during shopping.",
+          ]}
+          takeaway="Social engagement is presented as a core product feature that increases participation and purchase intent."
+        />
       </SectionShell>
 
       {/* AI */}
+      <div id="ai-brain-core" className="scroll-mt-56 md:scroll-mt-48" />
       <SectionShell id="ai">
         <SectionHeader
           kicker="System narrative"
@@ -1109,7 +1336,7 @@ export default function Home() {
                 Original AI Brain narrated clip
               </div>
               <div className="mt-1 text-sm text-black/60">
-                Existing clip kept unchanged for reference.
+                Existing clip kept unchanged.
               </div>
               <div className="mt-4">
                 <SyncedSoloDemoPlayer />
@@ -1130,10 +1357,20 @@ export default function Home() {
           </div>
         </div>
 
+        <SectionEvidencePanel
+          title="AI Brain"
+          summary={[
+            "The AI engine is described as a broad-signal system using behavioral and contextual inputs.",
+            "Predictability is positioned as the primary output, with recommendations adapting per shopper.",
+            "Security monitoring and multilingual recommendation delivery are included in the narrative.",
+          ]}
+          takeaway="AI is positioned as the differentiator that drives personalization, efficiency, and measurable lift."
+        />
       </SectionShell>
 
       {/* Shop Experience */}
       <SectionShell id="avatar">
+        <div id="ai-advance-avatar" className="scroll-mt-56 md:scroll-mt-48" />
         <SectionHeader
           kicker="Shop experience"
           title="Avatar-based shop experience to reduce returns"
@@ -1247,10 +1484,31 @@ export default function Home() {
           </div>
         </div>
 
+        <SectionEvidencePanel
+          title="Advance Avatar"
+          summary={[
+            "Avatar use is tied to fit confidence and a more realistic pre-purchase experience.",
+            "The section links avatar workflows to lower returns and stronger shopper certainty.",
+            "Personalization is presented as a practical conversion tool, not only a visual effect.",
+          ]}
+          takeaway="The avatar concept is framed as a return-reduction and conversion-improvement lever."
+        />
+        <SectionEvidencePanel
+          title="Enhanced Shopping"
+          id="overview-enhanced-shopping"
+          summary={[
+            "Elysium is positioned as a blended social-commerce model with continuous interaction.",
+            "Enhancement themes include collaborative shopping, broader data inputs, and vendor exposure.",
+            "The conclusion links platform capability to projected operating and earnings performance.",
+          ]}
+          takeaway="Enhanced shopping is presented as both a user-experience upgrade and a growth mechanism."
+        />
       </SectionShell>
 
       {/* GTM */}
       <div id="contracts" className="scroll-mt-56 md:scroll-mt-48" />
+      <div id="market-plan-summary" className="scroll-mt-56 md:scroll-mt-48" />
+      <div id="marketing-phases" className="scroll-mt-56 md:scroll-mt-48" />
       <SectionShell id="gtm">
         <SectionHeader
           kicker="Growth"
@@ -1281,6 +1539,7 @@ export default function Home() {
                 "Acquire smaller social media platforms (convert users into members)",
                 "Acquire smaller eCommerce platforms (vendors + existing revenues)",
                 "Elysium benefits from both because it is social + commerce",
+                "Use equity as acquisition currency to preserve operating capital while scaling",
               ]}
             />
           </Card>
@@ -1304,12 +1563,9 @@ export default function Home() {
             <div className="h-[300px] md:h-[360px]">
               <IllustrationImage
                 src="/illustrations/Prong1.png"
-                alt="Pitch deck slide summarizing prong one traditional marketing development"
+                alt="Traditional marketing summary visual"
                 fit="contain"
               />
-            </div>
-            <div className="mt-3 text-xs text-black/60">
-              Deck support visual: Prong One traditional marketing.
             </div>
           </div>
 
@@ -1317,7 +1573,7 @@ export default function Home() {
             <div className="h-[300px] md:h-[360px]">
               <IllustrationImage
                 src="/illustrations/prong2-3.png"
-                alt="Pitch deck slide summarizing prong two and three acquisition strategy"
+                alt="Platform acquisition summary visual"
                 fit="contain"
                 className="overflow-hidden rounded-xl"
                 imageStyle={{
@@ -1326,14 +1582,22 @@ export default function Home() {
                 }}
               />
             </div>
-            <div className="mt-3 text-xs text-black/60">
-              Deck support visual: Prong Two and Prong Three acquisitions.
-            </div>
           </div>
         </div>
+
+        <SectionEvidencePanel
+          title="Market Plan / Contracts"
+          summary={[
+            "The plan is built on three prongs: direct marketing plus social and ecommerce acquisitions.",
+            "Traditional market development benchmarks are used to justify staged adoption strategy.",
+            "Recurring revenue streams are defined across pre-launch and post-launch phases.",
+          ]}
+          takeaway="Growth is framed as acquisition-accelerated scale with diversified recurring monetization."
+        />
       </SectionShell>
 
       {/* Rollout */}
+      <div id="rollout-plan" className="scroll-mt-56 md:scroll-mt-48" />
       <SectionShell id="rollout">
         <SectionHeader
           kicker="Plan"
@@ -1349,9 +1613,23 @@ export default function Home() {
         />
 
         <div className="mt-8 grid gap-6 md:grid-cols-12">
-          <div className="md:col-span-7 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="relative md:col-span-7 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
+            <button
+              type="button"
+              onClick={() => setExpandedChart("rollout")}
+              className="absolute right-3 top-3 z-10 rounded-full border border-black/15 bg-white/95 px-3 py-1 text-[11px] font-medium text-black/70 hover:border-black/30"
+            >
+              Click to enlarge
+            </button>
             <div className="h-[420px] md:h-[460px]">
-              <RolloutTimelineIllustration variant="svg" mode="fill" />
+              <button
+                type="button"
+                onClick={() => setExpandedChart("rollout")}
+                className="block h-full w-full cursor-zoom-in"
+                aria-label="Expand rollout timeline chart"
+              >
+                {renderChartByKey("rollout")}
+              </button>
             </div>
           </div>
 
@@ -1359,7 +1637,7 @@ export default function Home() {
             <Card title="Best-practice upgrades (Phase 2)">
               <BulletList
                 items={[
-                  "Add competitive landscape slide (positioning vs Amazon/Etsy/etc.)",
+                  "Add competitive landscape visual (positioning vs Amazon/Etsy/etc.)",
                   "Add market sizing (TAM/SAM/SOM) + first wedge segment",
                   "Add traction plan: pilot KPIs, cohort retention, conversion lift, return reduction",
                   "Add security/privacy posture: consent, storage policy, monitoring",
@@ -1370,14 +1648,28 @@ export default function Home() {
           </div>
         </div>
 
+        <SectionEvidencePanel
+          title="Roll Out Plan"
+          pages={[24]}
+          summary={[
+            "The rollout timeline sequences hiring, AI interface completion, coding/testing, and phased rollout.",
+            "Mid-plan activities include additional platform acquisition and traditional marketing activation.",
+            "Later phases shift into full rollout marketing and revenue acceleration milestones.",
+          ]}
+          takeaway="Execution is presented as a staged program with explicit build, launch, and scale checkpoints."
+        />
       </SectionShell>
 
       {/* Financials */}
+      <div
+        id="financial-projections"
+        className="scroll-mt-56 md:scroll-mt-48"
+      />
       <SectionShell id="financials">
         <SectionHeader
           kicker="Business model"
           title="Financial upside & implementation plan"
-          subtitle="Phase 1 uses illustrative snapshots and assumptions. Phase 2 should incorporate validated metrics, unit economics, and real forecasts."
+          subtitle="Financial model summary across Year 1 and Year 2 projections."
           right={
             <>
               <Pill>Revenue generating</Pill>
@@ -1389,19 +1681,19 @@ export default function Home() {
 
         <div className="mt-8 grid gap-4 md:grid-cols-3">
           <Stat
-            label="Revenue streams"
-            value="eComm + Ads + Subscriptions"
-            note="Example buckets; refine with real assumptions."
+            label="FY1 Revenue Sub-total"
+            value="$10,376,200"
+            note="From Year 1-2 Financial Projections v2.xlsx."
           />
           <Stat
-            label="Key KPI targets"
-            value="↑ Conversion / ↓ Returns"
-            note="Powered by predictability + try-on confidence."
+            label="FY2 Revenue Sub-total"
+            value="$16,740,611.50"
+            note="Model includes membership, advertising, reports, and acquisition revenue."
           />
           <Stat
-            label="Operating model"
-            value="Platform + Partnerships"
-            note="Brands, creators, and marketplaces as multipliers."
+            label="Net-Net"
+            value="FY1: -$287,947.25 / FY2: $9,228,262.09"
+            note="Matches attached worksheet calculations."
           />
         </div>
 
@@ -1409,7 +1701,7 @@ export default function Home() {
           <div className="h-[440px] md:h-[520px]">
             <IllustrationImage
               src="/illustrations/graph4.png"
-              alt="Revenue projections year one and two from investor deck"
+                alt="Revenue projections year one and two visual"
               fit="contain"
               unoptimized
             />
@@ -1420,19 +1712,30 @@ export default function Home() {
           <div className="h-[420px] md:h-[500px]">
             <IllustrationImage
               src="/illustrations/model2.png"
-              alt="Business model and revenue sequence slide from pitch deck"
-              fit="contain"
-            />
-          </div>
-          <div className="mt-3 text-xs text-black/60">
-            Business model slide from current pitch deck export.
-          </div>
+                alt="Business model and revenue sequence visual"
+                fit="contain"
+              />
+            </div>
         </div>
 
         <div className="mt-6 grid items-start gap-6 md:grid-cols-2">
-          <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="relative rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
+            <button
+              type="button"
+              onClick={() => setExpandedChart("revenue-y1")}
+              className="absolute right-3 top-3 z-10 rounded-full border border-black/15 bg-white/95 px-3 py-1 text-[11px] font-medium text-black/70 hover:border-black/30"
+            >
+              Click to enlarge
+            </button>
             <div className="w-full aspect-[920/360]">
-              <RevenueYearOneChartMock />
+              <button
+                type="button"
+                onClick={() => setExpandedChart("revenue-y1")}
+                className="block h-full w-full cursor-zoom-in"
+                aria-label="Expand Year 1 revenue chart"
+              >
+                {renderChartByKey("revenue-y1")}
+              </button>
             </div>
             <div className="mt-3 text-xs text-black/60">
               Revenue Year 1 (Mock) — Phase 2: replace with validated unit
@@ -1440,9 +1743,23 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="relative rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
+            <button
+              type="button"
+              onClick={() => setExpandedChart("revenue-y1y2")}
+              className="absolute right-3 top-3 z-10 rounded-full border border-black/15 bg-white/95 px-3 py-1 text-[11px] font-medium text-black/70 hover:border-black/30"
+            >
+              Click to enlarge
+            </button>
             <div className="w-full aspect-[920/360]">
-              <RevenueYear1Year2ChartMock />
+              <button
+                type="button"
+                onClick={() => setExpandedChart("revenue-y1y2")}
+                className="block h-full w-full cursor-zoom-in"
+                aria-label="Expand Year 1 vs Year 2 revenue chart"
+              >
+                {renderChartByKey("revenue-y1y2")}
+              </button>
             </div>
             <div className="mt-3 text-xs text-black/60">
               Revenue Year 1 vs Year 2 (Mock) — Phase 2: replace with forecast
@@ -1451,69 +1768,32 @@ export default function Home() {
           </div>
         </div>
 
+        <div id="financial-budget" className="scroll-mt-56 md:scroll-mt-48" />
         <div className="mt-6 grid gap-6 md:grid-cols-2">
-          <Card title="Illustrative assumptions (Phase 1 framing)">
+          <Card title="Budget highlights (FY1/FY2 worksheet)">
             <BulletList
               items={[
-                "Assumes ~8–9M member base driven by acquisitions (illustrative)",
-                "~500 vendors generating membership + advertising revenues (illustrative)",
-                "Growth assumption based on one-dimensional commerce baselines (illustrative)",
+                "FY1 expense sub-total: $20,405,739; FY2 expense sub-total: $22,550,000",
+                "FY1 EBITDA: $2,594,050; FY2 EBITDA: $4,185,152.88",
+                "FY1 recurring expenditure baseline: $146,000",
+                "FY1 major budget lines include Staff/AOH ($21,504,000) and Marketing ($675,000)",
               ]}
             />
             <div className="mt-4 text-xs text-black/45">
-              These are presentation assumptions for Phase 1 and do not
-              guarantee outcomes.
+              Based on the current financial projection model.
             </div>
           </Card>
 
-          <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-sm font-semibold text-black/90">
-                  Financial Snapshot (Phase 1)
-                </div>
-                <div className="mt-1 text-xs text-black/55">
-                  Illustrative only — swap to validated metrics in Phase 2.
-                </div>
-              </div>
-              <span className="rounded-full border border-black/10 bg-black/5 px-3 py-1 text-xs text-black/70">
-                Snapshot
-              </span>
-            </div>
-
-            <div className="mt-5 grid gap-4 sm:grid-cols-3">
-              <div className="rounded-2xl border border-black/10 bg-white p-4">
-                <div className="text-xs font-medium text-black/50">Revenue</div>
-                <div className="mt-2 text-sm text-black/75">• eComm</div>
-                <div className="text-sm text-black/75">• Ads</div>
-                <div className="text-sm text-black/75">• Subscriptions</div>
-              </div>
-              <div className="rounded-2xl border border-black/10 bg-white p-4">
-                <div className="text-xs font-medium text-black/50">KPIs</div>
-                <div className="mt-2 text-sm text-black/75">• ↑ Conversion</div>
-                <div className="text-sm text-black/75">• ↓ Returns</div>
-                <div className="text-sm text-black/75">• ↑ Retention</div>
-              </div>
-              <div className="rounded-2xl border border-black/10 bg-white p-4">
-                <div className="text-xs font-medium text-black/50">Rollout</div>
-                <div className="mt-2 text-sm text-black/75">
-                  • Pilot → Expand
-                </div>
-                <div className="text-sm text-black/75">• Partnerships</div>
-                <div className="text-sm text-black/75">• M&A</div>
-              </div>
-            </div>
-
-            <div className="mt-5 rounded-2xl border border-black/10 bg-black/5 p-4">
-              <div className="text-xs font-medium text-black/60">
-                Milestone logic (mock)
-              </div>
-              <div className="mt-2 text-xs text-black/55">
-                Predictability improvements + try-on confidence → return-rate
-                reduction → conversion lift → vendor demand → revenue scale.
-              </div>
-            </div>
-          </div>
+          <Card title="Financial projection assumptions">
+            <BulletList
+              items={[
+                "Year 1 projects approximately a $290K loss while targeting operational profitability by Q2.",
+                "Core strategy is a three-prong marketing approach with acquisitions of social and ecommerce platforms.",
+                "Pre-launch shopper membership is modeled at $2.50/month with advance payment terms.",
+                "Standard shopper membership is modeled at $5/month, with non-member usage fees and vendor report revenue streams.",
+              ]}
+            />
+          </Card>
         </div>
 
         <div className="mt-6 rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
@@ -1525,10 +1805,22 @@ export default function Home() {
             modeling.
           </p>
         </div>
+
+        <SectionEvidencePanel
+          title="Projections"
+          pages={[23, 25, 26]}
+          summary={[
+            "Revenue progression starts with acquisition-driven contributions, then membership and advertising streams.",
+            "Year 1 assumptions center on member growth, vendor participation, and phased launch timing.",
+            "Year 1-to-Year 2 analysis is presented as moving from early buildout into strong profitability.",
+          ]}
+          takeaway="Financial framing emphasizes a transition from launch-phase pressure to year-two operating strength."
+        />
       </SectionShell>
 
       {/* Raise */}
       <div id="capitalization" className="scroll-mt-56 md:scroll-mt-48" />
+      <div id="capital-raise-pre-ipo" className="scroll-mt-56 md:scroll-mt-48" />
       <SectionShell id="raise">
         <SectionHeader
           kicker="Capital plan"
@@ -1544,9 +1836,23 @@ export default function Home() {
         />
 
         <div className="mt-8 grid gap-6 md:grid-cols-12">
-          <div className="md:col-span-7 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="relative md:col-span-7 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
+            <button
+              type="button"
+              onClick={() => setExpandedChart("raise-flow")}
+              className="absolute right-3 top-3 z-10 rounded-full border border-black/15 bg-white/95 px-3 py-1 text-[11px] font-medium text-black/70 hover:border-black/30"
+            >
+              Click to enlarge
+            </button>
             <div className="h-[360px]">
-              <RaiseFlowIllustration variant="image" fit="contain" />
+              <button
+                type="button"
+                onClick={() => setExpandedChart("raise-flow")}
+                className="block h-full w-full cursor-zoom-in"
+                aria-label="Expand raise flow chart"
+              >
+                {renderChartByKey("raise-flow")}
+              </button>
             </div>
             <div className="mt-3 text-xs text-black/60">
               Raise Flow (Mock) — Phase 2: add compliance + timing criteria.
@@ -1554,22 +1860,24 @@ export default function Home() {
           </div>
 
           <div className="md:col-span-5 grid gap-6">
-            <Card title="Two rounds (Phase 1 framing)">
+            <Card title="Capital Raise Pre-IPO">
               <BulletList
                 items={[
-                  "Seed round: $750K–$1M (illustrative) to finalize Phase 1→Phase 2 build-out",
-                  "Post-reverse / expansion round: target $10M–$15M (illustrative) to scale acquisitions and growth",
+                  "Current model uses a pre-money valuation of $8,000,000 at $0.04/share.",
+                  "New equity raised tracked in cap materials: $750,000.",
+                  "Seed completion is still aligned to Phase 1 to Phase 2 build-out and rollout readiness.",
                 ]}
               />
             </Card>
 
-            <Card title="Use of proceeds (best-practice)">
+            <div id="draft-cap-table" className="scroll-mt-56 md:scroll-mt-48" />
+            <Card title="Draft Cap Table Snapshot (As of Feb 16, 2026)">
               <BulletList
                 items={[
-                  "Product + AI engineering (recommendations, safety, monitoring)",
-                  "Pilot + onboarding (vendors, members, partnerships)",
-                  "Data governance + privacy controls (opt-in signals, security)",
-                  "Acquisition diligence + integration roadmap",
+                  "Authorized shares: 190,000,000 Common and 10,000,000 Preferred.",
+                  "Issued and outstanding: 81,000,000 Common; 0 Preferred.",
+                  "Cash raised shown in cap table package: $750,000.",
+                  "Summary ownership percentages and shareholder rows are included in the attached workbook for diligence review.",
                 ]}
               />
             </Card>
@@ -1590,14 +1898,25 @@ export default function Home() {
             formalize timing and criteria.
           </Card>
         </div>
+
+        <SectionEvidencePanel
+          title="Capital Raise Pre-IPO"
+          pages={[27]}
+          summary={[
+            "Bridge raise target is presented at $750K to $1.0M for pre-IPO execution.",
+            "Use of proceeds includes registration/legal work, initial audit work, and capital-raise expenses.",
+            "General company operating coverage is included as a use-of-funds category.",
+          ]}
+          takeaway="This capital stage is positioned as a bridge to public-market readiness and scaling actions."
+        />
       </SectionShell>
 
       {/* Investor Information */}
       <SectionShell id="investor-information">
         <SectionHeader
           kicker="Investor Information"
-          title="Pathway for going public"
-          subtitle="Illustrative pathway for readiness, reporting discipline, and exchange qualification milestones."
+          title="IPO pathway and advisor package"
+          subtitle="Governance readiness, reporting discipline, and advisor support structure."
           right={
             <>
               <Pill>Governance</Pill>
@@ -1605,6 +1924,29 @@ export default function Home() {
               <Pill>Listing readiness</Pill>
             </>
           }
+        />
+
+        <SectionEvidencePanel
+          title="Investors"
+          id="investor-overview"
+          summary={[
+            "This section presents the thesis for early investor interest in a rare AI + social-commerce approach.",
+            "The section highlights principal investor participation and supporting investor biographies.",
+            "Current fundraising narrative includes progress toward the initial raise target.",
+            "Positioning stresses unusual category potential versus standard early-stage benchmarks.",
+          ]}
+          takeaway="The investor narrative emphasizes strategic conviction in category creation and long-term scale."
+        />
+        <SectionEvidencePanel
+          title="IPO"
+          id="ipo-readiness"
+          pages={[28]}
+          summary={[
+            "The pathway outlines an initial seed raise followed by a larger post-reverse expansion raise.",
+            "Planned sequence includes OTC registration/readiness and a conditional path toward NASDAQ standards.",
+            "Growth capital is linked to acquisition completion and revenue model expansion.",
+          ]}
+          takeaway="Public-market strategy is framed as phased, compliance-dependent, and tied to operating milestones."
         />
 
         <div className="mt-8 grid gap-6 md:grid-cols-12">
@@ -1655,6 +1997,20 @@ export default function Home() {
           </div>
 
           <div className="md:col-span-5 grid gap-6">
+            <div id="ipo-team" className="scroll-mt-56 md:scroll-mt-48" />
+            <Card title="IPO Team">
+              <BulletList
+                items={[
+                  "Corporate Counsel: Jesse Blue, ESQ — Sichenzia Ross Ference Carmel LLP",
+                  "Auditors: Brian Zucker, CPA — RRBB Accountants + Advisors",
+                  "IR/PR: Scott Powell — Skyline Corporate Communications Group, LLC",
+                ]}
+              />
+              <div className="mt-3 text-xs text-black/60">
+                Counsel, audit, and investor-communications partners are presented as core listing-readiness support.
+              </div>
+            </Card>
+
             <Card title="Investor diligence package">
               <BulletList
                 items={[
@@ -1786,6 +2142,10 @@ export default function Home() {
       </SectionShell>
 
       {/* Team */}
+      <div
+        id="management-leadership"
+        className="scroll-mt-56 md:scroll-mt-48"
+      />
       <SectionShell id="team">
         <SectionHeader
           kicker="Execution"
@@ -1805,26 +2165,28 @@ export default function Home() {
             <Card title="Dr. Michael Rivers — CEO / Managing Partner">
               Conceptual design lead and managing partner. Board leadership and
               strategic execution oversight. Background includes doctorate-level
-              expertise in clinical psychology with emphasis on neurophysiology
-              (as presented in Phase-1 deck).
+              expertise in clinical psychology with emphasis on neurophysiology.
             </Card>
 
             <Card title="Sophia Xue — CFO">
               Financial strategy, modeling, and capital planning. Background
               includes senior finance roles spanning equity derivatives and risk
-              monitoring (Nomura, Merrill Lynch, PwC as presented in Phase-1
-              deck).
+              monitoring (Nomura, Merrill Lynch, and PwC).
             </Card>
 
             <Card title="Jason Lynn — Chief Product Officer (CPO)">
               Product and platform leadership with consumer privacy and
               protection focus. Background includes co-founding mParticle (by
-              Rokt) and privacy/consumer protection leadership (as presented in
-              Phase-1 deck).
+              Rokt) and privacy/consumer protection leadership.
             </Card>
 
             <Card title="Kori Rivers — Director of Marketing">
               (Central Florida major theme park hospitality)
+            </Card>
+
+            <div id="board-directors" className="scroll-mt-56 md:scroll-mt-48" />
+            <Card title="Board of Directors">
+              To be announced.
             </Card>
           </div>
 
@@ -1852,17 +2214,28 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="mt-6 rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+        <div
+          id="special-advisors"
+          className="mt-6 rounded-3xl border border-black/10 bg-white p-6 shadow-sm"
+        >
           <h3 className="text-base font-semibold text-black/90">
             Special Advisors to the Company
           </h3>
           <p className="mt-2 text-sm text-black/70">
-            David Cheriton, Leon Black, and Paul Erickson.
+            To be announced.
           </p>
         </div>
-      </SectionShell>
 
-      <div id="management-team" className="scroll-mt-56 md:scroll-mt-48" />
+        <SectionEvidencePanel
+          title="Management Team"
+          summary={[
+            "Leadership content presents executive bios and role ownership across strategy, finance, product, and marketing.",
+            "The team profile emphasizes operational delivery capability for Phase 1 and scale readiness for Phase 2.",
+            "Management depth is positioned as a core risk-reduction factor for investors.",
+          ]}
+          takeaway="Execution confidence is anchored in role clarity, leadership background, and staged operating focus."
+        />
+      </SectionShell>
 
       {/* Contact */}
       <SectionShell id="contact">
@@ -1885,7 +2258,7 @@ export default function Home() {
             </a>
             <a
               className="rounded-full border border-black/15 bg-white px-7 py-3 text-sm font-semibold text-black/80 hover:border-black/25"
-              href="mailto:sam.d3v.35@gmail.com"
+              href={`mailto:${PASSWORD_REQUEST_EMAIL}`}
             >
               Contact Us
             </a>
@@ -1982,6 +2355,32 @@ export default function Home() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      ) : null}
+
+      {expandedChart ? (
+        <div
+          className="fixed inset-0 z-[98] flex items-center justify-center bg-black/75 px-4 py-6"
+          onClick={() => setExpandedChart(null)}
+        >
+          <div
+            className="w-full max-w-7xl rounded-2xl border border-black/10 bg-white p-4 shadow-2xl md:p-5"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="mb-3 flex items-center justify-between">
+              <div className="text-sm font-semibold text-black/80">Expanded Chart View</div>
+              <button
+                type="button"
+                className="rounded-full border border-black/15 bg-white px-3 py-1 text-xs font-medium text-black/70 hover:border-black/30"
+                onClick={() => setExpandedChart(null)}
+              >
+                Close
+              </button>
+            </div>
+            <div className="h-[72vh] w-full rounded-xl border border-black/10 bg-[#fafafa] p-3 md:p-4">
+              {renderChartByKey(expandedChart, true)}
+            </div>
           </div>
         </div>
       ) : null}
