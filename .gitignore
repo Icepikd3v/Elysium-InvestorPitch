@@ -19,6 +19,7 @@
 
 # production
 /build
+/public/demo
 
 # misc
 .DS_Store
@@ -39,3 +40,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 Screen Recording 2026-03-04 at 6.04.03 PM.zip
+
+# embedded prototype app
+/prototype/node_modules
+/prototype/dist

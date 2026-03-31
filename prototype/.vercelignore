@@ -1,0 +1,14 @@
+# Keep Vercel upload small and source-only
+.git
+node_modules
+dist
+dist-ssr
+
+# Local-only/dev artifacts
+notes
+*.log
+.DS_Store
+
+# Large demo assets not needed for deploy
+public/InviteFriendDemo.mp4
+public/SoloDemo.mp4

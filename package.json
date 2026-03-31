@@ -2,11 +2,15 @@
   "name": "elysium-web",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run build:demo && next build",
+    "build:demo": "npm --prefix prototype ci && npm --prefix prototype run build && rm -rf public/demo && mkdir -p public/demo && cp -R prototype/dist/* public/demo/",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint src"
   },
   "dependencies": {
     "next": "16.1.1",

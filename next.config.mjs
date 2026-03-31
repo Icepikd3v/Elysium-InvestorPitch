@@ -5,11 +5,11 @@ const nextConfig = {
     return [
       {
         source: "/demo",
-        destination: "https://demo.elysiummall.com",
+        destination: "/demo/index.html",
       },
       {
-        source: "/demo/:path*",
-        destination: "https://demo.elysiummall.com/:path*",
+        source: "/demo/",
+        destination: "/demo/index.html",
       },
     ];
   },
