@@ -20,7 +20,7 @@ import IllustrationImage from "@/components/illustrations/IllustrationImage";
  */
 
 const DEMO_URL =
-  process.env.NEXT_PUBLIC_DEMO_URL || "https://demo.elysiummall.com";
+  process.env.NEXT_PUBLIC_DEMO_URL || "/demo";
 const INVESTOR_POPUP_IMAGE = "/NDAPopupFinal.png";
 const SOLO_BRAIN_VIDEO = "/soloAIBrain.mp4";
 const INVITE_FRIEND_AI_BRAIN_VIDEO = "/InviteFriendSimDemo.mp4";
@@ -902,7 +902,7 @@ export default function Home() {
               </div>
 
               <div className="mt-3 text-xs text-black/60">
-                Demo hosted at demo.elysiummall.com
+                Demo path: www.elysiummall.com/demo
               </div>
 
               <div className="mt-4 max-w-xl rounded-2xl border border-black/10 bg-black/5 p-4 text-xs text-black/65">
@@ -1209,7 +1209,8 @@ export default function Home() {
               </div>
 
               <div className="mt-2 text-xs text-black/60">
-                Demo is a presentation prototype hosted at demo.elysiummall.com.
+                Demo is a presentation prototype available at
+                www.elysiummall.com/demo.
               </div>
               <div className="mt-1 text-xs font-medium text-black/70">
                 Click to use yourself.
