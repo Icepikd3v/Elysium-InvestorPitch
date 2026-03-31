@@ -156,38 +156,41 @@ export default function RaiseFlowIllustration({ className = "" }) {
               />
             ) : null}
 
-            <rect
-              className="milestone-card"
-              x={s.x - 70}
-              y="230"
-              width="140"
-              height="54"
-              rx="16"
-              fill="#FFFFFF"
-              stroke="rgba(245,158,11,0.22)"
+            <g
+              className="milestone-group"
               style={{ animationDelay: `${0.2 + idx * 0.12}s` }}
-            />
-            <text
-              x={s.x}
-              y="253"
-              textAnchor="middle"
-              fontSize="12"
-              fontFamily="ui-sans-serif, system-ui"
-              fill="rgba(74,43,8,0.84)"
-              fontWeight="700"
             >
-              {s.title}
-            </text>
-            <text
-              x={s.x}
-              y="272"
-              textAnchor="middle"
-              fontSize="10.5"
-              fontFamily="ui-sans-serif, system-ui"
-              fill="rgba(74,43,8,0.62)"
-            >
-              {s.sub}
-            </text>
+              <rect
+                x={s.x - 70}
+                y="230"
+                width="140"
+                height="54"
+                rx="16"
+                fill="#FFFFFF"
+                stroke="rgba(245,158,11,0.22)"
+              />
+              <text
+                x={s.x}
+                y="253"
+                textAnchor="middle"
+                fontSize="12"
+                fontFamily="ui-sans-serif, system-ui"
+                fill="rgba(74,43,8,0.84)"
+                fontWeight="700"
+              >
+                {s.title}
+              </text>
+              <text
+                x={s.x}
+                y="272"
+                textAnchor="middle"
+                fontSize="10.5"
+                fontFamily="ui-sans-serif, system-ui"
+                fill="rgba(74,43,8,0.62)"
+              >
+                {s.sub}
+              </text>
+            </g>
           </g>
         ))}
       </>

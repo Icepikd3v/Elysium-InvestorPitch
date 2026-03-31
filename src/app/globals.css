@@ -50,7 +50,7 @@ body {
     transform: scaleY(1);
   }
   50% {
-    transform: scaleY(0.92);
+    transform: scaleY(0.86);
   }
 }
 
@@ -61,8 +61,8 @@ body {
     opacity: 1;
   }
   50% {
-    transform: scale(1.04);
-    opacity: 0.86;
+    transform: scale(1.08);
+    opacity: 0.8;
   }
 }
 
@@ -72,7 +72,7 @@ body {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.07);
+    transform: scale(1.12);
   }
 }
 
@@ -82,7 +82,7 @@ body {
     transform: scale(1);
   }
   35% {
-    transform: scale(1.12);
+    transform: scale(1.2);
   }
 }
 
@@ -93,8 +93,8 @@ body {
     opacity: 0.95;
   }
   50% {
-    transform: scale(1.25);
-    opacity: 0.75;
+    transform: scale(1.42);
+    opacity: 0.62;
   }
 }
 
@@ -104,33 +104,35 @@ body {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-4px);
+    transform: translateY(-7px);
   }
 }
 
 @keyframes progressRailFlow {
   0%,
   100% {
-    opacity: 0.8;
+    opacity: 0.72;
     filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0));
   }
   50% {
     opacity: 1;
-    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.16));
+    filter: drop-shadow(0 0 9px rgba(0, 0, 0, 0.22));
   }
 }
 
 .chart-bar {
+  transform-box: fill-box;
   transform-origin: center bottom;
   animation:
-    chartBarGrow 1s ease-out both,
-    chartBarFloat 3s ease-in-out infinite;
+    chartBarGrow 1.05s ease-out both,
+    chartBarFloat 2.6s ease-in-out infinite;
 }
 
 .ring-pulse-slow,
 .ring-pulse-mid,
 .ring-pulse-fast {
-  transform-origin: center;
+  transform-box: fill-box;
+  transform-origin: center center;
   animation: ringPulse 4s ease-in-out infinite;
 }
 
@@ -145,26 +147,31 @@ body {
 }
 
 .wedge-pop {
-  transform-origin: center;
+  transform-box: fill-box;
+  transform-origin: center center;
   animation: wedgePop 2.8s ease-in-out infinite;
 }
 
 .node-pop {
-  transform-origin: center;
-  animation: nodePop 2.8s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center center;
+  animation: nodePop 2.2s ease-in-out infinite;
 }
 
 .node-core-pulse {
-  transform-origin: center;
-  animation: nodeCorePulse 2.4s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center center;
+  animation: nodeCorePulse 1.9s ease-in-out infinite;
 }
 
-.milestone-card {
-  animation: milestoneCardLift 2.8s ease-in-out infinite;
+.milestone-group {
+  transform-box: fill-box;
+  transform-origin: center center;
+  animation: milestoneCardLift 2.2s ease-in-out infinite;
 }
 
 .progress-rail {
-  animation: progressRailFlow 2.6s ease-in-out infinite;
+  animation: progressRailFlow 2s ease-in-out infinite;
 }
 
 @keyframes shopImageFloat {

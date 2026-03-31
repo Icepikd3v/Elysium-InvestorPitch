@@ -96,8 +96,11 @@ export default function RolloutTimelineIllustration({
                 const x = 120 + i * 120;
                 const isUpper = i % 2 === 0;
                 const cardY = isUpper ? 182 : 248;
-                const titleY = isUpper ? 205 : 271;
-                const subtitleY = isUpper ? 226 : 292;
+                const cardW = Math.max(164, Math.min(228, n.title.length * 5.9));
+                const cardH = 58;
+                const titleY = cardY + 25;
+                const subtitleY = cardY + 46;
+                const titleTextLength = Math.max(120, cardW - 22);
 
                 return (
                   <g key={n.label}>
@@ -132,38 +135,43 @@ export default function RolloutTimelineIllustration({
                       {n.label}
                     </text>
 
-                    <rect
-                      className="milestone-card"
-                      x={x - 82}
-                      y={cardY}
-                      width={164}
-                      height={58}
-                      rx={14}
-                      fill="#FFFFFF"
-                      stroke="rgba(14,165,233,0.2)"
+                    <g
+                      className="milestone-group"
                       style={{ animationDelay: `${0.2 + i * 0.1}s` }}
-                    />
-                    <text
-                      x={x}
-                      y={titleY}
-                      textAnchor="middle"
-                      fontSize="11.5"
-                      fontFamily="ui-sans-serif, system-ui"
-                      fill="rgba(3,34,53,0.84)"
-                      fontWeight="700"
                     >
-                      {n.title}
-                    </text>
-                    <text
-                      x={x}
-                      y={subtitleY}
-                      textAnchor="middle"
-                      fontSize="10"
-                      fontFamily="ui-sans-serif, system-ui"
-                      fill="rgba(3,34,53,0.54)"
-                    >
-                      milestone
-                    </text>
+                      <rect
+                        x={x - cardW / 2}
+                        y={cardY}
+                        width={cardW}
+                        height={cardH}
+                        rx={14}
+                        fill="#FFFFFF"
+                        stroke="rgba(14,165,233,0.2)"
+                      />
+                      <text
+                        x={x}
+                        y={titleY}
+                        textAnchor="middle"
+                        fontSize="11.5"
+                        fontFamily="ui-sans-serif, system-ui"
+                        fill="rgba(3,34,53,0.84)"
+                        fontWeight="700"
+                        textLength={titleTextLength}
+                        lengthAdjust="spacingAndGlyphs"
+                      >
+                        {n.title}
+                      </text>
+                      <text
+                        x={x}
+                        y={subtitleY}
+                        textAnchor="middle"
+                        fontSize="10"
+                        fontFamily="ui-sans-serif, system-ui"
+                        fill="rgba(3,34,53,0.54)"
+                      >
+                        milestone
+                      </text>
+                    </g>
                   </g>
                 );
               })}
