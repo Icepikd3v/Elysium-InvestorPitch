@@ -117,7 +117,6 @@ export default function RaiseFlowIllustration({ className = "" }) {
           strokeLinecap="round"
         />
         <line
-          className="progress-rail"
           x1="110"
           y1="200"
           x2="270"
@@ -131,22 +130,18 @@ export default function RaiseFlowIllustration({ className = "" }) {
         {steps.map((s, idx) => (
           <g key={s.x}>
             <circle
-              className="node-pop"
               cx={s.x}
               cy={200}
               r={16}
               fill="#FFFFFF"
               stroke="rgba(245,158,11,0.45)"
               strokeWidth="2"
-              style={{ animationDelay: `${0.15 * idx}s` }}
             />
             <circle
-              className="node-core-pulse"
               cx={s.x}
               cy={200}
               r={7}
               fill={idx === 0 ? "rgba(245,158,11,0.95)" : "rgba(20,184,166,0.82)"}
-              style={{ animationDelay: `${0.12 * idx}s` }}
             />
 
             {idx < steps.length - 1 ? (
@@ -156,10 +151,7 @@ export default function RaiseFlowIllustration({ className = "" }) {
               />
             ) : null}
 
-            <g
-              className="milestone-group"
-              style={{ animationDelay: `${0.2 + idx * 0.12}s` }}
-            >
+            <g>
               <rect
                 x={s.x - 70}
                 y="230"

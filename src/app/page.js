@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import ClientNav from "@/components/ClientNav";
 
-import RolloutTimelineIllustration from "@/components/illustrations/RolloutTimelineIllustration";
 import RevenueYearOneChartMock from "@/components/illustrations/RevenueYearOneChart";
 import RevenueYear1Year2ChartMock from "@/components/illustrations/RevenueYearTwoChart";
 import RaiseFlowIllustration from "@/components/illustrations/RaiseFlowIllustration";
@@ -179,14 +178,36 @@ function BulletList({ items }) {
   );
 }
 
-function SectionEvidencePanel({ title, pages = [], summary = [], takeaway, id }) {
+function SectionEvidencePanel({
+  title,
+  pages = [],
+  summary = [],
+  takeaway,
+  id,
+  visualSrc = "",
+  visualAlt = "",
+  visualFit = "contain",
+  visualImageStyle = undefined,
+  previewAspectClass = "aspect-[16/9]",
+  fixedPreviewHeightClass = "",
+  summaryColClass = "lg:col-span-4",
+  evidenceColClass = "lg:col-span-8",
+  evidenceGridClassName = "",
+  useSlideCrop = true,
+  previewFramePaddingClass = "p-2",
+}) {
   const hasPages = pages.length > 0;
-  const evidenceGridClass =
+  const hasVisual = Boolean(visualSrc) || hasPages;
+  const evidenceGridClass = evidenceGridClassName || (
     pages.length === 1
-      ? "grid gap-4 lg:col-span-8"
-      : "grid gap-4 2xl:grid-cols-2 lg:col-span-8";
+      ? "grid gap-4"
+      : "grid gap-4 2xl:grid-cols-2"
+  );
+  const previewSizeClass = fixedPreviewHeightClass
+    ? `${fixedPreviewHeightClass} w-full`
+    : `${previewAspectClass} w-full`;
 
-  if (!hasPages) {
+  if (!hasVisual) {
     return (
       <div id={id} className="mt-6 scroll-mt-56 rounded-3xl border border-black/10 bg-white p-5 shadow-sm md:p-6">
         <div className="text-xl font-semibold text-black/90">{title}</div>
@@ -216,8 +237,8 @@ function SectionEvidencePanel({ title, pages = [], summary = [], takeaway, id })
     <div id={id} className="mt-6 scroll-mt-56 rounded-3xl border border-black/10 bg-white p-5 shadow-sm md:p-6">
       <div className="text-xl font-semibold text-black/90">{title}</div>
 
-      <div className="mt-4 grid gap-5 lg:grid-cols-12">
-        <div className="lg:col-span-4">
+      <div className="mt-4 grid items-start gap-5 lg:grid-cols-12">
+        <div className={summaryColClass}>
           <div className="rounded-2xl border border-black/10 bg-[#fafafa] p-4">
             <div className="text-sm font-semibold text-black/85">
               What This Section Shows
@@ -241,27 +262,47 @@ function SectionEvidencePanel({ title, pages = [], summary = [], takeaway, id })
           </div>
         </div>
 
-        <div className={evidenceGridClass}>
-          {pages.map((page) => (
+        <div className={`${evidenceGridClass} ${evidenceColClass}`}>
+          {visualSrc ? (
             <div
-              key={page}
-              className="overflow-hidden rounded-2xl border border-black/10 bg-[#f8f8f8] p-2"
+              className={`self-start overflow-hidden rounded-2xl border border-black/10 bg-[#f8f8f8] ${previewFramePaddingClass}`}
             >
-              <div className="aspect-[16/9] w-full">
+              <div className={previewSizeClass}>
                 <IllustrationImage
-                  src={`/Slide/page%20${page}.png`}
-                  alt={`${title} visual`}
-                  fit="contain"
-                  imageStyle={{
-                    objectPosition: "top center",
-                    clipPath: "inset(1px 12px 12px 1px)",
-                    transform: "translate(-1px, -1px) scale(1.03)",
-                  }}
+                  src={visualSrc}
+                  alt={visualAlt || `${title} visual`}
+                  fit={visualFit}
+                  imageStyle={visualImageStyle}
                   unoptimized
                 />
               </div>
             </div>
-          ))}
+          ) : (
+            pages.map((page) => (
+              <div
+                key={page}
+                className={`self-start overflow-hidden rounded-2xl border border-black/10 bg-[#f8f8f8] ${previewFramePaddingClass}`}
+              >
+                <div className={previewSizeClass}>
+                  <IllustrationImage
+                    src={`/Slide/page%20${page}.png`}
+                    alt={`${title} visual`}
+                    fit="contain"
+                    imageStyle={
+                      useSlideCrop
+                        ? {
+                            objectPosition: "top center",
+                            clipPath: "inset(1px 12px 12px 1px)",
+                            transform: "translate(-1px, -1px) scale(1.03)",
+                          }
+                        : { objectPosition: "center" }
+                    }
+                    unoptimized
+                  />
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
@@ -755,8 +796,16 @@ export default function Home() {
     switch (chartKey) {
       case "rollout":
         return (
-          <div className={containerClass}>
-            <RolloutTimelineIllustration variant="svg" mode="fill" />
+          <div className={`${containerClass} rounded-2xl border border-black/10 bg-[#fafafa] p-2`}>
+            <div className="h-full w-full">
+              <IllustrationImage
+                src="/Rollout%20Revised/ProjectedRolloutRevised.png"
+                alt="Revised projected rollout plan slide"
+                fit={expanded ? "contain" : "cover"}
+                expandable={false}
+                unoptimized
+              />
+            </div>
           </div>
         );
       case "revenue-y1":
@@ -905,19 +954,6 @@ export default function Home() {
                 Demo path: www.elysiummall.com/demo
               </div>
 
-              <div className="mt-4 max-w-xl rounded-2xl border border-black/10 bg-black/5 p-4 text-xs text-black/65">
-                <div className="font-semibold text-black/75">
-                  Demo note (important)
-                </div>
-                <div className="mt-1">
-                  The SmartMall demo is a <strong>mock UI/experience</strong>{" "}
-                  created with AI assistance for presentation purposes. It is{" "}
-                  <strong>not</strong> production-grade and does not represent
-                  final rendering, physics, inventory, or full commerce logic
-                  yet.
-                </div>
-              </div>
-
               <div className="mt-8 flex flex-wrap gap-2 text-xs text-black/60">
                 <Pill>Personalized discovery</Pill>
                 <Pill>Avatar try-on concept</Pill>
@@ -969,6 +1005,68 @@ export default function Home() {
             </Card>
           </div>
 
+          <div className="mt-6 grid gap-6 md:grid-cols-12">
+            <div className="md:col-span-7 rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+              <h3 className="text-lg font-semibold text-black/90">About Elysium</h3>
+              <p className="mt-2 text-sm leading-relaxed text-black/70">
+                Elysium is building a premium digital mall where AI assistants,
+                immersive storefronts, and merchant analytics work together in
+                one platform.
+              </p>
+              <div className="mt-4 grid gap-4 md:grid-cols-2">
+                <div className="rounded-2xl border border-black/10 bg-black/5 p-4">
+                  <div className="text-sm font-semibold text-black/85">Our Mission</div>
+                  <p className="mt-1 text-xs leading-relaxed text-black/65">
+                    Create a modern, intelligent commerce environment that helps
+                    shoppers discover faster and helps brands convert with
+                    confidence.
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-black/10 bg-black/5 p-4">
+                  <div className="text-sm font-semibold text-black/85">
+                    What Makes Us Different
+                  </div>
+                  <p className="mt-1 text-xs leading-relaxed text-black/65">
+                    Session-aware recommendations, co-shopping support, and
+                    walkthrough-ready luxury experiences built for measurable
+                    growth.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="md:col-span-5 rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+              <h3 className="text-lg font-semibold text-black/90">Window Frame News</h3>
+              <p className="mt-2 text-sm leading-relaxed text-black/70">
+                Post news updates in window frames for investors and partners.
+              </p>
+              <div className="mt-4 space-y-3">
+                <div className="rounded-2xl border border-black/10 bg-black/5 p-4">
+                  <div className="text-sm font-semibold text-black/85">Window Frame 1</div>
+                  <p className="mt-1 text-xs text-black/65">
+                    Upcoming launch updates and strategic milestones.
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-black/10 bg-black/5 p-4">
+                  <div className="text-sm font-semibold text-black/85">Window Frame 2</div>
+                  <p className="mt-1 text-xs text-black/65">
+                    Recent partnership and product announcements.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 max-w-3xl rounded-2xl border border-black/10 bg-black/5 p-4 text-xs text-black/65">
+            <div className="font-semibold text-black/75">Demo note (important)</div>
+            <div className="mt-1">
+              The SmartMall demo is a <strong>mock UI/experience</strong>{" "}
+              created with AI assistance for presentation purposes. It is{" "}
+              <strong>not</strong> production-grade and does not represent
+              final rendering, physics, inventory, or full commerce logic yet.
+            </div>
+          </div>
+
           {/* Market opportunity */}
           <div className="relative mt-8 space-y-6">
             <div className="grid gap-4 md:grid-cols-3">
@@ -987,6 +1085,37 @@ export default function Home() {
                 value="↑ Conversion / ↓ Returns"
                 note="Confidence drives performance."
               />
+            </div>
+
+            <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+              <h3 className="text-lg font-semibold text-black/90">Services</h3>
+              <p className="mt-2 text-sm text-black/70">
+                Core offerings for digital mall operators, premium brands, and
+                enterprise commerce teams.
+              </p>
+              <div className="mt-4 grid gap-4 md:grid-cols-3">
+                <div className="rounded-2xl border border-black/10 bg-black/5 p-4">
+                  <div className="text-sm font-semibold text-black/85">AI Merchandising</div>
+                  <p className="mt-1 text-xs text-black/65">
+                    Real-time product ranking and recommendation tuning based on
+                    active shopper behavior and intent signals.
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-black/10 bg-black/5 p-4">
+                  <div className="text-sm font-semibold text-black/85">Immersive Storefronts</div>
+                  <p className="mt-1 text-xs text-black/65">
+                    Interactive virtual environments for premium discovery and
+                    collaborative shopping experiences.
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-black/10 bg-black/5 p-4">
+                  <div className="text-sm font-semibold text-black/85">Performance Insights</div>
+                  <p className="mt-1 text-xs text-black/65">
+                    Actionable dashboards for engagement, product interest, and
+                    purchase outcomes across storefront touchpoints.
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div className="rounded-3xl border border-black/10 bg-[#fafafa] p-4 md:p-6">
@@ -1155,7 +1284,7 @@ export default function Home() {
         <SectionHeader
           kicker="Product experience"
           title="SmartMall experience (Phase 1 demo)"
-          subtitle="Phase 1 includes an investor narrative site (this page) plus a separate mock SmartMall experience (demo) for visual storytelling."
+          subtitle="Phase 1 includes investor storytelling and the SmartMall demo in one unified website experience."
           right={
             <>
               <Pill>Investor page</Pill>
@@ -1181,13 +1310,13 @@ export default function Home() {
           <div className="md:col-span-7">
             <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
               <div className="text-sm font-semibold text-black/90">
-                Two-part Phase 1 setup
+                Unified Phase 1 setup
               </div>
 
               <BulletList
                 items={[
-                  "Investor pitch site (Next.js): narrative + visuals + roadmap (current page)",
-                  "Mock SmartMall demo (Elysium-prototype): cosmetic walkthrough to show the concept",
+                  "Investor narrative and demo now share one domain and deployment",
+                  "SmartMall demo remains a cosmetic walkthrough to show the concept",
                   "Both are AI-assisted mockups for speed and clarity—not final realism",
                 ]}
               />
@@ -1613,45 +1742,34 @@ export default function Home() {
           }
         />
 
-        <div className="mt-8 grid gap-6 md:grid-cols-12">
-          <div className="relative md:col-span-7 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
-            <button
-              type="button"
-              onClick={() => setExpandedChart("rollout")}
-              className="absolute right-3 top-3 z-10 rounded-full border border-black/15 bg-white/95 px-3 py-1 text-[11px] font-medium text-black/70 hover:border-black/30"
-            >
-              Click to enlarge
-            </button>
-            <div className="h-[420px] md:h-[460px]">
-              <button
-                type="button"
-                onClick={() => setExpandedChart("rollout")}
-                className="block h-full w-full cursor-zoom-in"
-                aria-label="Expand rollout timeline chart"
-              >
-                {renderChartByKey("rollout")}
-              </button>
-            </div>
-          </div>
-
-          <div className="md:col-span-5">
-            <Card title="Best-practice upgrades (Phase 2)">
-              <BulletList
-                items={[
-                  "Add competitive landscape visual (positioning vs Amazon/Etsy/etc.)",
-                  "Add market sizing (TAM/SAM/SOM) + first wedge segment",
-                  "Add traction plan: pilot KPIs, cohort retention, conversion lift, return reduction",
-                  "Add security/privacy posture: consent, storage policy, monitoring",
-                  "Replace mock rollout with a validated plan and dependencies",
-                ]}
-              />
-            </Card>
-          </div>
+        <div className="mt-8">
+          <Card title="Best-practice upgrades (Phase 2)">
+            <BulletList
+              items={[
+                "Add competitive landscape visual (positioning vs Amazon/Etsy/etc.)",
+                "Add market sizing (TAM/SAM/SOM) + first wedge segment",
+                "Add traction plan: pilot KPIs, cohort retention, conversion lift, return reduction",
+                "Add security/privacy posture: consent, storage policy, monitoring",
+                "Replace mock rollout with a validated plan and dependencies",
+              ]}
+            />
+          </Card>
         </div>
 
         <SectionEvidencePanel
           title="Roll Out Plan"
-          pages={[24]}
+          visualSrc="/Slide/page%2024.png"
+          visualAlt="Revised projected rollout timetable by action item"
+          visualFit="contain"
+          summaryColClass="lg:col-span-3"
+          evidenceColClass="lg:col-span-9"
+          evidenceGridClassName="grid gap-6"
+          previewAspectClass="aspect-[16/9]"
+          previewFramePaddingClass="p-0"
+          useSlideCrop={false}
+          visualImageStyle={{
+            objectPosition: "center",
+          }}
           summary={[
             "The rollout timeline sequences hiring, AI interface completion, coding/testing, and phased rollout.",
             "Mid-plan activities include additional platform acquisition and traditional marketing activation.",
@@ -1699,7 +1817,7 @@ export default function Home() {
         </div>
 
         <div className="mt-6 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
-          <div className="h-[440px] md:h-[520px]">
+          <div className="h-[460px] sm:h-[620px] md:h-[760px]">
             <IllustrationImage
               src="/illustrations/graph4.png"
                 alt="Revenue projections year one and two visual"
@@ -1710,7 +1828,7 @@ export default function Home() {
         </div>
 
         <div className="mt-6 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
-          <div className="h-[420px] md:h-[500px]">
+          <div className="h-[440px] sm:h-[600px] md:h-[740px]">
             <IllustrationImage
               src="/illustrations/model2.png"
                 alt="Business model and revenue sequence visual"
@@ -1728,7 +1846,7 @@ export default function Home() {
             >
               Click to enlarge
             </button>
-            <div className="w-full aspect-[920/360]">
+            <div className="h-[340px] sm:h-[420px] md:h-[520px]">
               <button
                 type="button"
                 onClick={() => setExpandedChart("revenue-y1")}
@@ -1752,7 +1870,7 @@ export default function Home() {
             >
               Click to enlarge
             </button>
-            <div className="w-full aspect-[920/360]">
+            <div className="h-[340px] sm:h-[420px] md:h-[520px]">
               <button
                 type="button"
                 onClick={() => setExpandedChart("revenue-y1y2")}
@@ -1810,6 +1928,12 @@ export default function Home() {
         <SectionEvidencePanel
           title="Projections"
           pages={[23, 25, 26]}
+          summaryColClass="lg:col-span-3"
+          evidenceColClass="lg:col-span-9"
+          evidenceGridClassName="grid gap-6"
+          previewAspectClass="aspect-[16/9]"
+          previewFramePaddingClass="p-0"
+          useSlideCrop={false}
           summary={[
             "Revenue progression starts with acquisition-driven contributions, then membership and advertising streams.",
             "Year 1 assumptions center on member growth, vendor participation, and phased launch timing.",
@@ -1845,7 +1969,7 @@ export default function Home() {
             >
               Click to enlarge
             </button>
-            <div className="h-[360px]">
+            <div className="h-[400px] sm:h-[520px] md:h-[620px]">
               <button
                 type="button"
                 onClick={() => setExpandedChart("raise-flow")}
@@ -2379,7 +2503,7 @@ export default function Home() {
                 Close
               </button>
             </div>
-            <div className="h-[72vh] w-full rounded-xl border border-black/10 bg-[#fafafa] p-3 md:p-4">
+            <div className="h-[82vh] w-full rounded-xl border border-black/10 bg-[#fafafa] p-3 md:p-4">
               {renderChartByKey(expandedChart, true)}
             </div>
           </div>
@@ -2388,8 +2512,8 @@ export default function Home() {
 
       {TERMS_GATE_ENABLED && termsStatus === "pending" ? (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 px-6 py-10">
-          <div className="w-full max-w-4xl rounded-3xl border border-black/10 bg-white p-5 shadow-2xl md:p-7">
-            <div className="mx-auto max-h-[56vh] overflow-auto rounded-2xl border border-black/10">
+          <div className="w-full max-w-6xl rounded-3xl border border-black/10 bg-white p-6 shadow-2xl md:p-8">
+            <div className="mx-auto max-h-[68vh] overflow-auto rounded-2xl border border-black/10">
               <Image
                 src={INVESTOR_POPUP_IMAGE}
                 alt="Investor terms and conditions"
@@ -2399,22 +2523,22 @@ export default function Home() {
                 priority
               />
             </div>
-            <p className="mt-8 text-center text-sm font-medium text-black/85 md:mt-10 md:text-base">
+            <p className="mt-8 text-center text-base font-medium text-black/85 md:mt-10 md:text-lg">
               I have read and understand the terms and conditions and accept them.
             </p>
 
-            <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
               <button
                 type="button"
                 onClick={acceptTerms}
-                className="rounded-full bg-black px-7 py-3 text-sm font-semibold text-white hover:bg-black/90"
+                className="rounded-full bg-black px-8 py-3.5 text-sm font-semibold text-white hover:bg-black/90 md:text-base"
               >
                 ACCEPT
               </button>
               <button
                 type="button"
                 onClick={rejectTerms}
-                className="rounded-full border border-black/20 bg-white px-7 py-3 text-sm font-semibold text-black/80 hover:border-black/35"
+                className="rounded-full border border-black/20 bg-white px-8 py-3.5 text-sm font-semibold text-black/80 hover:border-black/35 md:text-base"
               >
                 REJECT
               </button>

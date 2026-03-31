@@ -100,7 +100,6 @@ export default function RolloutTimelineIllustration({
                 const cardH = 58;
                 const titleY = cardY + 25;
                 const subtitleY = cardY + 46;
-                const titleTextLength = Math.max(120, cardW - 22);
 
                 return (
                   <g key={n.label}>
@@ -156,8 +155,6 @@ export default function RolloutTimelineIllustration({
                         fontFamily="ui-sans-serif, system-ui"
                         fill="rgba(3,34,53,0.84)"
                         fontWeight="700"
-                        textLength={titleTextLength}
-                        lengthAdjust="spacingAndGlyphs"
                       >
                         {n.title}
                       </text>
