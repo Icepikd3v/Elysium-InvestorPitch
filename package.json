@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "npm run build:demo && next build",
-    "build:demo": "npm --prefix prototype ci && npm --prefix prototype run build && rm -rf public/demo && mkdir -p public/demo && cp -R prototype/dist/* public/demo/",
+    "build:demo": "npm --prefix prototype ci --include=dev && npm --prefix prototype run build && rm -rf public/demo && mkdir -p public/demo && cp -R prototype/dist/* public/demo/",
     "start": "next start",
     "lint": "eslint src"
   },
