@@ -12,6 +12,8 @@
 html,
 body {
   height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -29,6 +31,11 @@ body {
   line-height: 1.45;
   background: var(--bg);
   color: var(--text);
+}
+
+#root {
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 img {
@@ -2345,7 +2352,8 @@ select.btn {
   min-height: 100vh;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  padding: 0;
+  padding: 78px 0 0;
+  overflow-x: hidden;
   scroll-margin-top: 0;
   background:
     radial-gradient(circle at 10% 7%, rgba(126, 148, 255, 0.18), transparent 42%),
@@ -2380,8 +2388,10 @@ select.btn {
 }
 
 .officialHeader {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 12;
   border-bottom: 1px solid rgba(146, 181, 255, 0.2);
   background: linear-gradient(180deg, rgba(9, 19, 78, 0.88), rgba(9, 19, 78, 0.42));
@@ -2389,11 +2399,12 @@ select.btn {
 }
 
 .officialHeaderInner {
-  width: min(1360px, 100%);
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   padding: 14px clamp(22px, 2.2vw, 34px);
   display: flex;
   align-items: center;
+  flex-wrap: nowrap;
   gap: 24px;
 }
 
@@ -2420,7 +2431,8 @@ select.btn {
 .officialNavLinks {
   display: flex;
   align-items: center;
-  gap: clamp(20px, 2.3vw, 44px);
+  flex-wrap: nowrap;
+  gap: clamp(12px, 1.4vw, 30px);
   margin-right: auto;
 }
 
@@ -2486,8 +2498,10 @@ select.btn {
 
 .officialNavAuth {
   display: flex;
+  flex-wrap: nowrap;
   gap: 10px;
   align-items: center;
+  justify-content: flex-end;
 }
 
 .officialPasswordRequestWrap {
@@ -2580,6 +2594,8 @@ select.btn {
 .officialHeroActions {
   margin-top: clamp(18px, 2vw, 30px);
   display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .officialHeroActionNote {
@@ -2601,6 +2617,14 @@ select.btn {
   letter-spacing: 0.01em;
   cursor: pointer;
   box-shadow: 0 12px 28px rgba(40, 87, 255, 0.34);
+}
+
+.officialNavJumpBtn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
 
 .officialHeroVisual {
@@ -2731,7 +2755,7 @@ select.btn {
 .officialFeatureCard h3 {
   margin: 0;
   color: #ecf4ff;
-  font-size: clamp(18px, 1.75vw, 34px);
+  font-size: clamp(17px, 1.25vw, 24px);
   line-height: 1.1;
   letter-spacing: -0.01em;
 }
@@ -2739,9 +2763,1205 @@ select.btn {
 .officialFeatureCard p {
   margin: 8px 0 0;
   color: rgba(202, 222, 255, 0.73);
-  font-size: clamp(13px, 1.15vw, 20px);
+  font-size: clamp(13px, 0.95vw, 16px);
   line-height: 1.5;
   max-width: 28ch;
+}
+
+.investorSection {
+  background: linear-gradient(180deg, rgba(10, 22, 82, 0.56), rgba(10, 22, 82, 0.34));
+}
+
+.investorHeader,
+.investorSplitHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.investorKicker {
+  margin: 0;
+  color: rgba(173, 203, 255, 0.9);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.investorHeader h2,
+.investorSplitHeader h2,
+.investorSummaryBlock h2 {
+  margin: 8px 0 0;
+  color: #eef6ff;
+  font-size: clamp(30px, 3.4vw, 50px);
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+
+.investorHeader p,
+.investorSplitHeader p {
+  margin: 12px 0 0;
+  color: rgba(210, 226, 255, 0.8);
+  max-width: 76ch;
+  font-size: clamp(15px, 1.1vw, 19px);
+  line-height: 1.45;
+}
+
+.investorTagGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 360px;
+}
+
+.investorTagGroup span {
+  border-radius: 999px;
+  border: 1px solid rgba(124, 163, 255, 0.42);
+  background: rgba(11, 22, 72, 0.56);
+  color: rgba(221, 236, 255, 0.92);
+  font-size: 14px;
+  padding: 8px 14px;
+}
+
+.marketOpportunityWrap {
+  margin-top: 22px;
+  border-radius: 16px;
+  border: 1px solid rgba(124, 167, 255, 0.32);
+  background: linear-gradient(180deg, rgba(10, 21, 70, 0.48), rgba(10, 21, 70, 0.3));
+  padding: 22px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  align-items: center;
+}
+
+.marketOpportunityVisual {
+  display: grid;
+  place-items: center;
+}
+
+.tamRing {
+  width: min(320px, 100%);
+  aspect-ratio: 1 / 1;
+  border-radius: 999px;
+  position: relative;
+  background: rgba(163, 219, 255, 0.32);
+  display: grid;
+  place-items: center;
+  color: #eaf6ff;
+  animation: tamPulseOuter 1.9s ease-in-out infinite;
+}
+
+.samRing {
+  width: 70%;
+  height: 70%;
+  border-radius: 999px;
+  background: rgba(135, 198, 255, 0.42);
+  display: grid;
+  place-items: center;
+  animation: tamPulseMid 1.9s ease-in-out infinite;
+  animation-delay: 120ms;
+}
+
+.somCore {
+  width: 52%;
+  height: 52%;
+  border-radius: 999px;
+  background: rgba(100, 144, 255, 0.62);
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  font-weight: 700;
+  animation: tamPulseCore 1.9s ease-in-out infinite;
+  animation-delay: 240ms;
+}
+
+.tamLabel,
+.samLabel,
+.somLabel {
+  position: absolute;
+  font-size: 16px;
+  font-weight: 700;
+  color: rgba(227, 240, 255, 0.95);
+  animation: tamLabelFade 3.8s ease-in-out infinite;
+}
+
+.tamLabel {
+  top: 12px;
+}
+
+.samLabel {
+  top: 64px;
+}
+
+.somLabel {
+  top: 118px;
+}
+
+.wedgeSlice {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  right: -2%;
+  top: 42%;
+  transform-origin: 0 0;
+  transform: rotate(-12deg);
+  background: rgba(249, 177, 76, 0.72);
+  clip-path: polygon(0 0, 100% 0, 18% 100%);
+  animation: tamWedgeSweep 3.8s ease-in-out infinite;
+}
+
+.marketOpportunityStats {
+  display: grid;
+  gap: 12px;
+}
+
+.marketStatCard {
+  border-radius: 14px;
+  border: 1px solid rgba(140, 183, 255, 0.36);
+  background: rgba(10, 22, 74, 0.5);
+  padding: 16px;
+  display: grid;
+  gap: 4px;
+}
+
+.marketStatCard strong {
+  color: rgba(226, 239, 255, 0.95);
+  font-size: 16px;
+}
+
+.marketStatCard span {
+  color: rgba(205, 223, 255, 0.78);
+}
+
+.investorPointsGrid {
+  margin-top: 18px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.investorPointCard,
+.investorTakeawayCard,
+.investorListCard,
+.investorInfoMiniCard,
+.phaseFramingCard,
+.investorSummaryBlock {
+  border-radius: 14px;
+  border: 1px solid rgba(122, 166, 255, 0.34);
+  background: rgba(11, 24, 82, 0.46);
+  box-shadow: inset 0 1px 0 rgba(180, 208, 255, 0.08);
+}
+
+.investorPointCard,
+.investorInfoMiniCard {
+  padding: 16px;
+}
+
+.investorPointLabel {
+  margin: 0;
+  color: rgba(175, 205, 255, 0.82);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.investorPointCard p,
+.investorInfoMiniCard p,
+.investorTakeawayCard p,
+.investorListCard li {
+  color: rgba(221, 236, 255, 0.9);
+  line-height: 1.5;
+}
+
+.investorPointCard p:last-child,
+.investorInfoMiniCard p {
+  margin: 10px 0 0;
+  font-size: clamp(15px, 1.05vw, 18px);
+}
+
+.investorTakeawayCard {
+  margin-top: 12px;
+  padding: 16px;
+}
+
+.investorTakeawayCard p:last-child {
+  margin: 10px 0 0;
+  font-size: clamp(15px, 1.05vw, 18px);
+}
+
+.investorTwoCol {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.investorListCard {
+  padding: 18px 18px 14px;
+}
+
+.investorListCard h3,
+.phaseFramingCard h3,
+.investorInfoMiniCard h3 {
+  margin: 0;
+  color: #edf5ff;
+  font-size: clamp(22px, 1.75vw, 32px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.investorListCard ul {
+  margin: 14px 0 0;
+  padding-left: 22px;
+  display: grid;
+  gap: 8px;
+}
+
+.investorListCard li {
+  font-size: clamp(15px, 1.05vw, 18px);
+}
+
+.investorListCard p {
+  margin: 10px 0 0;
+  color: rgba(216, 231, 255, 0.86);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.phaseFramingCard {
+  margin-top: 14px;
+  padding: 18px;
+}
+
+.phaseMeter {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 1.7fr 92px;
+  align-items: center;
+  gap: 10px;
+}
+
+.phaseMeter span {
+  color: rgba(209, 226, 255, 0.82);
+  font-size: 15px;
+}
+
+.phaseMeter div {
+  height: 11px;
+  border-radius: 999px;
+  background: rgba(195, 217, 255, 0.18);
+  overflow: hidden;
+  position: relative;
+}
+
+.phaseMeter i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #2ad8ff, #5d8cff);
+  transform-origin: left center;
+  animation:
+    phaseBarGrow 1100ms ease-out both,
+    phaseBarPulse 2.8s ease-in-out infinite;
+}
+
+.phaseMeter:nth-child(3) i {
+  background: linear-gradient(90deg, #d365ff, #6a78ff);
+  animation-delay: 120ms;
+}
+
+.phaseMeter:nth-child(4) i {
+  background: linear-gradient(90deg, #ffb649, #ff8e37);
+  animation-delay: 220ms;
+}
+
+.phaseMeter div::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 -28%;
+  width: 28%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 55%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  border-radius: 999px;
+  animation: phaseBarSweep 2.6s ease-in-out infinite;
+}
+
+.phaseMeter b {
+  text-align: right;
+  color: rgba(212, 229, 255, 0.82);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.investorSplitHeaderSolution {
+  margin-top: clamp(44px, 4vw, 72px);
+}
+
+.investorCards3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.investorInfoMiniCard h3 {
+  font-size: clamp(22px, 1.65vw, 30px);
+}
+
+.investorSummaryBlock {
+  margin-top: 14px;
+  padding: 18px;
+}
+
+.investorSummaryBlock h2 {
+  font-size: clamp(28px, 2.2vw, 38px);
+  margin-top: 0;
+}
+
+.investorSocialCard {
+  margin-top: 14px;
+}
+
+.investorMediaGrid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.35fr;
+  gap: 14px;
+}
+
+.investorMediaCard,
+.investorVideoCard {
+  border-radius: 14px;
+  border: 1px solid rgba(122, 166, 255, 0.34);
+  background: rgba(11, 24, 82, 0.46);
+  overflow: hidden;
+}
+
+.investorMediaCard {
+  position: relative;
+  cursor: zoom-in;
+}
+
+.investorMediaCard img,
+.investorVideoCard video {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  display: block;
+}
+
+.investorSlideCard img {
+  height: auto;
+  object-fit: contain;
+  object-position: center top;
+  background: transparent;
+  padding: 0;
+}
+
+.investorMediaTwin .investorSlideCard,
+.rolloutPlanGrid .investorSlideCard {
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+}
+
+/* Section-specific slide sizing to match investor page composition */
+#growth-plan .investorSlideCard img {
+  height: auto;
+}
+
+#rollout-financials .rolloutPlanGrid > .investorSlideCard img {
+  height: auto;
+}
+
+#rollout-financials .investorSlideCard img {
+  height: auto;
+}
+
+#financial-ipo .investorSlideCard img {
+  height: auto;
+}
+
+#financial-ipo .investorMediaTwin .investorSlideCard img {
+  height: auto;
+}
+
+#financial-ipo .projectionsSectionCard {
+  padding-bottom: 18px;
+}
+
+#financial-ipo .projectionsTopGrid {
+  align-items: start;
+  grid-template-columns: 0.95fr 1.05fr;
+}
+
+#financial-ipo .projectionsSummaryCard {
+  min-height: auto;
+}
+
+#financial-ipo .projectionsPrimarySlide {
+  min-height: auto;
+  background: #f2f3f6;
+  border-color: rgba(136, 165, 214, 0.46);
+}
+
+#financial-ipo .projectionsPrimarySlide img {
+  height: auto;
+  object-fit: contain;
+  object-position: center top;
+}
+
+#financial-ipo .projectionsSlidesGrid {
+  align-items: start;
+  grid-template-columns: 1fr 1fr;
+}
+
+#financial-ipo .projectionsSecondarySlide {
+  min-height: auto;
+  background: #f2f3f6;
+  border-color: rgba(136, 165, 214, 0.46);
+}
+
+#financial-ipo .projectionsSecondarySlide img {
+  height: auto;
+  object-fit: contain;
+  object-position: center top;
+}
+
+#financial-ipo .projectionsPrimarySlide p,
+#financial-ipo .projectionsSecondarySlide p {
+  color: rgba(207, 223, 246, 0.96);
+}
+
+#capital-plan .investorSlideCard img,
+#ipo-pathway .investorSlideCard img {
+  height: auto;
+}
+
+.rolloutPlanGrid {
+  margin-top: 10px;
+  align-items: start;
+}
+
+.rolloutPlanGrid > .investorListCard {
+  margin-top: 0;
+}
+
+.investorMediaContain {
+  object-fit: contain !important;
+  background:
+    radial-gradient(circle at 42% 38%, rgba(120, 165, 255, 0.2), transparent 58%),
+    linear-gradient(160deg, rgba(7, 15, 54, 0.78), rgba(9, 19, 70, 0.56));
+}
+
+.investorMediaCard p,
+.investorVideoCard h3 {
+  margin: 0;
+  padding: 12px 14px;
+  color: rgba(221, 236, 255, 0.92);
+  font-size: 14px;
+}
+
+.investorVideoCard h3 {
+  font-size: 22px;
+}
+
+.investorVideoCard {
+  cursor: default;
+}
+
+.investorMediaCard::after {
+  content: "Click to enlarge";
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 2;
+  border-radius: 999px;
+  border: 1px solid rgba(162, 196, 255, 0.4);
+  background: rgba(11, 24, 82, 0.72);
+  color: rgba(226, 239, 255, 0.9);
+  font-size: 11px;
+  padding: 6px 10px;
+  letter-spacing: 0.02em;
+}
+
+.investorVideoCard::after {
+  content: none;
+}
+
+.videoActionsRow {
+  padding: 0 14px 14px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.videoReadyPill {
+  border-radius: 999px;
+  border: 1px solid rgba(121, 169, 255, 0.42);
+  background: rgba(12, 28, 90, 0.58);
+  color: rgba(219, 235, 255, 0.86);
+  padding: 9px 14px;
+  font-size: 13px;
+}
+
+.investorMediaTwin {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.capitalRightStack,
+.leadershipBioCol {
+  display: grid;
+  gap: 14px;
+}
+
+.investorAiSystemGrid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: 1.12fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.investorAiLeftCol,
+.investorAiRightCol {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+.investorMediaTwinCompact {
+  margin-top: 0;
+  grid-template-columns: 1fr 1fr;
+}
+
+.investorBrainHeroCard img {
+  height: clamp(460px, 34vw, 580px);
+  object-fit: contain;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(92, 132, 255, 0.26), transparent 58%),
+    linear-gradient(160deg, rgba(10, 20, 78, 0.8), rgba(8, 17, 61, 0.65));
+}
+
+.investorCards3Compact .investorInfoMiniCard h3 {
+  font-size: clamp(19px, 1.5vw, 24px);
+}
+
+.investorCards3Compact .investorInfoMiniCard p {
+  font-size: 15px;
+}
+
+.investorListCardTight h3 {
+  font-size: clamp(22px, 1.6vw, 28px);
+}
+
+.investorListCardTight li {
+  font-size: 16px;
+  line-height: 1.42;
+}
+
+.investorListCardTight ul {
+  gap: 10px;
+}
+
+#ai-brain-system .investorVideoCard video {
+  height: clamp(300px, 22vw, 380px);
+}
+
+.flowGridMock {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.flowGridMock div {
+  border-radius: 12px;
+  border: 1px solid rgba(132, 179, 255, 0.34);
+  background: rgba(13, 29, 94, 0.52);
+  padding: 10px;
+  display: grid;
+  gap: 4px;
+}
+
+.flowGridMock small {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(179, 208, 255, 0.84);
+}
+
+.flowGridMock strong {
+  color: #eef6ff;
+  font-size: 18px;
+}
+
+.flowGridMock span {
+  color: rgba(212, 229, 255, 0.82);
+  font-size: 14px;
+}
+
+.animatedChartsGrid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.animatedChartCard {
+  border-radius: 14px;
+  border: 1px solid rgba(122, 166, 255, 0.34);
+  background: rgba(11, 24, 82, 0.46);
+  padding: 14px;
+}
+
+.chartInvestorCard {
+  padding: 10px;
+  background: rgba(7, 18, 71, 0.58);
+}
+
+.investorEnlargeableBlock {
+  position: relative;
+  cursor: zoom-in;
+}
+
+.investorEnlargeableBlock::after {
+  content: "Click to enlarge";
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 2;
+  border-radius: 999px;
+  border: 1px solid rgba(162, 196, 255, 0.4);
+  background: rgba(11, 24, 82, 0.72);
+  color: rgba(226, 239, 255, 0.9);
+  font-size: 11px;
+  padding: 6px 10px;
+  letter-spacing: 0.02em;
+}
+
+.chartSvgInvestor {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.chart-bar {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation:
+    chartBarGrow 900ms cubic-bezier(0.2, 1, 0.3, 1) both,
+    chartBarFloat 3.2s ease-in-out infinite;
+}
+
+@keyframes chartBarGrow {
+  0% {
+    transform: scaleY(0.2);
+    opacity: 0.6;
+  }
+  45% {
+    transform: scaleY(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+.rollout-progress-rail {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: rolloutRailGrow 780ms cubic-bezier(0.2, 1, 0.3, 1) both;
+}
+
+.rollout-node-pop {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rolloutNodePop 820ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.rollout-node-core {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rolloutNodePulse 1.1s ease-in-out infinite;
+}
+
+.rollout-milestone-group {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: rolloutMilestoneIn 420ms ease-out forwards;
+}
+
+.raise-progress-rail {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: raiseRailGrow 760ms cubic-bezier(0.2, 1, 0.3, 1) both;
+}
+
+.raise-node-pop {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: raiseNodePop 760ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.raise-node-core {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: raiseCorePulse 1.05s ease-in-out infinite;
+}
+
+.raise-step-group {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: raiseStepIn 380ms ease-out forwards;
+}
+
+@keyframes rolloutRailGrow {
+  from {
+    transform: scaleX(0);
+    opacity: 0.7;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes rolloutNodePop {
+  0% {
+    transform: scale(0.45);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes rolloutNodePulse {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.22);
+    filter: brightness(1.28);
+  }
+}
+
+@keyframes rolloutMilestoneIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes raiseRailGrow {
+  from {
+    transform: scaleX(0);
+    opacity: 0.7;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes raiseNodePop {
+  0% {
+    transform: scale(0.55);
+    opacity: 0;
+  }
+  75% {
+    transform: scale(1.07);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes raiseCorePulse {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.22);
+    filter: brightness(1.26);
+  }
+}
+
+@keyframes raiseStepIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes chartBarFloat {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  35% {
+    transform: scaleY(0.94);
+  }
+  68% {
+    transform: scaleY(1.03);
+  }
+}
+
+@keyframes tamPulseOuter {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.07);
+  }
+}
+
+@keyframes tamPulseMid {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.09);
+  }
+}
+
+@keyframes tamPulseCore {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.12);
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes tamWedgeSweep {
+  0%,
+  100% {
+    transform: rotate(-12deg) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: rotate(-3deg) scale(1.04);
+    opacity: 1;
+  }
+}
+
+@keyframes tamLabelFade {
+  0%,
+  100% {
+    opacity: 0.82;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes phaseBarGrow {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes phaseBarPulse {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.18);
+  }
+}
+
+@keyframes phaseBarSweep {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(420%);
+    opacity: 0;
+  }
+}
+
+.overviewSupportSection .investorListCard p {
+  margin: 10px 0 0;
+  color: rgba(214, 229, 255, 0.86);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.investorImmersionSection {
+  padding-top: clamp(24px, 2.4vw, 34px);
+}
+
+.investorImmersionGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.investorImmersionCopy h2 {
+  margin: 16px 0 0;
+  color: #eef6ff;
+  font-size: clamp(46px, 5.2vw, 88px);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  max-width: 13ch;
+}
+
+.investorImmersionCopy p {
+  margin: 16px 0 0;
+  color: rgba(216, 231, 255, 0.9);
+  font-size: clamp(15px, 1.05vw, 18px);
+  line-height: 1.55;
+  max-width: 56ch;
+}
+
+.investorImmersionPath {
+  margin-top: 10px;
+  color: rgba(192, 214, 255, 0.78);
+  font-size: 13px;
+}
+
+.investorImmersionTags {
+  max-width: none;
+}
+
+.investorImmersionTags span {
+  font-size: 13px;
+  padding: 7px 13px;
+}
+
+.investorImmersionActions {
+  margin-top: 18px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.investorImmersionVisual img {
+  height: 420px;
+  object-fit: contain;
+  object-position: center top;
+  background: rgba(9, 18, 68, 0.46);
+}
+
+.investorImmersionVisual {
+  align-self: start;
+}
+
+.investorImmersionVisual p {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.investorImmersionVisual p span:first-child {
+  margin-right: auto;
+}
+
+.investorImmersionVisual p span:not(:first-child) {
+  color: rgba(192, 214, 255, 0.88);
+  text-decoration: underline;
+}
+
+.investorImmersionCards {
+  margin-top: 14px;
+}
+
+.overviewSupportGrid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 14px;
+}
+
+.overviewMiniGrid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.overviewMiniGridServices {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.overviewSupportSection .investorPointCard h4 {
+  margin: 0;
+  color: #eef6ff;
+  font-size: 17px;
+}
+
+.overviewSupportSection .investorPointCard p {
+  font-size: 14px;
+}
+
+.animatedChartCard h4 {
+  margin: 0;
+  color: #edf5ff;
+  font-size: 18px;
+}
+
+.animatedRevenueChart,
+.animatedYearChart {
+  margin-top: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.barGroup,
+.yearCol {
+  display: grid;
+  grid-template-columns: 56px 1fr 1fr;
+  gap: 8px;
+  align-items: end;
+}
+
+.yearCol {
+  grid-template-columns: 74px 1fr 1fr;
+}
+
+.barGroup span,
+.yearCol span {
+  color: rgba(207, 225, 255, 0.8);
+  font-size: 12px;
+}
+
+.bar {
+  position: relative;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.bar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 0;
+  border-radius: inherit;
+  animation: investorBarGrow 1400ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.mediaLightboxBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  background: rgba(2, 8, 28, 0.82);
+  backdrop-filter: blur(3px);
+  display: grid;
+  place-items: center;
+  padding: clamp(12px, 2vw, 24px);
+}
+
+.mediaLightboxDialog {
+  width: min(1320px, 100%);
+  max-height: 94vh;
+  overflow: auto;
+  border-radius: 16px;
+  border: 1px solid rgba(132, 178, 255, 0.44);
+  background: linear-gradient(180deg, rgba(11, 24, 86, 0.96), rgba(10, 22, 82, 0.94));
+  box-shadow: 0 28px 70px rgba(5, 13, 45, 0.62);
+  padding: clamp(12px, 1.8vw, 18px);
+}
+
+.mediaLightboxClose {
+  margin-left: auto;
+  margin-bottom: 10px;
+  min-width: 82px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(130, 175, 255, 0.54);
+  background: rgba(11, 24, 82, 0.72);
+  color: rgba(228, 240, 255, 0.95);
+  cursor: pointer;
+}
+
+.mediaLightboxImage {
+  width: 100%;
+  max-height: calc(94vh - 80px);
+  object-fit: contain;
+  display: block;
+  border-radius: 12px;
+}
+
+.mediaLightboxChart {
+  width: 100%;
+}
+
+.marketOpportunityWrapLarge,
+.phaseFramingCardLarge {
+  margin-top: 0;
+}
+
+.bar.gross::before {
+  background: linear-gradient(90deg, #24d4ff, #4a7aff);
+  width: var(--target);
+}
+
+.bar.net::before {
+  background: linear-gradient(90deg, #35d58b, #2bbf6d);
+  width: var(--target);
+  animation-delay: 220ms;
+}
+
+@keyframes investorBarGrow {
+  from {
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+  to {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
 }
 
 .officialSection {
@@ -2767,6 +3987,86 @@ select.btn {
   color: rgba(205, 223, 255, 0.78);
   font-size: clamp(13px, 1.05vw, 17px);
   line-height: 1.5;
+}
+
+.reviewCtaCard {
+  border-radius: 18px;
+  border: 1px solid rgba(122, 166, 255, 0.34);
+  background: rgba(11, 24, 82, 0.46);
+  box-shadow: inset 0 1px 0 rgba(180, 208, 255, 0.08);
+  padding: clamp(22px, 2.2vw, 36px);
+}
+
+.reviewCtaHead {
+  text-align: center;
+}
+
+.reviewCtaHead p {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 58ch;
+}
+
+.reviewCtaActions {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.reviewPrimaryBtn,
+.reviewSecondaryBtn {
+  height: 44px;
+  padding: 0 24px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.reviewPrimaryBtn {
+  border: 0;
+  color: #ffffff;
+  background: #050814;
+}
+
+.reviewSecondaryBtn {
+  border: 1px solid rgba(143, 179, 255, 0.5);
+  color: rgba(228, 240, 255, 0.95);
+  background: rgba(11, 24, 82, 0.52);
+}
+
+.reviewChecklistCard {
+  margin: 18px auto 0;
+  max-width: 800px;
+  border-radius: 14px;
+  border: 1px solid rgba(122, 166, 255, 0.34);
+  background: rgba(13, 29, 94, 0.45);
+  padding: 14px 16px;
+}
+
+.reviewChecklistCard h3 {
+  margin: 0;
+  color: #edf5ff;
+  font-size: 18px;
+}
+
+.reviewChecklistGrid {
+  margin-top: 10px;
+  display: grid;
+  gap: 8px 24px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.reviewChecklistGrid p {
+  margin: 0;
+  color: rgba(216, 231, 255, 0.86);
+  font-size: 14px;
 }
 
 .officialAboutGrid,
@@ -2913,6 +4213,106 @@ select.btn {
   gap: 10px;
 }
 
+.ndaModalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 220;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background:
+    radial-gradient(circle at 18% 10%, rgba(126, 148, 255, 0.22), transparent 46%),
+    radial-gradient(circle at 82% 92%, rgba(96, 129, 255, 0.18), transparent 52%),
+    rgba(3, 8, 30, 0.82);
+  backdrop-filter: blur(4px);
+}
+
+.ndaModal {
+  width: min(1040px, 100%);
+  max-height: 92vh;
+  overflow: auto;
+  border-radius: 18px;
+  border: 1px solid rgba(126, 168, 255, 0.5);
+  background: linear-gradient(180deg, rgba(10, 23, 82, 0.95), rgba(8, 18, 70, 0.94));
+  box-shadow: 0 24px 64px rgba(4, 12, 44, 0.68);
+  padding: clamp(16px, 2vw, 24px);
+}
+
+.ndaModalFrame {
+  border-radius: 14px;
+  border: 1px solid rgba(141, 180, 255, 0.36);
+  overflow: hidden;
+  background: rgba(12, 23, 84, 0.9);
+}
+
+.ndaModalFrame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ndaModalCopy {
+  margin: 16px 0 0;
+  text-align: center;
+  color: rgba(225, 238, 255, 0.92);
+  font-size: clamp(14px, 1.3vw, 19px);
+  line-height: 1.45;
+}
+
+.ndaModalActions {
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ndaBlockedWrap {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 18% 10%, rgba(126, 148, 255, 0.2), transparent 46%),
+    radial-gradient(circle at 82% 92%, rgba(96, 129, 255, 0.16), transparent 52%),
+    linear-gradient(145deg, #0a1046 0%, #121d6d 52%, #070f4b 100%);
+}
+
+.ndaBlockedCard {
+  width: min(700px, 100%);
+  border-radius: 18px;
+  border: 1px solid rgba(126, 168, 255, 0.44);
+  background: rgba(10, 23, 82, 0.72);
+  box-shadow: 0 24px 64px rgba(4, 12, 44, 0.58);
+  padding: clamp(20px, 3vw, 30px);
+  text-align: center;
+}
+
+.ndaBlockedKicker {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(174, 210, 255, 0.82);
+}
+
+.ndaBlockedCard h1 {
+  margin: 10px 0 8px;
+  color: #eef5ff;
+  font-size: clamp(28px, 3vw, 40px);
+  letter-spacing: -0.01em;
+}
+
+.ndaBlockedCard p {
+  margin: 0 auto;
+  max-width: 44ch;
+  color: rgba(210, 228, 255, 0.86);
+}
+
+.ndaBlockedCard .officialGetStartedSmall {
+  margin-top: 20px;
+}
+
 .officialFooter {
   border-top: 1px solid rgba(146, 181, 255, 0.2);
   background: linear-gradient(180deg, rgba(8, 17, 68, 0.4), rgba(8, 17, 68, 0.7));
@@ -2947,6 +4347,10 @@ select.btn {
 }
 
 @media (max-width: 980px) {
+  .officialLanding {
+    padding-top: 134px;
+  }
+
   .brandIntroTagline {
     margin-top: 140px;
     font-size: clamp(14px, 4vw, 22px);
@@ -3010,5 +4414,130 @@ select.btn {
   .officialFooterInner {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .ndaModal {
+    padding: 14px;
+  }
+
+  .marketOpportunityWrap,
+  .investorImmersionGrid,
+  .overviewSupportGrid,
+  .overviewMiniGrid,
+  .overviewMiniGridServices,
+  .investorPointsGrid,
+  .investorTwoCol,
+  .investorCards3,
+  .investorMediaGrid,
+  .investorMediaTwin,
+  .investorAiSystemGrid,
+  .animatedChartsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .reviewChecklistGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .investorMediaTwinCompact {
+    grid-template-columns: 1fr;
+  }
+
+  .investorBrainHeroCard img {
+    height: clamp(320px, 72vw, 460px);
+  }
+
+  .phaseMeter {
+    grid-template-columns: 1fr;
+  }
+
+  .phaseMeter b {
+    text-align: left;
+  }
+
+  .investorPointCard p:last-child,
+  .investorInfoMiniCard p,
+  .investorTakeawayCard p:last-child,
+  .investorListCard li {
+    font-size: 18px;
+  }
+
+  .investorHeader p,
+  .investorSplitHeader p {
+    font-size: 15px;
+  }
+
+  .investorListCard h3,
+  .phaseFramingCard h3 {
+    font-size: clamp(23px, 5vw, 30px);
+  }
+
+  .flowGridMock {
+    grid-template-columns: 1fr;
+  }
+
+  .investorMediaCard img,
+  .investorVideoCard video {
+    height: 220px;
+  }
+
+  .investorSlideCard img {
+    height: auto;
+  }
+
+  #growth-plan .investorSlideCard img {
+    height: auto;
+  }
+
+  #rollout-financials .rolloutPlanGrid > .investorSlideCard img {
+    height: auto;
+  }
+
+  #rollout-financials .investorSlideCard img {
+    height: auto;
+  }
+
+  #financial-ipo .investorSlideCard img,
+  #capital-plan .investorSlideCard img,
+  #ipo-pathway .investorSlideCard img {
+    height: auto;
+  }
+
+  #financial-ipo .projectionsSummaryCard {
+    min-height: auto;
+  }
+
+  #financial-ipo .projectionsPrimarySlide,
+  #financial-ipo .projectionsSecondarySlide {
+    min-height: auto;
+  }
+
+  #financial-ipo .projectionsTopGrid,
+  #financial-ipo .projectionsSlidesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  #financial-ipo .projectionsPrimarySlide img {
+    height: auto;
+  }
+
+  #financial-ipo .projectionsSecondarySlide img {
+    height: auto;
+  }
+
+  .investorImmersionCopy h2 {
+    font-size: clamp(36px, 9vw, 56px);
+    max-width: 100%;
+  }
+
+  .investorImmersionActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .barGroup,
+  .yearCol {
+    grid-template-columns: 1fr;
+    align-items: center;
   }
 }

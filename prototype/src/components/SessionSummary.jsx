@@ -30,9 +30,9 @@ export default function SessionSummary({ personaLabel, priorityStores, cart }) {
         </div>
 
         <div className="summary-tip">
-          <div className="summary-label">Demo Recording Tip</div>
+          <div className="summary-label">Open Simulator Recording Tip</div>
           <div className="muted">
-            Click <b>Run Demo Script</b>, then narrate what Elly is doing as
+            Click <b>Run Simulator Script</b>, then narrate what Elly is doing as
             storefront priorities change.
           </div>
         </div>

@@ -30,6 +30,384 @@ import {
 } from "./lib/authClient.js";
 
 const PASSWORD_REQUEST_EMAIL = "kori@elysiummall.com";
+const ORIGINAL_NARRATION_AUDIO = "/voiceovers/full-experience-narration-sequence.mp3";
+const SIMULATION_NARRATION_AUDIO = "/voiceovers/simulation-voiceover-20260318.m4a";
+const SIMULATION_VIDEO_LEAD_IN_SECONDS = 26;
+const INVITE_FRIEND_AI_BRAIN_VIDEO = "/InviteFriendSimDemo.mp4";
+
+function RevenueYearOneChartInvestor() {
+  const W = 920;
+  const H = 360;
+  const outer = { x: 18, y: 18, w: 884, h: 324, r: 20 };
+  const title = { x: 52, y: 70 };
+  const subtitle = { x: 52, y: 94 };
+  const legend = { x: 662, y: 56 };
+  const plot = { x: 70, y: 120, w: 780, h: 180, r: 18 };
+  const baselinePad = 22;
+  const chartBaseY = plot.y + plot.h - baselinePad;
+  const usableH = plot.h - (baselinePad + 18);
+  const footer = { x: 52, y: 312, w: 816, h: 28, r: 14 };
+  const quarters = [
+    { label: "Q1", gross: 4.2, net: 1.6 },
+    { label: "Q2", gross: 6.0, net: 2.8 },
+    { label: "Q3", gross: 7.4, net: 3.7 },
+    { label: "Q4", gross: 9.1, net: 5.2 },
+  ];
+
+  const maxVal = Math.max(...quarters.flatMap((q) => [q.gross, q.net]));
+  const scaleY = usableH / (maxVal * 1.15);
+  const groupW = plot.w / quarters.length;
+  const barW = 44;
+  const gap = 10;
+  const grossFill = "#0EA5E9";
+  const netFill = "#14B8A6";
+  const fmt = (n) => `$${n.toFixed(1)}M`;
+  const ticks = 4;
+  const tickVals = Array.from({ length: ticks + 1 }).map((_, i) => {
+    const v = (maxVal * 1.15 * (ticks - i)) / ticks;
+    return Math.round(v * 10) / 10;
+  });
+
+  return (
+    <svg
+      className="chartSvgInvestor"
+      viewBox={`0 0 ${W} ${H}`}
+      role="img"
+      aria-label="Projected revenue year one chart"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <rect x="0" y="0" width={W} height={H} rx="24" fill="#F6FBFF" />
+      <rect x={outer.x} y={outer.y} width={outer.w} height={outer.h} rx={outer.r} fill="#FFFFFF" stroke="rgba(14,165,233,0.22)" />
+      <text x={title.x} y={title.y} fontSize="18" fontFamily="ui-sans-serif, system-ui" fill="rgba(3,34,53,0.9)" fontWeight="700">
+        Projected Revenue — Year One (Illustrative)
+      </text>
+      <text x={subtitle.x} y={subtitle.y} fontSize="12" fontFamily="ui-sans-serif, system-ui" fill="rgba(3,34,53,0.55)">
+        Illustrative estimates for pitch narrative — not audited financials.
+      </text>
+      <g transform={`translate(${legend.x} ${legend.y})`}>
+        <rect width="12" height="12" rx="3" fill={grossFill} />
+        <text x="18" y="10" fontSize="11" fontFamily="ui-sans-serif, system-ui" fill="rgba(3,34,53,0.62)">Gross</text>
+        <rect x="80" width="12" height="12" rx="3" fill={netFill} />
+        <text x="98" y="10" fontSize="11" fontFamily="ui-sans-serif, system-ui" fill="rgba(3,34,53,0.62)">Net (after costs)</text>
+      </g>
+      <rect x={plot.x} y={plot.y} width={plot.w} height={plot.h} rx={plot.r} fill="#F8FCFF" stroke="rgba(14,165,233,0.14)" />
+      {tickVals.map((v, i) => {
+        const y = plot.y + 20 + i * (usableH / ticks);
+        return (
+          <g key={i}>
+            <line x1={plot.x + 48} y1={y} x2={plot.x + plot.w - 20} y2={y} stroke="rgba(14,165,233,0.18)" strokeWidth="1" />
+            <text x={plot.x + 18} y={y + 4} fontSize="10" fontFamily="ui-sans-serif, system-ui" fill="rgba(3,34,53,0.52)" textAnchor="start">
+              {fmt(v)}
+            </text>
+          </g>
+        );
+      })}
+      <line x1={plot.x + 48} y1={chartBaseY} x2={plot.x + plot.w - 20} y2={chartBaseY} stroke="rgba(3,34,53,0.18)" strokeWidth="1" />
+      {quarters.map((q, idx) => {
+        const groupCenter = plot.x + groupW * idx + groupW / 2;
+        const grossH = Math.max(6, q.gross * scaleY);
+        const netH = Math.max(6, q.net * scaleY);
+        const grossX = groupCenter - barW - gap / 2;
+        const netX = groupCenter + gap / 2;
+        const grossY = chartBaseY - grossH;
+        const netY = chartBaseY - netH;
+        return (
+          <g key={q.label}>
+            <rect className="chart-bar" x={grossX} y={grossY} width={barW} height={grossH} rx="12" fill={grossFill} style={{ animationDelay: `${0.12 + idx * 0.14}s` }} />
+            <rect className="chart-bar" x={netX} y={netY} width={barW} height={netH} rx="12" fill={netFill} style={{ animationDelay: `${0.2 + idx * 0.14}s` }} />
+            <text x={grossX + barW / 2} y={grossY - 8} textAnchor="middle" fontSize="10" fontFamily="ui-sans-serif, system-ui" fill="rgba(3,34,53,0.62)">{fmt(q.gross)}</text>
+            <text x={netX + barW / 2} y={netY - 8} textAnchor="middle" fontSize="10" fontFamily="ui-sans-serif, system-ui" fill="rgba(3,34,53,0.62)">{fmt(q.net)}</text>
+            <text x={groupCenter} y={plot.y + plot.h - 6} textAnchor="middle" fontSize="11" fontFamily="ui-sans-serif, system-ui" fill="rgba(3,34,53,0.58)">{q.label}</text>
+          </g>
+        );
+      })}
+      <rect x={footer.x} y={footer.y} width={footer.w} height={footer.h} rx={footer.r} fill="rgba(14,165,233,0.08)" stroke="rgba(14,165,233,0.16)" />
+      <text x={footer.x + 18} y={footer.y + 19} fontSize="12" fontFamily="ui-sans-serif, system-ui" fill="rgba(3,34,53,0.62)">
+        Phase 2: replace with validated unit economics (CAC/LTV, take-rate, margin, churn, cohorts).
+      </text>
+    </svg>
+  );
+}
+
+function RevenueYearTwoChartInvestor() {
+  const W = 920;
+  const H = 360;
+  const outer = { x: 18, y: 18, w: 884, h: 324, r: 20 };
+  const title = { x: 52, y: 70 };
+  const subtitle = { x: 52, y: 94 };
+  const legend = { x: 662, y: 56 };
+  const plot = { x: 70, y: 120, w: 780, h: 180, r: 18 };
+  const baselinePad = 22;
+  const chartBaseY = plot.y + plot.h - baselinePad;
+  const usableH = plot.h - (baselinePad + 18);
+  const footer = { x: 52, y: 312, w: 816, h: 28, r: 14 };
+  const years = [
+    { label: "Year 1", gross: 26.7, net: 13.3 },
+    { label: "Year 2", gross: 44.5, net: 24.8 },
+  ];
+  const grossFill = "#6366F1";
+  const netFill = "#22C55E";
+  const maxVal = Math.max(...years.flatMap((y) => [y.gross, y.net]));
+  const scaleY = usableH / (maxVal * 1.15);
+  const groupW = plot.w / years.length;
+  const barW = 64;
+  const gap = 14;
+  const fmt = (n) => `$${n.toFixed(1)}M`;
+  const ticks = 4;
+  const tickVals = Array.from({ length: ticks + 1 }).map((_, i) => {
+    const v = (maxVal * 1.15 * (ticks - i)) / ticks;
+    return Math.round(v * 10) / 10;
+  });
+
+  return (
+    <svg
+      className="chartSvgInvestor"
+      viewBox={`0 0 ${W} ${H}`}
+      role="img"
+      aria-label="Year 1 vs Year 2 revenue projection chart"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <rect x="0" y="0" width={W} height={H} rx="24" fill="#F8F9FF" />
+      <rect x={outer.x} y={outer.y} width={outer.w} height={outer.h} rx={outer.r} fill="#FFFFFF" stroke="rgba(99,102,241,0.2)" />
+      <text x={title.x} y={title.y} fontSize="18" fontFamily="ui-sans-serif, system-ui" fill="rgba(32,30,92,0.9)" fontWeight="700">
+        Revenue Projection — Year 1 vs Year 2 (Illustrative)
+      </text>
+      <text x={subtitle.x} y={subtitle.y} fontSize="12" fontFamily="ui-sans-serif, system-ui" fill="rgba(32,30,92,0.55)">
+        Illustrative estimates — replace with validated model + assumptions.
+      </text>
+      <g transform={`translate(${legend.x} ${legend.y})`}>
+        <rect width="12" height="12" rx="3" fill={grossFill} />
+        <text x="18" y="10" fontSize="11" fontFamily="ui-sans-serif, system-ui" fill="rgba(32,30,92,0.62)">Gross</text>
+        <rect x="80" width="12" height="12" rx="3" fill={netFill} />
+        <text x="98" y="10" fontSize="11" fontFamily="ui-sans-serif, system-ui" fill="rgba(32,30,92,0.62)">Net (after costs)</text>
+      </g>
+      <rect x={plot.x} y={plot.y} width={plot.w} height={plot.h} rx={plot.r} fill="#F6F7FF" stroke="rgba(99,102,241,0.14)" />
+      {tickVals.map((v, i) => {
+        const y = plot.y + 20 + i * (usableH / ticks);
+        return (
+          <g key={i}>
+            <line x1={plot.x + 48} y1={y} x2={plot.x + plot.w - 20} y2={y} stroke="rgba(99,102,241,0.17)" strokeWidth="1" />
+            <text x={plot.x + 18} y={y + 4} fontSize="10" fontFamily="ui-sans-serif, system-ui" fill="rgba(32,30,92,0.5)" textAnchor="start">{fmt(v)}</text>
+          </g>
+        );
+      })}
+      <line x1={plot.x + 48} y1={chartBaseY} x2={plot.x + plot.w - 20} y2={chartBaseY} stroke="rgba(32,30,92,0.2)" strokeWidth="1" />
+      {years.map((y, idx) => {
+        const groupCenter = plot.x + groupW * idx + groupW / 2;
+        const grossH = Math.max(8, y.gross * scaleY);
+        const netH = Math.max(8, y.net * scaleY);
+        const grossX = groupCenter - barW - gap / 2;
+        const netX = groupCenter + gap / 2;
+        const grossY = chartBaseY - grossH;
+        const netY = chartBaseY - netH;
+        return (
+          <g key={y.label}>
+            <rect className="chart-bar" x={grossX} y={grossY} width={barW} height={grossH} rx="14" fill={grossFill} style={{ animationDelay: `${0.2 + idx * 0.2}s` }} />
+            <rect className="chart-bar" x={netX} y={netY} width={barW} height={netH} rx="14" fill={netFill} style={{ animationDelay: `${0.3 + idx * 0.2}s` }} />
+            <text x={grossX + barW / 2} y={grossY - 8} textAnchor="middle" fontSize="10" fontFamily="ui-sans-serif, system-ui" fill="rgba(32,30,92,0.62)">{fmt(y.gross)}</text>
+            <text x={netX + barW / 2} y={netY - 8} textAnchor="middle" fontSize="10" fontFamily="ui-sans-serif, system-ui" fill="rgba(32,30,92,0.62)">{fmt(y.net)}</text>
+            <text x={groupCenter} y={plot.y + plot.h - 6} textAnchor="middle" fontSize="11" fontFamily="ui-sans-serif, system-ui" fill="rgba(32,30,92,0.56)">{y.label}</text>
+          </g>
+        );
+      })}
+      <rect x={footer.x} y={footer.y} width={footer.w} height={footer.h} rx={footer.r} fill="rgba(99,102,241,0.08)" stroke="rgba(99,102,241,0.16)" />
+      <text x={footer.x + 18} y={footer.y + 19} fontSize="12" fontFamily="ui-sans-serif, system-ui" fill="rgba(32,30,92,0.62)">
+        Phase 2: validate forecast + assumptions (margin, take-rate, CAC/LTV, churn, cohorts).
+      </text>
+    </svg>
+  );
+}
+
+function RolloutTimelineChartInvestor() {
+  const items = [
+    { label: "Q1", title: "Hire/engage tech team" },
+    { label: "Q2", title: "Complete AI engine framing + interface" },
+    { label: "Q3", title: "Build website + expand over time" },
+    { label: "Q4", title: "Complete coding/testing + phase-in rollout" },
+    { label: "Q5–Q6", title: "Acquire additional platforms" },
+    { label: "Q7–Q8", title: "Begin marketing + scale revenue rollout" },
+  ];
+
+  return (
+    <svg
+      className="chartSvgInvestor"
+      viewBox="0 0 920 360"
+      role="img"
+      aria-label="Projected rollout timeline illustration"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <rect x="0" y="0" width="920" height="360" rx="24" fill="#F6FBFF" />
+      <rect x="18" y="18" width="884" height="324" rx="20" fill="#FFFFFF" stroke="rgba(14,165,233,0.2)" />
+      <text x="52" y="70" fontSize="18" fontFamily="ui-sans-serif, system-ui" fill="rgba(3,34,53,0.9)" fontWeight="700">
+        Projected Rollout Schedule (Illustrative)
+      </text>
+      <text x="52" y="94" fontSize="12" fontFamily="ui-sans-serif, system-ui" fill="rgba(3,34,53,0.55)">
+        Phase 1: narrative + mock visuals • Phase 2: validated dependencies & execution plan
+      </text>
+
+      <line x1="90" y1="150" x2="830" y2="150" stroke="rgba(14,165,233,0.2)" strokeWidth="10" strokeLinecap="round" />
+      <line className="rollout-progress-rail" x1="90" y1="150" x2="465" y2="150" stroke="rgba(14,165,233,0.5)" strokeWidth="10" strokeLinecap="round" />
+
+      {items.map((item, i) => {
+        const x = 120 + i * 120;
+        const isUpper = i % 2 === 0;
+        const cardY = isUpper ? 182 : 248;
+        const cardW = Math.max(164, Math.min(228, item.title.length * 5.9));
+        const cardH = 58;
+        const titleY = cardY + 25;
+        const subtitleY = cardY + 46;
+
+        return (
+          <g key={item.label}>
+            <circle
+              className="rollout-node-pop"
+              cx={x}
+              cy={150}
+              r={14}
+              fill="#FFFFFF"
+              stroke="rgba(14,165,233,0.45)"
+              strokeWidth="2"
+              style={{ animationDelay: `${i * 0.14}s` }}
+            />
+            <circle
+              className="rollout-node-core"
+              cx={x}
+              cy={150}
+              r={6}
+              fill="rgba(20,184,166,0.9)"
+              style={{ animationDelay: `${i * 0.12}s` }}
+            />
+
+            <text
+              x={x}
+              y={128}
+              textAnchor="middle"
+              fontSize="11"
+              fontFamily="ui-sans-serif, system-ui"
+              fill="rgba(3,34,53,0.58)"
+              fontWeight="700"
+            >
+              {item.label}
+            </text>
+
+            <g className="rollout-milestone-group" style={{ animationDelay: `${0.2 + i * 0.1}s` }}>
+              <rect x={x - cardW / 2} y={cardY} width={cardW} height={cardH} rx={14} fill="#FFFFFF" stroke="rgba(14,165,233,0.2)" />
+              <text
+                x={x}
+                y={titleY}
+                textAnchor="middle"
+                fontSize="11.5"
+                fontFamily="ui-sans-serif, system-ui"
+                fill="rgba(3,34,53,0.84)"
+                fontWeight="700"
+              >
+                {item.title}
+              </text>
+              <text
+                x={x}
+                y={subtitleY}
+                textAnchor="middle"
+                fontSize="10"
+                fontFamily="ui-sans-serif, system-ui"
+                fill="rgba(3,34,53,0.54)"
+              >
+                milestone
+              </text>
+            </g>
+          </g>
+        );
+      })}
+
+      <rect x="52" y="314" width="816" height="28" rx="16" fill="rgba(14,165,233,0.08)" stroke="rgba(14,165,233,0.16)" />
+      <text x="70" y="332" fontSize="12" fontFamily="ui-sans-serif, system-ui" fill="rgba(3,34,53,0.64)">
+        Phase 2: add hiring plan, data pipeline readiness, vendor onboarding, acquisition integration steps, and KPI gates.
+      </text>
+    </svg>
+  );
+}
+
+function RaiseMilestonesChartInvestor() {
+  const steps = [
+    { x: 110, title: "Seed", sub: "$750K–$1M" },
+    { x: 270, title: "Build", sub: "AI + product" },
+    { x: 430, title: "Pilot", sub: "vendors + cohorts" },
+    { x: 590, title: "Acquire", sub: "social + eComm" },
+    { x: 750, title: "Expand", sub: "marketing + scale" },
+  ];
+
+  return (
+    <svg
+      className="chartSvgInvestor"
+      viewBox="0 0 920 360"
+      role="img"
+      aria-label="Capital raise flow illustration"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <rect x="0" y="0" width="920" height="360" rx="24" fill="#FFF9F2" />
+      <rect x="18" y="18" width="884" height="324" rx="20" fill="#FFFFFF" stroke="rgba(245,158,11,0.24)" />
+
+      <text x="52" y="70" fontSize="18" fontFamily="ui-sans-serif, system-ui" fill="rgba(74,43,8,0.9)" fontWeight="700">
+        Raise & Milestones (Illustrative)
+      </text>
+      <text x="52" y="94" fontSize="12" fontFamily="ui-sans-serif, system-ui" fill="rgba(74,43,8,0.58)">
+        Seed → Build → Pilot → Acquire → Expand (Phase 1 narrative)
+      </text>
+
+      <line x1="110" y1="200" x2="750" y2="200" stroke="rgba(245,158,11,0.22)" strokeWidth="10" strokeLinecap="round" />
+      <line className="raise-progress-rail" x1="110" y1="200" x2="270" y2="200" stroke="rgba(245,158,11,0.55)" strokeWidth="10" strokeLinecap="round" />
+
+      {steps.map((step, idx) => (
+        <g key={step.x}>
+          <circle
+            className="raise-node-pop"
+            cx={step.x}
+            cy={200}
+            r={16}
+            fill="#FFFFFF"
+            stroke="rgba(245,158,11,0.45)"
+            strokeWidth="2"
+            style={{ animationDelay: `${idx * 0.12}s` }}
+          />
+          <circle
+            className="raise-node-core"
+            cx={step.x}
+            cy={200}
+            r={7}
+            fill={idx === 0 ? "rgba(245,158,11,0.95)" : "rgba(20,184,166,0.82)"}
+            style={{ animationDelay: `${idx * 0.12}s` }}
+          />
+
+          {idx < steps.length - 1 ? (
+            <polygon points={`${step.x + 62},200 ${step.x + 52},193 ${step.x + 52},207`} fill="rgba(0,0,0,0.20)" />
+          ) : null}
+
+          <g className="raise-step-group" style={{ animationDelay: `${0.18 + idx * 0.08}s` }}>
+            <rect x={step.x - 70} y="230" width="140" height="54" rx="16" fill="#FFFFFF" stroke="rgba(245,158,11,0.22)" />
+            <text x={step.x} y="253" textAnchor="middle" fontSize="12" fontFamily="ui-sans-serif, system-ui" fill="rgba(74,43,8,0.84)" fontWeight="700">
+              {step.title}
+            </text>
+            <text x={step.x} y="272" textAnchor="middle" fontSize="10.5" fontFamily="ui-sans-serif, system-ui" fill="rgba(74,43,8,0.62)">
+              {step.sub}
+            </text>
+          </g>
+        </g>
+      ))}
+
+      <rect x="560" y="112" width="308" height="46" rx="16" fill="rgba(245,158,11,0.08)" stroke="rgba(245,158,11,0.2)" />
+      <text x="576" y="131" fontSize="11.5" fontFamily="ui-sans-serif, system-ui" fill="rgba(74,43,8,0.74)" fontWeight="650">
+        Public pathway (as applicable)
+      </text>
+      <text x="576" y="149" fontSize="11.5" fontFamily="ui-sans-serif, system-ui" fill="rgba(74,43,8,0.62)">
+        OTC readiness → reporting → possible NASDAQ pathway
+      </text>
+
+      <rect x="52" y="300" width="816" height="42" rx="16" fill="rgba(245,158,11,0.08)" stroke="rgba(245,158,11,0.2)" />
+      <text x="70" y="325" fontSize="12" fontFamily="ui-sans-serif, system-ui" fill="rgba(74,43,8,0.7)">
+        Phase 2: add budget breakdown, diligence checklist, integration plan, and compliance timing criteria.
+      </text>
+    </svg>
+  );
+}
 
 /**
  * ✅ Walkthrough storefront → category + brand filter + label
@@ -377,8 +755,7 @@ const formatPhoneValue = (input) => {
 export default function App() {
   const DEMO_EMAIL = "investor@elysiummall.com";
   const DEMO_PASS = "Elysium2026!";
-  const INVESTOR_PAGE_URL =
-    import.meta.env.VITE_INVESTOR_PAGE_URL || "https://elysiummall.com";
+  const NDA_POPUP_IMAGE = "/NDAPopupFinal.png";
   const LANDING_PATH = "/landing-page";
   const SIGN_IN_PATH = "/landing-page/sign-in";
   const VERIFY_EMAIL_PATH = "/landing-page/verify-email";
@@ -446,12 +823,30 @@ export default function App() {
     return saved === "light" || saved === "dark" ? saved : "dark";
   });
   const [showPasswordRequestModal, setShowPasswordRequestModal] = useState(false);
+  const [ndaStatus, setNdaStatus] = useState("pending");
+  const [mediaLightbox, setMediaLightbox] = useState(null);
   const [passwordRequestForm, setPasswordRequestForm] = useState({
     fullName: "",
     contactNumber: "",
     emailAddress: "",
     comments: "",
   });
+  const inviteClipRef = useRef(null);
+  const soloClipRef = useRef(null);
+  const soloNarrationRef = useRef(null);
+  const simulationNarrationRef = useRef(null);
+  const simulationLeadInTimeoutRef = useRef(null);
+  const simulationCountdownIntervalRef = useRef(null);
+  const authTransitionTimeoutRef = useRef(null);
+  const [soloClipReady, setSoloClipReady] = useState(false);
+  const [inviteClipReady, setInviteClipReady] = useState(false);
+  const [isSoloPlaying, setIsSoloPlaying] = useState(false);
+  const [isSimulationPlaying, setIsSimulationPlaying] = useState(false);
+  const [isSimulationWaitingForLeadIn, setIsSimulationWaitingForLeadIn] = useState(false);
+  const [simulationHasVideoStarted, setSimulationHasVideoStarted] = useState(false);
+  const [simulationLeadInCountdown, setSimulationLeadInCountdown] = useState(
+    SIMULATION_VIDEO_LEAD_IN_SECONDS,
+  );
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -474,6 +869,10 @@ export default function App() {
   };
 
   const openPublicLanding = () => {
+    if (authTransitionTimeoutRef.current) {
+      window.clearTimeout(authTransitionTimeoutRef.current);
+      authTransitionTimeoutRef.current = null;
+    }
     setShowLandingMallTransition(true);
     setPublicView("landing");
     setError("");
@@ -487,31 +886,41 @@ export default function App() {
     pushPath(LANDING_PATH);
   };
 
-  const openAuthScreen = () => {
+  const openAuthScreen = ({ withDissolve = false } = {}) => {
+    if (authTransitionTimeoutRef.current) {
+      window.clearTimeout(authTransitionTimeoutRef.current);
+      authTransitionTimeoutRef.current = null;
+    }
+
     setShowLandingMallTransition(true);
-    setAuthIntent("signin");
-    setPublicView("auth");
-    setError("");
-    setAuthNotice("");
-    setVerificationStatus("");
-    pushPath(SIGN_IN_PATH);
+
+    const routeToSignIn = () => {
+      setAuthIntent("signin");
+      setPublicView("auth");
+      setError("");
+      setAuthNotice("");
+      setVerificationStatus("");
+      pushPath(SIGN_IN_PATH);
+      authTransitionTimeoutRef.current = null;
+    };
+
+    if (withDissolve && !isLoggedIn && publicView === "landing") {
+      routeToSignIn();
+      return;
+    }
+
+    routeToSignIn();
   };
 
   const openSimulatorGate = () => {
     setShowLandingMallTransition(true);
     if (!isLoggedIn) {
-      openAuthScreen();
+      openAuthScreen({ withDissolve: true });
       return;
     }
     setShowLandingPage(false);
     setFlowStage("app");
     pushPath(SIMULATOR_PATH);
-  };
-
-  const goToInvestorPage = () => {
-    if (typeof window !== "undefined") {
-      window.location.href = INVESTOR_PAGE_URL;
-    }
   };
 
   const updatePasswordRequestField = (field) => (event) => {
@@ -527,6 +936,14 @@ export default function App() {
       emailAddress: "",
       comments: "",
     });
+  };
+
+  const acceptNda = () => {
+    setNdaStatus("accepted");
+  };
+
+  const rejectNda = () => {
+    setNdaStatus("rejected");
   };
 
   const submitPasswordRequest = (event) => {
@@ -547,6 +964,195 @@ export default function App() {
     }
     closePasswordRequestModal();
   };
+
+  const clearSimulationLeadInTimers = useCallback(() => {
+    if (simulationLeadInTimeoutRef.current) {
+      clearTimeout(simulationLeadInTimeoutRef.current);
+      simulationLeadInTimeoutRef.current = null;
+    }
+    if (simulationCountdownIntervalRef.current) {
+      clearInterval(simulationCountdownIntervalRef.current);
+      simulationCountdownIntervalRef.current = null;
+    }
+  }, []);
+
+  const formatSeconds = useCallback((seconds) => {
+    const mins = Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, "0");
+    const secs = (seconds % 60).toString().padStart(2, "0");
+    return `${mins}:${secs}`;
+  }, []);
+
+  const playSoloNarratedClip = useCallback(async () => {
+    const video = soloClipRef.current;
+    const narration = soloNarrationRef.current;
+    if (!video || !narration) return;
+    video.pause();
+    narration.pause();
+    video.currentTime = 0;
+    narration.currentTime = 0;
+    try {
+      await Promise.all([video.play(), narration.play()]);
+      setIsSoloPlaying(true);
+    } catch {
+      setIsSoloPlaying(false);
+    }
+  }, []);
+
+  const syncSoloNarrationOnVideoPlay = useCallback(async () => {
+    const narration = soloNarrationRef.current;
+    if (!narration || !narration.paused) return;
+    try {
+      await narration.play();
+      setIsSoloPlaying(true);
+    } catch {}
+  }, []);
+
+  const pauseSoloNarratedClip = useCallback(() => {
+    [soloClipRef.current, soloNarrationRef.current]
+      .filter(Boolean)
+      .forEach((node) => node.pause());
+    setIsSoloPlaying(false);
+  }, []);
+
+  const startTimedSimulationClip = useCallback(async () => {
+    const video = inviteClipRef.current;
+    const narration = simulationNarrationRef.current;
+    if (!video || !narration) return;
+    clearSimulationLeadInTimers();
+    video.pause();
+    narration.pause();
+    video.currentTime = 0;
+    narration.currentTime = 0;
+    setSimulationHasVideoStarted(false);
+    setIsSimulationWaitingForLeadIn(false);
+    setSimulationLeadInCountdown(SIMULATION_VIDEO_LEAD_IN_SECONDS);
+    try {
+      await narration.play();
+      setIsSimulationPlaying(true);
+      setIsSimulationWaitingForLeadIn(true);
+      simulationCountdownIntervalRef.current = setInterval(() => {
+        setSimulationLeadInCountdown((prev) => (prev <= 1 ? 0 : prev - 1));
+      }, 1000);
+      simulationLeadInTimeoutRef.current = setTimeout(async () => {
+        clearSimulationLeadInTimers();
+        try {
+          await video.play();
+          setIsSimulationWaitingForLeadIn(false);
+          setSimulationLeadInCountdown(0);
+        } catch {}
+      }, SIMULATION_VIDEO_LEAD_IN_SECONDS * 1000);
+    } catch {
+      setIsSimulationPlaying(false);
+      setIsSimulationWaitingForLeadIn(false);
+      clearSimulationLeadInTimers();
+    }
+  }, [clearSimulationLeadInTimers]);
+
+  const syncSimulationNarrationOnVideoPlay = useCallback(async () => {
+    const narration = simulationNarrationRef.current;
+    clearSimulationLeadInTimers();
+    setSimulationHasVideoStarted(true);
+    setIsSimulationWaitingForLeadIn(false);
+    setSimulationLeadInCountdown(0);
+    if (!narration || !narration.paused) return;
+    try {
+      await narration.play();
+    } catch {}
+  }, [clearSimulationLeadInTimers]);
+
+  const pauseTimedSimulationClip = useCallback(() => {
+    clearSimulationLeadInTimers();
+    [inviteClipRef.current, simulationNarrationRef.current]
+      .filter(Boolean)
+      .forEach((node) => node.pause());
+    setIsSimulationPlaying(false);
+    setIsSimulationWaitingForLeadIn(false);
+    setSimulationHasVideoStarted(false);
+    setSimulationLeadInCountdown(SIMULATION_VIDEO_LEAD_IN_SECONDS);
+  }, [clearSimulationLeadInTimers]);
+
+  const handleSimulationVideoPause = useCallback(() => {
+    const narration = simulationNarrationRef.current;
+    if (narration && !narration.paused) {
+      setIsSimulationPlaying(true);
+      return;
+    }
+    setIsSimulationPlaying(false);
+  }, []);
+
+  const handleSimulationVideoEnd = useCallback(() => {
+    clearSimulationLeadInTimers();
+    const video = inviteClipRef.current;
+    const narration = simulationNarrationRef.current;
+    if (video && narration && !narration.paused) {
+      video.currentTime = 0;
+      video
+        .play()
+        .then(() => {
+          setIsSimulationPlaying(true);
+          setSimulationHasVideoStarted(true);
+        })
+        .catch(() => {});
+      return;
+    }
+    setSimulationHasVideoStarted(false);
+    setIsSimulationWaitingForLeadIn(false);
+    setIsSimulationPlaying(Boolean(narration && !narration.paused));
+  }, [clearSimulationLeadInTimers]);
+
+  const openImageLightbox = useCallback((src, alt) => {
+    if (!src) return;
+    setMediaLightbox({
+      type: "image",
+      src,
+      alt: alt || "Investor media",
+    });
+  }, []);
+
+  const openChartLightbox = useCallback((chartKey) => {
+    if (!chartKey) return;
+    setMediaLightbox({
+      type: "chart",
+      chartKey,
+    });
+  }, []);
+
+  const closeMediaLightbox = useCallback(() => {
+    setMediaLightbox(null);
+  }, []);
+
+  const handleLandingMediaClick = useCallback(
+    (event) => {
+      const chartTarget = event.target.closest("[data-chart-enlarge]");
+      if (chartTarget) {
+        openChartLightbox(chartTarget.getAttribute("data-chart-enlarge"));
+        return;
+      }
+
+      const imageTarget = event.target.closest(".investorMediaCard img");
+      if (imageTarget) {
+        openImageLightbox(imageTarget.currentSrc || imageTarget.src, imageTarget.alt);
+      }
+    },
+    [openChartLightbox, openImageLightbox],
+  );
+
+  useEffect(() => {
+    if (!mediaLightbox) return undefined;
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") closeMediaLightbox();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mediaLightbox, closeMediaLightbox]);
+
+  useEffect(() => {
+    return () => {
+      clearSimulationLeadInTimers();
+    };
+  }, [clearSimulationLeadInTimers]);
 
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
@@ -759,6 +1365,15 @@ export default function App() {
     );
     return () => window.clearTimeout(timer);
   }, [showLandingMallTransition, LANDING_INTRO_DISSOLVE_MS]);
+
+  useEffect(() => {
+    return () => {
+      if (authTransitionTimeoutRef.current) {
+        window.clearTimeout(authTransitionTimeoutRef.current);
+        authTransitionTimeoutRef.current = null;
+      }
+    };
+  }, []);
 
   const displayTopStoreLabels = topStoreLabels.length
     ? topStoreLabels
@@ -1391,7 +2006,7 @@ export default function App() {
     for (let remaining = countdownStart; remaining >= 1; remaining -= 1) {
       if (demoAbortRef.current) break;
       setDemoCountdown(remaining);
-      pushMessage(`Demo starts in ${remaining}…`);
+      pushMessage(`Simulator starts in ${remaining}…`);
       await sleep(1000);
     }
 
@@ -1430,7 +2045,7 @@ export default function App() {
 
     try {
       pushMessage(
-        `Demo Script: Starting ${selectedScript?.label || "luxury walkthrough"}…`,
+        `Simulator Script: Starting ${selectedScript?.label || "luxury walkthrough"}…`,
       );
       await sleep(600);
 
@@ -1644,7 +2259,7 @@ export default function App() {
 
         if (step.type === "complete") {
           issueWalkDemoCommand("COMPLETE_DEMO");
-          setWalkLastEvent("USER_SIMULATOR: Demo complete - checkout summary ready");
+          setWalkLastEvent("USER_SIMULATOR: Simulator complete - checkout summary ready");
           setDemoCompletionNotice(
             coShopActive
               ? "Auto social simulation complete: both shoppers visited all storefronts and reached checkout summary."
@@ -1666,7 +2281,7 @@ export default function App() {
 
       await sleep(500);
       pushMessage(
-        `Demo Script: Finished ${selectedScript?.label || "luxury walkthrough"}. (${localPersona?.label || localSession?.personaLabel || "Persona"} session)`,
+        `Simulator Script: Finished ${selectedScript?.label || "luxury walkthrough"}. (${localPersona?.label || localSession?.personaLabel || "Persona"} session)`,
       );
     } finally {
       setDemoRunning(false);
@@ -1680,7 +2295,7 @@ export default function App() {
     demoRunLockRef.current = false;
     setDemoCountdown(null);
     setManualPlayMode(true);
-    pushMessage("Demo Script: Stopped. Manual play is now active.");
+    pushMessage("Simulator Script: Stopped. Manual play is now active.");
     setDemoRunning(false);
   };
 
@@ -1708,7 +2323,7 @@ export default function App() {
     setDemoCountdown(null);
     demoAbortRef.current = false;
     if (!silent) {
-      pushMessage("Demo reset: simulator homed to start and ready for a fresh run.");
+      pushMessage("Simulator reset: simulator homed to start and ready for a fresh run.");
     }
   };
 
@@ -1734,8 +2349,32 @@ export default function App() {
   const introTransitionActive =
     flowStage === "brand_intro" && showBrandIntroMall && !introReadyToContinue;
 
+  if (ndaStatus === "rejected") {
+    return (
+      <div className="app appFull">
+        <main className="ndaBlockedWrap">
+          <section className="ndaBlockedCard">
+            <p className="ndaBlockedKicker">Access Restricted</p>
+            <h1>Unable to Continue</h1>
+            <p>
+              Access is restricted because the NDA terms and conditions were rejected.
+            </p>
+            <button className="officialGetStarted officialGetStartedSmall" type="button" onClick={() => setNdaStatus("pending")}>
+              Review NDA Again
+            </button>
+          </section>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className={`app ${isFullPageStage ? "appFull" : ""}`}>
+      {showLandingMallTransition ? (
+        <div className="officialLandingMallFade" aria-hidden="true">
+          <div className="officialLandingMallFadeScene" />
+        </div>
+      ) : null}
       {flowStage === "brand_intro" ? (
         <div
           className={`brandIntro ${introReadyToContinue ? "brandIntroReady" : ""} ${introTransitionActive ? "brandIntroFizzleOn" : ""}`}
@@ -1776,9 +2415,6 @@ export default function App() {
               </button>
               <button className="btn" type="button" onClick={openPublicLanding}>
                 Back to Landing
-              </button>
-              <button className="btn" type="button" onClick={goToInvestorPage}>
-                Back to Investor Page
               </button>
             </div>
           </div>
@@ -1829,51 +2465,79 @@ export default function App() {
                 <button className="btn" type="button" onClick={openPublicLanding}>
                   Back to Landing
                 </button>
-                <button className="btn" type="button" onClick={goToInvestorPage}>
-                  Back to Investor Page
-                </button>
               </div>
             </form>
           </div>
         </div>
       ) : showPublicLanding ? (
         <div id="home" className="officialLanding">
-          {showLandingMallTransition ? (
-            <div className="officialLandingMallFade" aria-hidden="true">
-              <div className="officialLandingMallFadeScene" />
-            </div>
-          ) : null}
           <header className="officialHeader">
             <div className="officialHeaderInner">
               <nav className="officialNavLinks" aria-label="Primary">
-                <a href="#home" className="officialNavItem">HOME</a>
+                <a href="#home" className="officialNavItem">Home</a>
                 <div className="officialNavDropdown">
                   <button className="officialNavItem officialNavItemBtn" type="button">
-                    EXPERIENCE
+                    Overview
                   </button>
                   <div className="officialNavMenu">
-                    <a href="#services">Services</a>
-                    <a href="#about">Immersive Vision</a>
+                    <a href="#investor-overview">Summary</a>
+                    <a href="#problem-solution">Problem + Solution</a>
+                    <a href="#elysium-market-solution">Elysium market solution</a>
                   </div>
                 </div>
                 <div className="officialNavDropdown">
                   <button className="officialNavItem officialNavItemBtn" type="button">
-                    COMPANY
+                    AI Brain/SmartMall
                   </button>
                   <div className="officialNavMenu">
-                    <a href="#about">About Elysium</a>
-                    <a href="#contact">Contact</a>
+                    <a href="#ai-brain-system">AI Brain</a>
+                    <a href="#avatar-experience">Advance Avatar</a>
+                    <a href="#elysium-market-solution">Social Media</a>
                   </div>
                 </div>
+                <div className="officialNavDropdown">
+                  <button className="officialNavItem officialNavItemBtn" type="button">
+                    Market Plan/Contracts
+                  </button>
+                  <div className="officialNavMenu">
+                    <a href="#growth-plan">Plan summary</a>
+                    <a href="#rollout-financials">Roll out plan</a>
+                  </div>
+                </div>
+                <div className="officialNavDropdown">
+                  <button className="officialNavItem officialNavItemBtn" type="button">
+                    Financials/IPO
+                  </button>
+                  <div className="officialNavMenu">
+                    <a href="#rollout-financials">Financial projections</a>
+                    <a href="#financial-ipo">Budget + assumptions</a>
+                    <a href="#ipo-pathway">IPO pathway</a>
+                  </div>
+                </div>
+                <div className="officialNavDropdown">
+                  <button className="officialNavItem officialNavItemBtn" type="button">
+                    Capitalization/Investors
+                  </button>
+                  <div className="officialNavMenu">
+                    <a href="#capital-plan">Capital raise pre-IPO</a>
+                    <a href="#ipo-pathway">Investors</a>
+                  </div>
+                </div>
+                <div className="officialNavDropdown">
+                  <button className="officialNavItem officialNavItemBtn" type="button">
+                    Management Team
+                  </button>
+                  <div className="officialNavMenu">
+                    <a href="#leadership">Leadership</a>
+                    <a href="#management-team">Management Team</a>
+                  </div>
+                </div>
+                <a href="#contact-review" className="officialNavItem">Contact Us</a>
               </nav>
               <div className="officialNavAuth">
-                <button
-                  className="officialAuthBtn"
-                  type="button"
-                  onClick={goToInvestorPage}
-                >
-                  Back to Investor Page
-                </button>
+                <a className="officialAuthBtn officialNavJumpBtn" href="#ai-brain-system">
+                  Jump to Simulation Videos
+                </a>
                 <div className="officialPasswordRequestWrap">
                   <button
                     className="officialAuthBtn officialPasswordRequestBtn"
@@ -1888,7 +2552,7 @@ export default function App() {
             </div>
           </header>
 
-          <div className="officialCanvas">
+          <div className="officialCanvas" onClick={handleLandingMediaClick}>
             <section className="officialHero">
               <div className="officialHeroCopy">
                 <h1>Welcome to Elysium</h1>
@@ -1904,11 +2568,11 @@ export default function App() {
                     type="button"
                     onClick={openSimulatorGate}
                   >
-                    Full Demo Site
+                    Open Simulator
                   </button>
                 </div>
                 <p className="officialHeroActionNote">
-                  Opens the password-protected SmartMall simulator.
+                  Open the password-protected SmartMall simulator.
                 </p>
               </div>
               <div className="officialHeroVisual">
@@ -1952,114 +2616,1138 @@ export default function App() {
               </article>
             </section>
 
-            <section id="about" className="officialSection">
-              <div className="officialSectionHeader">
-                <h2>About Elysium</h2>
-                <p>
-                  Elysium is building a premium digital mall where AI assistants,
-                  immersive storefronts, and merchant analytics work together in one
-                  platform.
-                </p>
-              </div>
-              <div className="officialAboutGrid">
-                <article className="officialInfoCard">
-                  <h3>Our Mission</h3>
+            <section className="officialSection investorSection investorImmersionSection">
+              <div className="investorImmersionGrid">
+                <article className="investorImmersionCopy">
+                  <div className="investorTagGroup investorImmersionTags">
+                    <span>Virtual SmartMall</span>
+                    <span>AI Brain</span>
+                    <span>Social + eCommerce</span>
+                    <span>AI-assisted mock</span>
+                  </div>
+                  <h2>Multi-dimensional immersion into a virtual shopping experience.</h2>
                   <p>
-                    Create a modern, intelligent commerce environment that helps
-                    shoppers discover faster and helps brands convert with confidence.
+                    Elysium is envisioned as a virtual smart mall that blends social
+                    interaction with commerce, powered by an AI Brain that learns from
+                    word data, physical cues, and reactions to improve predictability by
+                    analyzing a compilation of human variables.
                   </p>
-                </article>
-                <article className="officialInfoCard">
-                  <h3>What Makes Us Different</h3>
-                  <p>
-                    Session-aware recommendations, co-shopping support, and
-                    walkthrough-ready luxury experiences built for measurable growth.
-                  </p>
-                </article>
-              </div>
-            </section>
-
-            <section id="services" className="officialSection">
-              <div className="officialSectionHeader">
-                <h2>Services</h2>
-                <p>
-                  Core offerings for digital mall operators, premium brands, and
-                  enterprise commerce teams.
-                </p>
-              </div>
-              <div className="officialServiceGrid">
-                <article className="officialInfoCard">
-                  <h3>AI Merchandising</h3>
-                  <p>
-                    Real-time product ranking and recommendation tuning based on
-                    active shopper behavior and intent signals.
-                  </p>
-                </article>
-                <article className="officialInfoCard">
-                  <h3>Immersive Storefronts</h3>
-                  <p>
-                    Interactive virtual environments for premium discovery, guided
-                    journeys, and collaborative shopping experiences.
-                  </p>
-                </article>
-                <article className="officialInfoCard">
-                  <h3>Performance Insights</h3>
-                  <p>
-                    Actionable dashboards for engagement, product interest, and
-                    purchase outcomes across every storefront touchpoint.
-                  </p>
-                </article>
-              </div>
-            </section>
-
-            <section id="news" className="officialSection">
-              <div className="officialSectionHeader">
-                <h2>Window Frame News</h2>
-                <p>Post news updates in the window frames for investors and partners.</p>
-              </div>
-              <div className="officialAboutGrid">
-                <article className="officialInfoCard">
-                  <h3>Window Frame 1</h3>
-                  <p>Upcoming launch updates and strategic milestones.</p>
-                </article>
-                <article className="officialInfoCard">
-                  <h3>Window Frame 2</h3>
-                  <p>Recent partnership and product announcements.</p>
-                </article>
-              </div>
-            </section>
-
-            <section id="contact" className="officialSection officialContactSection">
-              <div className="officialSectionHeader">
-                <h2>Contact Us</h2>
-                <p>
-                  Questions, feedback, concerns, or partnership requests are welcome.
-                </p>
-              </div>
-              <div className="officialContactGrid">
-                <article className="officialInfoCard">
-                  <h3>Business Information</h3>
-                  <p>Elysium Inc.</p>
-                  <p>
-                    Contact Team Email:{" "}
-                    <a href={`mailto:${PASSWORD_REQUEST_EMAIL}`}>{PASSWORD_REQUEST_EMAIL}</a>
-                  </p>
-                  <p>Support Channel: By request</p>
-                </article>
-                <article className="officialInfoCard">
-                  <h3>Password Requests</h3>
-                  <p>
-                    Use Request Password to send your full name, contact number,
-                    email, and comments directly to the Elysium team.
-                  </p>
-                  <div className="officialContactActions">
+                  <div className="investorImmersionActions">
+                    <a className="reviewPrimaryBtn" href="#ai-brain-system">
+                      See how the AI Brain works
+                    </a>
                     <button
-                      className="officialGetStarted officialGetStartedSmall"
+                      className="reviewSecondaryBtn"
                       type="button"
-                      onClick={() => setShowPasswordRequestModal(true)}
+                      onClick={openSimulatorGate}
                     >
-                      Request Password
+                      View the SmartMall experience ↗
                     </button>
+                  </div>
+                  <p className="investorImmersionPath">Open Simulator path: www.elysiummall.com/demo</p>
+                  <div className="investorTagGroup investorImmersionTags">
+                    <span>Personalized discovery</span>
+                    <span>Avatar try-on concept</span>
+                    <span>Lower returns</span>
+                    <span>Higher conversion</span>
+                  </div>
+                </article>
+
+                <article className="investorMediaCard investorImmersionVisual">
+                  <img src="/illustrations/store3-red.png" alt="Digital storefront mock UI" />
+                  <p>
+                    <span>Digital Storefront (Mock UI)</span>
+                    <span>View details</span>
+                    <span>Open experience ↗</span>
+                  </p>
+                </article>
+              </div>
+
+              <div className="investorCards3 investorImmersionCards">
+                <article className="investorInfoMiniCard">
+                  <h3>Differentiation</h3>
+                  <p>Moves beyond one-dimensional shopping by making discovery interactive, guided, and personalized.</p>
+                </article>
+                <article className="investorInfoMiniCard">
+                  <h3>Social Commerce</h3>
+                  <p>Users can discover, share, and shop together without leaving the platform.</p>
+                </article>
+                <article className="investorInfoMiniCard">
+                  <h3>Growth Story</h3>
+                  <p>A clear roadmap aligned to revenue generation and expansion milestones.</p>
+                </article>
+              </div>
+            </section>
+
+            <section className="officialSection investorSection overviewSupportSection">
+              <div className="overviewSupportGrid">
+                <article className="investorListCard">
+                  <h3>About Elysium</h3>
+                  <p>
+                    Elysium is building a premium digital mall where AI assistants, immersive storefronts, and merchant analytics work together in one platform.
+                  </p>
+                  <div className="overviewMiniGrid">
+                    <article className="investorPointCard">
+                      <h4>Our Mission</h4>
+                      <p>Create a modern, intelligent commerce environment that helps shoppers discover faster and helps brands convert with confidence.</p>
+                    </article>
+                    <article className="investorPointCard">
+                      <h4>What Makes Us Different</h4>
+                      <p>Session-aware recommendations, co-shopping support, and walkthrough-ready luxury experiences built for measurable growth.</p>
+                    </article>
+                  </div>
+                </article>
+                <article className="investorListCard">
+                  <h3>Window Frame News</h3>
+                  <p>Post news updates in window frames for investors and partners.</p>
+                  <div className="overviewMiniGrid">
+                    <article className="investorPointCard">
+                      <h4>Window Frame 1</h4>
+                      <p>Upcoming launch updates and strategic milestones.</p>
+                    </article>
+                    <article className="investorPointCard">
+                      <h4>Window Frame 2</h4>
+                      <p>Recent partnership and product announcements.</p>
+                    </article>
+                  </div>
+                </article>
+              </div>
+
+              <article className="investorTakeawayCard">
+                <p className="investorPointLabel">Open Simulator note (important)</p>
+                <p>
+                  The SmartMall simulator is a mock UI/experience created with AI assistance for presentation purposes. It is not production-grade and does not represent final rendering, physics, inventory, or full commerce logic yet.
+                </p>
+              </article>
+
+              <div className="investorCards3">
+                <article className="investorInfoMiniCard">
+                  <p className="investorPointLabel">Positioning</p>
+                  <h3>Virtual SmartMall</h3>
+                  <p>Immersive commerce + social layer.</p>
+                </article>
+                <article className="investorInfoMiniCard">
+                  <p className="investorPointLabel">Engine</p>
+                  <h3>AI Brain</h3>
+                  <p>Predictability + personalization.</p>
+                </article>
+                <article className="investorInfoMiniCard">
+                  <p className="investorPointLabel">Outcome</p>
+                  <h3>↑ Conversion / ↓ Returns</h3>
+                  <p>Confidence drives performance.</p>
+                </article>
+              </div>
+
+              <article className="investorListCard investorSocialCard">
+                <h3>Services</h3>
+                <p>Core offerings for digital mall operators, premium brands, and enterprise commerce teams.</p>
+                <div className="overviewMiniGrid overviewMiniGridServices">
+                  <article className="investorPointCard">
+                    <h4>AI Merchandising</h4>
+                    <p>Real-time product ranking and recommendation tuning based on active shopper behavior and intent signals.</p>
+                  </article>
+                  <article className="investorPointCard">
+                    <h4>Immersive Storefronts</h4>
+                    <p>Interactive virtual environments for premium discovery and collaborative shopping experiences.</p>
+                  </article>
+                  <article className="investorPointCard">
+                    <h4>Performance Insights</h4>
+                    <p>Actionable dashboards for engagement, product interest, and purchase outcomes across storefront touchpoints.</p>
+                  </article>
+                </div>
+              </article>
+            </section>
+
+            <section id="investor-overview" className="officialSection investorSection">
+              <div className="investorHeader">
+                <p className="investorKicker">Investor Overview</p>
+                <h2>Market Opportunity (Illustrative)</h2>
+                <p>
+                  Phase 2 replaces placeholders with validated TAM/SAM/SOM and wedge sizing.
+                </p>
+              </div>
+
+              <div className="marketOpportunityWrap investorEnlargeableBlock" data-chart-enlarge="market-opportunity">
+                <div className="marketOpportunityVisual" aria-hidden="true">
+                  <div className="tamRing">
+                    <div className="samRing">
+                      <div className="somCore">SOM</div>
+                    </div>
+                    <span className="tamLabel">TAM</span>
+                    <span className="samLabel">SAM</span>
+                    <span className="somLabel">SOM</span>
+                    <div className="wedgeSlice" />
+                  </div>
+                </div>
+
+                <div className="marketOpportunityStats">
+                  <div className="marketStatCard">
+                    <strong>TAM</strong>
+                    <span>Total Addressable Market · $ —</span>
+                  </div>
+                  <div className="marketStatCard">
+                    <strong>SAM</strong>
+                    <span>Serviceable Available Market · $ —</span>
+                  </div>
+                  <div className="marketStatCard">
+                    <strong>SOM</strong>
+                    <span>Serviceable Obtainable Market · $ — · First wedge segment</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="investorPointsGrid">
+                <article className="investorPointCard">
+                  <p className="investorPointLabel">KEY POINT 1</p>
+                  <p>Elysium is positioned as a multi-dimensional virtual SmartMall led by an AI Brain.</p>
+                </article>
+                <article className="investorPointCard">
+                  <p className="investorPointLabel">KEY POINT 2</p>
+                  <p>The concept combines commerce with social interaction to improve discovery and conversion.</p>
+                </article>
+                <article className="investorPointCard">
+                  <p className="investorPointLabel">KEY POINT 3</p>
+                  <p>The overview frames an execution plan supported by management and early investor backing.</p>
+                </article>
+              </div>
+
+              <div className="investorTakeawayCard">
+                <p className="investorPointLabel">INVESTOR TAKEAWAY</p>
+                <p>
+                  The opportunity is framed as a new category blend: social platform + ecommerce platform in one environment.
+                </p>
+              </div>
+            </section>
+
+            <section id="problem-solution" className="officialSection investorSection">
+              <div className="investorSplitHeader">
+                <div>
+                  <p className="investorKicker">The Problem</p>
+                  <h2>Digital shopping is still frustrating</h2>
+                  <p>
+                    Most online experiences are one-dimensional: search bars, static listings, and limited predictability.
+                  </p>
+                </div>
+                <div className="investorTagGroup">
+                  <span>High returns</span>
+                  <span>Cart abandonment</span>
+                  <span>Weak social layer</span>
+                </div>
+              </div>
+
+              <div className="investorTwoCol">
+                <article className="investorListCard">
+                  <h3>User pain</h3>
+                  <ul>
+                    <li>Low confidence without try-on → higher return rates</li>
+                    <li>Uncertainty causes cart abandonment</li>
+                    <li>Shopping is isolated (not social)</li>
+                  </ul>
+                </article>
+                <article className="investorListCard">
+                  <h3>Vendor pain</h3>
+                  <ul>
+                    <li>Exposure depends on paid marketing</li>
+                    <li>Personalization is limited and shallow</li>
+                    <li>Conversion suffers due to friction + uncertainty</li>
+                  </ul>
+                </article>
+              </div>
+
+              <div className="phaseFramingCard investorEnlargeableBlock" data-chart-enlarge="phase-framing">
+                <h3>Phase 1 framing</h3>
+                <div className="phaseMeter">
+                  <span>Returns driven by low confidence</span>
+                  <div><i style={{ width: "78%" }} /></div>
+                  <b>High</b>
+                </div>
+                <div className="phaseMeter">
+                  <span>Discovery is search-bar driven</span>
+                  <div><i style={{ width: "85%" }} /></div>
+                  <b>Common</b>
+                </div>
+                <div className="phaseMeter">
+                  <span>Social shopping is limited</span>
+                  <div><i style={{ width: "68%" }} /></div>
+                  <b>Gap</b>
+                </div>
+              </div>
+
+              <div className="investorSplitHeader investorSplitHeaderSolution">
+                <div>
+                  <p className="investorKicker">The Solution</p>
+                  <h2>A SmartMall that feels guided, social, and predictive</h2>
+                  <p>
+                    Elysium turns shopping into an interactive experience where AI improves predictability, boosts confidence, and reduces returns.
+                  </p>
+                </div>
+                <div className="investorTagGroup">
+                  <span>Interactive discovery</span>
+                  <span>Real-time recs</span>
+                  <span>Higher confidence</span>
+                </div>
+              </div>
+
+              <div className="investorTwoCol">
+                <article className="investorListCard">
+                  <h3>What changes for shoppers</h3>
+                  <ul>
+                    <li>Guided discovery (voice/chat + experience), not just search</li>
+                    <li>Try-on concept (avatar) to visualize before buying</li>
+                    <li>Shop with friends inside the platform</li>
+                  </ul>
+                </article>
+                <article className="investorListCard">
+                  <h3>What changes for vendors</h3>
+                  <ul>
+                    <li>Better targeting via predictability engine</li>
+                    <li>Higher conversion through reduced friction</li>
+                    <li>More consistent exposure via mall layout</li>
+                  </ul>
+                </article>
+              </div>
+            </section>
+
+            <section id="elysium-market-solution" className="officialSection investorSection">
+              <div className="investorCards3">
+                <article className="investorInfoMiniCard">
+                  <h3>Predictability</h3>
+                  <p>The AI Brain learns over time and improves recommendation relevance.</p>
+                </article>
+                <article className="investorInfoMiniCard">
+                  <h3>Lower returns</h3>
+                  <p>Try-on confidence reduces guesswork and post-purchase regret.</p>
+                </article>
+                <article className="investorInfoMiniCard">
+                  <h3>Higher conversion</h3>
+                  <p>Social + guidance drives engagement and purchases.</p>
+                </article>
+              </div>
+
+              <div className="investorSummaryBlock">
+                <h2>Elysium Market Solution</h2>
+                <div className="investorPointsGrid">
+                  <article className="investorPointCard">
+                    <p className="investorPointLabel">KEY POINT 1</p>
+                    <p>Current online shopping pain points include low predictability, limited interaction, and high return risk.</p>
+                  </article>
+                  <article className="investorPointCard">
+                    <p className="investorPointLabel">KEY POINT 2</p>
+                    <p>The SmartMall model introduces real-time shopper guidance, social interaction, and adaptive suggestions.</p>
+                  </article>
+                  <article className="investorPointCard">
+                    <p className="investorPointLabel">KEY POINT 3</p>
+                    <p>The solution narrative ties AI-driven assistance directly to reduced abandonment and improved satisfaction.</p>
+                  </article>
+                </div>
+                <div className="investorTakeawayCard">
+                  <p className="investorPointLabel">INVESTOR TAKEAWAY</p>
+                  <p>The section argues that stronger shopper confidence can improve both conversion and vendor performance.</p>
+                </div>
+              </div>
+
+              <article className="investorListCard investorSocialCard">
+                <h3>Social Media Experience</h3>
+                <ul>
+                  <li>Group shopping supports real-time visual and audio interaction inside the virtual mall.</li>
+                  <li>AI suggestions adapt in real time based on shopper behavior and social interactions.</li>
+                  <li>Bio-measurement and behavioral signals improve predictability across shopper groups.</li>
+                  <li>Shoppers can share, record, and comment on shopping experiences as they happen.</li>
+                </ul>
+              </article>
+            </section>
+
+            <section id="ai-brain-system" className="officialSection investorSection">
+              <div className="investorSplitHeader">
+                <div>
+                  <p className="investorKicker">System Narrative</p>
+                  <h2>How the AI Brain works</h2>
+                  <p>
+                    Multiple signal inputs → predictive intelligence → personalized outcomes.
+                    Phase 2 replaces this mock with real system diagrams and governance.
+                  </p>
+                </div>
+                <div className="investorTagGroup">
+                  <span>Behavioral data</span>
+                  <span>Optional physical variables</span>
+                  <span>Security monitoring</span>
+                </div>
+              </div>
+
+              <div className="investorAiSystemGrid">
+                <div className="investorAiLeftCol">
+                  <article className="investorMediaCard investorBrainHeroCard">
+                    <img src="/illustrations/EllyBrain2.png" alt="Elly Brain hero render" />
+                    <p>Elly Brain: hero render</p>
+                  </article>
+
+                  <div className="investorMediaTwin investorMediaTwinCompact">
+                    <article className="investorMediaCard">
+                      <img className="investorMediaContain" src="/illustrations/AI Dash.png" alt="Elly command panel live scan and ranking output" />
+                      <p>Elly Command Panel: live scan + ranking output</p>
+                    </article>
+                    <article className="investorMediaCard">
+                      <img className="investorMediaContain" src="/EllyBubbleReasoning.png" alt="Elly bubble reasoning view" />
+                      <p>Elly Brain: bubble reasoning view</p>
+                    </article>
+                  </div>
+
+                  <div className="investorCards3 investorCards3Compact">
+                    <article className="investorInfoMiniCard">
+                      <h3>Predictability</h3>
+                      <p>Improves relevance by learning from behavior and context over time.</p>
+                    </article>
+                    <article className="investorInfoMiniCard">
+                      <h3>Security Monitoring</h3>
+                      <p>AI-supported monitoring helps protect users and transactions.</p>
+                    </article>
+                    <article className="investorInfoMiniCard">
+                      <h3>Multilingual</h3>
+                      <p>Assistance can be presented in the user’s preferred language.</p>
+                    </article>
+                  </div>
+                </div>
+
+                <div className="investorAiRightCol">
+                  <article className="investorListCard investorListCardTight">
+                    <h3>Investor takeaway</h3>
+                    <ul>
+                      <li>The AI Brain is the differentiator: predictability + personalization</li>
+                      <li>Inputs: behavior, intent/context, social signals, optional physical variables (opt-in)</li>
+                      <li>Outputs: conversion lift, lower returns, improved retention</li>
+                    </ul>
+                    <p className="investorPointLabel">Phase 2 upgrade: real architecture + governance diagram.</p>
+                  </article>
+
+                  <article className="investorVideoCard">
+                    <h3>Original AI Brain narrated clip</h3>
+                    <video
+                      ref={soloClipRef}
+                      src="/soloAIBrain.mp4"
+                      preload="metadata"
+                      controls
+                      muted
+                      playsInline
+                      onCanPlay={() => setSoloClipReady(true)}
+                      onPlay={syncSoloNarrationOnVideoPlay}
+                      onPause={() => setIsSoloPlaying(false)}
+                      onEnded={pauseSoloNarratedClip}
+                    />
+                    <div className="videoActionsRow">
+                      <button className="officialGetStarted officialGetStartedSmall" type="button" onClick={playSoloNarratedClip}>
+                        Play Narrated AI Brain
+                      </button>
+                      <button className="officialAuthBtn" type="button" onClick={pauseSoloNarratedClip}>
+                        Pause
+                      </button>
+                      <span className="videoReadyPill">
+                        {soloClipReady ? (isSoloPlaying ? "Now playing in sync" : "Ready") : "Loading..."}
+                      </span>
+                    </div>
+                    <audio
+                      ref={soloNarrationRef}
+                      src={ORIGINAL_NARRATION_AUDIO}
+                      preload="metadata"
+                      onEnded={() => {
+                        setIsSoloPlaying(false);
+                      }}
+                    />
+                  </article>
+
+                  <article className="investorVideoCard">
+                    <h3>Invite a Friend AI Brain Activity</h3>
+                    <video
+                      ref={inviteClipRef}
+                      src={INVITE_FRIEND_AI_BRAIN_VIDEO}
+                      preload="metadata"
+                      controls={false}
+                      muted
+                      playsInline
+                      onCanPlay={() => setInviteClipReady(true)}
+                      onPlay={syncSimulationNarrationOnVideoPlay}
+                      onPause={handleSimulationVideoPause}
+                      onEnded={handleSimulationVideoEnd}
+                    />
+                    <div className="videoActionsRow">
+                      <button className="officialGetStarted officialGetStartedSmall" type="button" onClick={startTimedSimulationClip}>
+                        Click Here To Play
+                      </button>
+                      <button className="officialAuthBtn" type="button" onClick={pauseTimedSimulationClip}>
+                        Pause
+                      </button>
+                      <span className="videoReadyPill">
+                        {!inviteClipReady
+                          ? "Loading..."
+                          : isSimulationWaitingForLeadIn
+                            ? `Audio playing. Video auto-starts in ${formatSeconds(simulationLeadInCountdown)}.`
+                            : isSimulationPlaying && simulationHasVideoStarted
+                              ? "Now playing in sync"
+                              : isSimulationPlaying
+                                ? "Audio started"
+                                : "Ready"}
+                      </span>
+                    </div>
+                    <audio
+                      ref={simulationNarrationRef}
+                      src={SIMULATION_NARRATION_AUDIO}
+                      preload="metadata"
+                      onEnded={() => {
+                        clearSimulationLeadInTimers();
+                        const video = inviteClipRef.current;
+                        if (video) {
+                          video.pause();
+                          video.currentTime = 0;
+                        }
+                        setIsSimulationPlaying(false);
+                        setIsSimulationWaitingForLeadIn(false);
+                        setSimulationHasVideoStarted(false);
+                        setSimulationLeadInCountdown(SIMULATION_VIDEO_LEAD_IN_SECONDS);
+                      }}
+                    />
+                  </article>
+                </div>
+              </div>
+
+              <div className="investorSummaryBlock">
+                <h2>AI Brain</h2>
+                <div className="investorPointsGrid">
+                  <article className="investorPointCard">
+                    <p className="investorPointLabel">KEY POINT 1</p>
+                    <p>The AI engine is described as a broad-signal system using behavioral and contextual inputs.</p>
+                  </article>
+                  <article className="investorPointCard">
+                    <p className="investorPointLabel">KEY POINT 2</p>
+                    <p>Predictability is positioned as the primary output, with recommendations adapting per shopper.</p>
+                  </article>
+                  <article className="investorPointCard">
+                    <p className="investorPointLabel">KEY POINT 3</p>
+                    <p>Security monitoring and multilingual recommendation delivery are included in the narrative.</p>
+                  </article>
+                </div>
+                <div className="investorTakeawayCard">
+                  <p className="investorPointLabel">INVESTOR TAKEAWAY</p>
+                  <p>AI is positioned as the differentiator that drives personalization, efficiency, and measurable lift.</p>
+                </div>
+              </div>
+            </section>
+
+            <section id="avatar-experience" className="officialSection investorSection">
+              <div className="investorSplitHeader">
+                <div>
+                  <p className="investorKicker">Shop Experience</p>
+                  <h2>Avatar-based shop experience to reduce returns</h2>
+                  <p>
+                    Phase 1 communicates the concept. Phase 2 formalizes privacy, opt-in,
+                    storage policy, and rendering pipeline.
+                  </p>
+                </div>
+                <div className="investorTagGroup">
+                  <span>Confidence</span>
+                  <span>Return reduction</span>
+                  <span>Accessibility</span>
+                </div>
+              </div>
+
+              <div className="investorTwoCol">
+                <article className="investorListCard">
+                  <h3>Why it matters</h3>
+                  <ul>
+                    <li>Improves confidence before purchase (fit + style preview)</li>
+                    <li>Reduces returns by decreasing uncertainty</li>
+                    <li>Supports diverse shoppers regardless of physical limitations</li>
+                  </ul>
+                </article>
+                <article className="investorListCard">
+                  <h3>Phase 1 flow (mock)</h3>
+                  <div className="flowGridMock">
+                    <div><small>STEP 1</small><strong>Capture</strong><span>Phone scan / measurements</span></div>
+                    <div><small>STEP 2</small><strong>Avatar</strong><span>Personal body model</span></div>
+                    <div><small>STEP 3</small><strong>Try-on</strong><span>Fit + style preview</span></div>
+                    <div><small>OUTCOME</small><strong>↑ Confidence</strong></div>
+                    <div><small>IMPACT</small><strong>↓ Returns</strong></div>
+                    <div><small>BUSINESS</small><strong>↑ Conversion</strong></div>
+                  </div>
+                </article>
+              </div>
+
+              <div className="investorMediaTwin">
+                <article className="investorMediaCard">
+                  <img src="/illustrations/product1.png" alt="SmartMall mock desktop product view" />
+                  <p>SmartMall Mock (Hero) — click to use yourself</p>
+                </article>
+                <article className="investorMediaCard">
+                  <img src="/illustrations/avatar-try-on-mobile.jpg" alt="Shop experience mobile mock" />
+                  <p>Shop Experience Mobile Mock — click to expand</p>
+                </article>
+              </div>
+
+              <article className="investorTakeawayCard">
+                <p className="investorPointLabel">Phase 2 upgrade (recommended)</p>
+                <p>Add a dedicated diagram: capture → privacy/consent → avatar generation → preview rendering → retention & deletion policy.</p>
+              </article>
+            </section>
+
+            <section id="growth-plan" className="officialSection investorSection">
+              <div className="investorSplitHeader">
+                <div>
+                  <p className="investorKicker">Growth</p>
+                  <h2>Three-prong go-to-market</h2>
+                  <p>A market attack driven by demand creation and strategic acquisitions that bring users and revenue.</p>
+                </div>
+                <div className="investorTagGroup">
+                  <span>Marketing</span>
+                  <span>Social acquisitions</span>
+                  <span>eCommerce acquisitions</span>
+                </div>
+              </div>
+
+              <div className="investorTwoCol">
+                <article className="investorListCard">
+                  <h3>Prong 1 — Traditional/Direct marketing</h3>
+                  <ul>
+                    <li>Advertising (TV, internet, media) to drive awareness and demand</li>
+                    <li>Performance marketing aligned to conversion + retention KPIs</li>
+                  </ul>
+                </article>
+                <article className="investorListCard">
+                  <h3>Prong 2 + 3 — Acquire platforms</h3>
+                  <ul>
+                    <li>Acquire smaller social media platforms (convert users into members)</li>
+                    <li>Acquire smaller eCommerce platforms (vendors + existing revenues)</li>
+                    <li>Use equity as acquisition currency to preserve operating capital while scaling</li>
+                  </ul>
+                </article>
+              </div>
+
+              <div className="investorCards3">
+                <article className="investorInfoMiniCard">
+                  <h3>Revenue levers</h3>
+                  <p>Memberships, vendor subscriptions, advertising, and commerce take-rate.</p>
+                </article>
+                <article className="investorInfoMiniCard">
+                  <h3>Distribution advantage</h3>
+                  <p>Acquisitions bootstrap user base and shorten time-to-scale.</p>
+                </article>
+                <article className="investorInfoMiniCard">
+                  <h3>Platform compounding</h3>
+                  <p>Better predictability → better conversion → stronger vendor demand.</p>
+                </article>
+              </div>
+
+              <div className="investorMediaTwin">
+                <article className="investorMediaCard investorSlideCard">
+                  <img src="/Slide/page%2020.png" alt="Prong one traditional marketing development slide" />
+                  <p>Traditional marketing benchmark timeline</p>
+                </article>
+                <article className="investorMediaCard investorSlideCard">
+                  <img src="/Slide/page%2021.png" alt="Prong two three platform acquisitions slide" />
+                  <p>Platform acquisition strategy benchmark</p>
+                </article>
+              </div>
+
+              <div className="investorSummaryBlock">
+                <h2>Market Plan / Contracts</h2>
+                <div className="investorPointsGrid">
+                  <article className="investorPointCard">
+                    <p className="investorPointLabel">KEY POINT 1</p>
+                    <p>The plan is built on three prongs: direct marketing plus social and ecommerce acquisitions.</p>
+                  </article>
+                  <article className="investorPointCard">
+                    <p className="investorPointLabel">KEY POINT 2</p>
+                    <p>Traditional market development benchmarks are used to justify staged adoption strategy.</p>
+                  </article>
+                  <article className="investorPointCard">
+                    <p className="investorPointLabel">KEY POINT 3</p>
+                    <p>Recurring revenue streams are defined across pre-launch and post-launch phases.</p>
+                  </article>
+                </div>
+                <div className="investorTakeawayCard">
+                  <p className="investorPointLabel">INVESTOR TAKEAWAY</p>
+                  <p>Growth is framed as acquisition-accelerated scale with diversified recurring monetization.</p>
+                </div>
+              </div>
+            </section>
+
+            <section id="rollout-financials" className="officialSection investorSection">
+              <div className="investorSplitHeader">
+                <div>
+                  <p className="investorKicker">Plan</p>
+                  <h2>Projected rollout schedule</h2>
+                  <p>A staged approach focused on product completion, acquisition-driven scale, and revenue rollout.</p>
+                </div>
+                <div className="investorTagGroup">
+                  <span>Build</span>
+                  <span>Validate</span>
+                  <span>Expand</span>
+                </div>
+              </div>
+
+              <article className="investorListCard">
+                <h3>Roll Out Plan</h3>
+                <div className="investorTwoCol rolloutPlanGrid">
+                  <article className="investorListCard">
+                    <h3>What This Section Shows</h3>
+                    <ul>
+                      <li>The rollout timeline sequences hiring, AI interface completion, coding/testing, and phased rollout.</li>
+                      <li>Mid-plan activities include additional platform acquisition and traditional marketing activation.</li>
+                      <li>Later phases shift into full rollout marketing and revenue acceleration milestones.</li>
+                    </ul>
+                    <div className="investorTakeawayCard">
+                      <p className="investorPointLabel">INVESTOR TAKEAWAY</p>
+                      <p>Execution is presented as a staged program with explicit build, launch, and scale checkpoints.</p>
+                    </div>
+                  </article>
+                  <div className="capitalRightStack">
+                    <article className="animatedChartCard chartInvestorCard investorEnlargeableBlock" data-chart-enlarge="rollout-schedule">
+                      <RolloutTimelineChartInvestor />
+                      <p>Rollout Timeline (Mock) — Phase 2: replace with validated plan + dependencies.</p>
+                    </article>
+                    <article className="investorMediaCard investorSlideCard">
+                      <img src="/Slide/page%2024.png" alt="Projected rollout schedule chart" />
+                      <p>Projected rollout schedule chart</p>
+                    </article>
+                  </div>
+                </div>
+              </article>
+
+              <div className="investorSplitHeader investorSplitHeaderSolution">
+                <div>
+                  <p className="investorKicker">Business Model</p>
+                  <h2>Financial upside & implementation plan</h2>
+                  <p>Financial model summary across Year 1 and Year 2 projections.</p>
+                </div>
+                <div className="investorTagGroup">
+                  <span>Revenue generating</span>
+                  <span>Acquisition strategy</span>
+                  <span>Scalable rollout</span>
+                </div>
+              </div>
+
+              <div className="investorCards3">
+                <article className="investorInfoMiniCard">
+                  <h3>FY1 Revenue Sub-total</h3>
+                  <p>$10,376,200</p>
+                </article>
+                <article className="investorInfoMiniCard">
+                  <h3>FY2 Revenue Sub-total</h3>
+                  <p>$16,740,611.50</p>
+                </article>
+                <article className="investorInfoMiniCard">
+                  <h3>Net-Net</h3>
+                  <p>FY1: -$287,947.25 / FY2: $8,928,262.09</p>
+                </article>
+              </div>
+
+              <div className="animatedChartsGrid">
+                <article className="animatedChartCard chartInvestorCard investorEnlargeableBlock" data-chart-enlarge="revenue-year-one">
+                  <RevenueYearOneChartInvestor />
+                </article>
+                <article className="animatedChartCard chartInvestorCard investorEnlargeableBlock" data-chart-enlarge="revenue-year-two">
+                  <RevenueYearTwoChartInvestor />
+                </article>
+              </div>
+            </section>
+
+            <section id="financial-ipo" className="officialSection investorSection">
+              <div className="investorSplitHeader">
+                <div>
+                  <p className="investorKicker">Financials / IPO</p>
+                  <h2>Budget highlights and projection assumptions</h2>
+                  <p>Financial figures are illustrative in Phase 1 and replaced with validated assumptions in Phase 2.</p>
+                </div>
+                <div className="investorTagGroup">
+                  <span>FY1 / FY2</span>
+                  <span>Assumptions</span>
+                  <span>Disclosure</span>
+                </div>
+              </div>
+
+              <div className="investorTwoCol">
+                <article className="investorListCard">
+                  <h3>Budget highlights (FY1/FY2 worksheet)</h3>
+                  <ul>
+                    <li>FY1 expense sub-total: $20,405,739; FY2 expense sub-total: $22,550,000</li>
+                    <li>FY1 EBITDA: $2,594,050; FY2 EBITDA: $4,185,152.88</li>
+                    <li>FY1 recurring expenditure baseline: $146,000</li>
+                    <li>FY1 major budget lines include Staff/AOH ($21,504,000) and Marketing ($675,000)</li>
+                  </ul>
+                </article>
+                <article className="investorListCard">
+                  <h3>Financial projection assumptions</h3>
+                  <ul>
+                    <li>Year 1 projects approximately a $290K loss while targeting operational profitability by Q2.</li>
+                    <li>Core strategy is a three-prong marketing approach with acquisitions of social and ecommerce platforms.</li>
+                    <li>Pre-launch shopper membership is modeled at $2.50/month with advance payment terms.</li>
+                    <li>Standard shopper membership is modeled at $5/month, with non-member usage fees and vendor report revenue streams.</li>
+                  </ul>
+                </article>
+              </div>
+
+              <article className="investorTakeawayCard">
+                <p className="investorPointLabel">Disclosure</p>
+                <p>Any financial figures shown in Phase 1 are illustrative estimates for presentation purposes and do not guarantee future outcomes.</p>
+              </article>
+
+              <article className="investorListCard investorSocialCard projectionsSectionCard">
+                <h3>Projections</h3>
+                <div className="investorTwoCol projectionsTopGrid">
+                  <article className="investorListCard projectionsSummaryCard">
+                    <h3>What This Section Shows</h3>
+                    <ul>
+                      <li>Revenue progression starts with acquisition-driven contributions, then membership and advertising streams.</li>
+                      <li>Year 1 assumptions center on member growth, vendor participation, and phased launch timing.</li>
+                      <li>Year 1-to-Year 2 analysis is presented as moving from early buildout into strong profitability.</li>
+                    </ul>
+                    <div className="investorTakeawayCard">
+                      <p className="investorPointLabel">INVESTOR TAKEAWAY</p>
+                      <p>Financial framing emphasizes a transition from launch-phase pressure to year-two operating strength.</p>
+                    </div>
+                  </article>
+                  <article className="investorMediaCard investorSlideCard projectionsPrimarySlide">
+                    <img src="/Slide/page%2023.png" alt="Year 1 and year 2 revenue assumptions slide" />
+                    <p>YR 1-2 revenues: assumptions and timing framework</p>
+                  </article>
+                </div>
+              </article>
+
+              <div className="investorMediaTwin projectionsSlidesGrid">
+                <article className="investorMediaCard investorSlideCard projectionsSecondarySlide">
+                  <img src="/Slide/page%2025.png" alt="Projected revenue year one slide" />
+                  <p>Projected revenue — Year one assumptions</p>
+                </article>
+                <article className="investorMediaCard investorSlideCard projectionsSecondarySlide">
+                  <img src="/Slide/page%2026.png" alt="Revenue projections year one and two slide" />
+                  <p>Revenue projections year one and two</p>
+                </article>
+              </div>
+            </section>
+
+            <section id="capital-plan" className="officialSection investorSection">
+              <div className="investorSplitHeader">
+                <div>
+                  <p className="investorKicker">Capital plan</p>
+                  <h2>Investor Capitalization & milestones</h2>
+                  <p>Seed round to complete build + rollout, followed by a larger round aligned to expansion.</p>
+                </div>
+                <div className="investorTagGroup">
+                  <span>Seed</span>
+                  <span>Expansion</span>
+                  <span>Public pathway</span>
+                </div>
+              </div>
+
+              <div className="investorCards3">
+                <article className="investorInfoMiniCard">
+                  <h3>OTC pathway (if applicable)</h3>
+                  <p>Registering to OTC can require reporting setup and audit readiness; Phase 2 adds compliance detail.</p>
+                </article>
+                <article className="investorInfoMiniCard">
+                  <h3>Expansion milestone</h3>
+                  <p>Complete equity acquisitions of revenue-generating social media and eCommerce platforms.</p>
+                </article>
+                <article className="investorInfoMiniCard">
+                  <h3>NASDAQ pathway (if applicable)</h3>
+                  <p>Contingent on meeting regulatory requirements with formal timing and criteria in Phase 2.</p>
+                </article>
+              </div>
+
+              <div className="investorTwoCol">
+                <article className="animatedChartCard chartInvestorCard investorEnlargeableBlock" data-chart-enlarge="raise-milestones">
+                  <RaiseMilestonesChartInvestor />
+                  <p>Raise Flow (Mock) — Phase 2: add compliance + timing criteria.</p>
+                </article>
+                <div className="capitalRightStack">
+                  <article className="investorListCard">
+                    <h3>Capital Raise Pre-IPO</h3>
+                    <ul>
+                      <li>Current model uses a pre-money valuation of $8,000,000 at $0.04/share.</li>
+                      <li>New equity raised tracked in cap materials: $750,000.</li>
+                      <li>Seed completion remains aligned to Phase 1 to Phase 2 build-out readiness.</li>
+                    </ul>
+                  </article>
+                  <article className="investorListCard">
+                    <h3>Draft Cap Table Snapshot (As of Feb 16, 2026)</h3>
+                    <ul>
+                      <li>Authorized shares: 190,000,000 Common and 10,000,000 Preferred.</li>
+                      <li>Issued and outstanding: 81,000,000 Common; 0 Preferred.</li>
+                      <li>Cash raised shown in cap table package: $750,000.</li>
+                    </ul>
+                  </article>
+                </div>
+              </div>
+
+              <article className="investorListCard investorSocialCard">
+                <h3>Capital Raise Pre-IPO</h3>
+                <div className="investorTwoCol">
+                  <article className="investorListCard">
+                    <h3>What This Section Shows</h3>
+                    <ul>
+                      <li>Bridge raise target is presented at $750K to $1.0M for pre-IPO execution.</li>
+                      <li>Use of proceeds includes registration/legal work, initial audit work, and capital-raise expenses.</li>
+                      <li>General company operating coverage is included as a use-of-funds category.</li>
+                    </ul>
+                    <div className="investorTakeawayCard">
+                      <p className="investorPointLabel">INVESTOR TAKEAWAY</p>
+                      <p>This capital stage is positioned as a bridge to public-market readiness and scaling actions.</p>
+                    </div>
+                  </article>
+                  <article className="investorMediaCard investorSlideCard">
+                    <img src="/Slide/page%2027.png" alt="Bridge capital raise slide" />
+                    <p>Bridge Capital Raise: $750K–$1,000,000Mm</p>
+                  </article>
+                </div>
+              </article>
+            </section>
+
+            <section id="ipo-pathway" className="officialSection investorSection">
+              <div className="investorSplitHeader">
+                <div>
+                  <p className="investorKicker">Investor Information</p>
+                  <h2>IPO pathway and advisor package</h2>
+                  <p>Governance readiness, reporting discipline, and advisor support structure.</p>
+                </div>
+                <div className="investorTagGroup">
+                  <span>Governance</span>
+                  <span>Reporting</span>
+                  <span>Listing readiness</span>
+                </div>
+              </div>
+
+              <div className="investorSummaryBlock">
+                <h2>Investors</h2>
+                <div className="investorPointsGrid">
+                  <article className="investorPointCard">
+                    <p className="investorPointLabel">KEY POINT 1</p>
+                    <p>This section presents the thesis for early investor interest in a rare AI + social-commerce approach.</p>
+                  </article>
+                  <article className="investorPointCard">
+                    <p className="investorPointLabel">KEY POINT 2</p>
+                    <p>The section highlights principal investor participation and supporting investor biographies.</p>
+                  </article>
+                  <article className="investorPointCard">
+                    <p className="investorPointLabel">KEY POINT 3</p>
+                    <p>Current fundraising narrative includes progress toward the initial raise target.</p>
+                  </article>
+                </div>
+                <div className="investorTakeawayCard">
+                  <p className="investorPointLabel">INVESTOR TAKEAWAY</p>
+                  <p>The investor narrative emphasizes strategic conviction in category creation and long-term scale.</p>
+                </div>
+              </div>
+
+              <article className="investorListCard investorSocialCard">
+                <h3>IPO</h3>
+                <div className="investorTwoCol">
+                  <article className="investorListCard">
+                    <h3>What This Section Shows</h3>
+                    <ul>
+                      <li>The pathway outlines an initial seed raise followed by a larger post-reverse expansion raise.</li>
+                      <li>Planned sequence includes OTC registration/readiness and a conditional path toward NASDAQ standards.</li>
+                      <li>Growth capital is linked to acquisition completion and revenue model expansion.</li>
+                    </ul>
+                    <div className="investorTakeawayCard">
+                      <p className="investorPointLabel">INVESTOR TAKEAWAY</p>
+                      <p>Public-market strategy is framed as phased, compliance-dependent, and tied to operating milestones.</p>
+                    </div>
+                  </article>
+                  <article className="investorMediaCard investorSlideCard">
+                    <img src="/Slide/page%2028.png" alt="IPO pathway slide" />
+                    <p>IPO pathway visual and advisor narrative</p>
+                  </article>
+                </div>
+              </article>
+
+              <div className="investorTwoCol">
+                <article className="investorListCard">
+                  <h3>Illustrative public-market pathway</h3>
+                  <ul>
+                    <li>Stage 1: Governance + controls baseline</li>
+                    <li>Stage 2: OTC-readiness (if pursued)</li>
+                    <li>Stage 3: Uplisting pathway (if criteria are met)</li>
+                  </ul>
+                </article>
+                <article className="investorListCard">
+                  <h3>IPO Team</h3>
+                  <ul>
+                    <li>Corporate Counsel: Jesse Blue, ESQ — Sichenzia Ross Ference Carmel LLP</li>
+                    <li>Auditors: Brian Zucker, CPA — RRBB Accountants + Advisors</li>
+                    <li>IR/PR: Scott Powell — Skyline Corporate Communications Group, LLC</li>
+                  </ul>
+                </article>
+              </div>
+
+              <article className="investorListCard investorSocialCard">
+                <h3>Investor diligence package</h3>
+                <ul>
+                  <li>Corporate structure, cap table, and governance framework</li>
+                  <li>Audited/attestable financial package and controls documentation</li>
+                  <li>Risk disclosures: product, privacy, compliance, and execution</li>
+                  <li>Milestone map tied to capital plan and growth assumptions</li>
+                </ul>
+              </article>
+
+              <article className="investorTakeawayCard">
+                <p className="investorPointLabel">Important note</p>
+                <p>This section is not legal, tax, or securities advice. Counsel and qualified advisors should define jurisdiction-specific listing and reporting requirements.</p>
+              </article>
+            </section>
+
+            <section id="platform-backend" className="officialSection investorSection">
+              <div className="investorSplitHeader">
+                <div>
+                  <p className="investorKicker">Platform</p>
+                  <h2>What backend is required to make Elysium real</h2>
+                  <p>A production SmartMall requires secure accounts, commerce, data persistence, AI pipelines, and high-fidelity rendering infrastructure.</p>
+                </div>
+                <div className="investorTagGroup">
+                  <span>Auth</span>
+                  <span>Payments</span>
+                  <span>Data</span>
+                  <span>Security</span>
+                </div>
+              </div>
+
+              <div className="investorTwoCol">
+                <article className="investorListCard">
+                  <h3>Core platform services</h3>
+                  <ul>
+                    <li>Accounts & identity: sign-up/login, MFA, roles (member/vendor/admin)</li>
+                    <li>Product catalog + inventory: items, variants, pricing, availability</li>
+                    <li>Cart + checkout: secure payments, taxes, shipping, refunds, chargebacks</li>
+                    <li>Orders, vendor portal, social layer, and real-time rendering services</li>
+                  </ul>
+                </article>
+                <article className="investorListCard">
+                  <h3>Suggested architecture (investor-friendly)</h3>
+                  <ul>
+                    <li>Frontend: Next.js app router for investor site + authenticated app</li>
+                    <li>API layer: Next.js routes or separate Node service as scale grows</li>
+                    <li>Database: PostgreSQL; cache/queues: Redis; storage: CDN-backed object storage</li>
+                    <li>Payments, compliance, and monitoring pipeline are mandatory for launch readiness</li>
+                  </ul>
+                </article>
+              </div>
+
+              <div className="investorCards3">
+                <article className="investorInfoMiniCard">
+                  <h3>Production-Ready Core</h3>
+                  <p>Auth + catalog + checkout + personalization + high-fidelity visual pipeline.</p>
+                </article>
+                <article className="investorInfoMiniCard">
+                  <h3>Postgres + Storage</h3>
+                  <p>Orders, users, vendors, assets, and audit logs.</p>
+                </article>
+                <article className="investorInfoMiniCard">
+                  <h3>Services + queues</h3>
+                  <p>Separate recommendation engine, rendering/asset services, background jobs, CDN.</p>
+                </article>
+              </div>
+            </section>
+
+            <section id="leadership" className="officialSection investorSection">
+              <div className="investorSplitHeader">
+                <div>
+                  <p className="investorKicker">Execution</p>
+                  <h2>Leadership</h2>
+                  <p>Investors want confidence in execution: strong management, clear plan, and disciplined growth.</p>
+                </div>
+                <div className="investorTagGroup">
+                  <span>Strategy</span>
+                  <span>Finance</span>
+                  <span>Growth</span>
+                </div>
+              </div>
+
+              <div className="investorTwoCol">
+                <div className="leadershipBioCol">
+                  <article className="investorListCard">
+                    <h3>Dr. Michael Rivers — CEO / Managing Partner</h3>
+                    <p>Conceptual design lead and managing partner with board leadership and strategic execution oversight.</p>
+                  </article>
+                  <article className="investorListCard">
+                    <h3>Sophia Xue — CFO</h3>
+                    <p>Financial strategy, modeling, and capital planning with prior senior finance roles.</p>
+                  </article>
+                  <article className="investorListCard">
+                    <h3>Jason Lynn — Chief Product Officer (CPO)</h3>
+                    <p>Product and platform leadership with consumer privacy and protection focus.</p>
+                  </article>
+                  <article className="investorListCard">
+                    <h3>Kori Rivers — Director of Marketing</h3>
+                    <p>Central Florida major theme park hospitality background.</p>
+                  </article>
+                  <article className="investorListCard">
+                    <h3>Board of Directors</h3>
+                    <p>To be announced.</p>
+                  </article>
+                  <article className="investorListCard">
+                    <h3>Special Advisors to the Company</h3>
+                    <p>To be announced.</p>
+                  </article>
+                </div>
+                <article className="investorListCard">
+                  <h3>Operating focus (Phase 1)</h3>
+                  <ul>
+                    <li>Build → validate → iterate (Phase 2 MVP)</li>
+                    <li>Secure + monitor commerce + data pipelines</li>
+                    <li>Scale via partnerships + acquisitions</li>
+                  </ul>
+                  <p className="investorPointLabel" style={{ marginTop: "12px" }}>Phase 2 add: org chart + hiring plan + advisors.</p>
+                </article>
+              </div>
+            </section>
+
+            <section id="management-team" className="officialSection investorSection">
+              <div className="investorSummaryBlock">
+                <h2>Management Team</h2>
+                <div className="investorPointsGrid">
+                  <article className="investorPointCard">
+                    <p className="investorPointLabel">KEY POINT 1</p>
+                    <p>Leadership content presents executive bios and role ownership across strategy, finance, product, and marketing.</p>
+                  </article>
+                  <article className="investorPointCard">
+                    <p className="investorPointLabel">KEY POINT 2</p>
+                    <p>The team profile emphasizes operational delivery capability for Phase 1 and scale readiness for Phase 2.</p>
+                  </article>
+                  <article className="investorPointCard">
+                    <p className="investorPointLabel">KEY POINT 3</p>
+                    <p>Management depth is positioned as a core risk-reduction factor for investors.</p>
+                  </article>
+                </div>
+                <div className="investorTakeawayCard">
+                  <p className="investorPointLabel">INVESTOR TAKEAWAY</p>
+                  <p>Execution confidence is anchored in role clarity, leadership background, and staged operating focus.</p>
+                </div>
+              </div>
+            </section>
+
+            <section id="contact-review" className="officialSection officialContactSection investorSection">
+              <div className="reviewCtaCard">
+                <div className="officialSectionHeader reviewCtaHead">
+                  <h2>Ready to review Phase 1?</h2>
+                  <p>This mockup is designed to communicate the opportunity, differentiation, and investor narrative clearly. Feedback is welcome, iteration will be fast.</p>
+                </div>
+                <div className="reviewCtaActions">
+                  <button
+                    className="reviewPrimaryBtn"
+                    type="button"
+                    onClick={openSimulatorGate}
+                  >
+                    Open Simulator ↗
+                  </button>
+                  <a className="reviewSecondaryBtn" href={`mailto:${PASSWORD_REQUEST_EMAIL}`}>
+                    Contact Us
+                  </a>
+                </div>
+                <article className="reviewChecklistCard">
+                  <h3>Phase 2 checklist (quick)</h3>
+                  <div className="reviewChecklistGrid">
+                    <p>• Real system architecture + governance</p>
+                    <p>• TAM/SAM/SOM + wedge strategy</p>
+                    <p>• Competitive landscape + moat</p>
+                    <p>• Unit economics + validated KPI targets</p>
+                    <p>• Security/privacy posture (opt-in signals)</p>
+                    <p>• Pilot plan + traction dashboard</p>
                   </div>
                 </article>
               </div>
@@ -2073,8 +3761,8 @@ export default function App() {
                 reserved. Built for next-generation digital commerce.
               </span>
               <div className="officialFooterLinks">
-                <a href="#news">Post News in Window Frames</a>
-                <a href="#contact">Contact Us</a>
+                <a href="#financial-ipo">Financials/IPO</a>
+                <a href="#contact-review">Contact Us</a>
               </div>
             </div>
           </footer>
@@ -2130,6 +3818,103 @@ export default function App() {
               </div>
             </div>
           ) : null}
+
+          {mediaLightbox ? (
+            <div className="mediaLightboxBackdrop" onClick={closeMediaLightbox}>
+              <div className="mediaLightboxDialog" onClick={(event) => event.stopPropagation()}>
+                <button className="mediaLightboxClose" type="button" onClick={closeMediaLightbox}>
+                  Close
+                </button>
+
+                {mediaLightbox.type === "image" ? (
+                  <img
+                    className="mediaLightboxImage"
+                    src={mediaLightbox.src}
+                    alt={mediaLightbox.alt}
+                  />
+                ) : null}
+
+                {mediaLightbox.type === "chart" && mediaLightbox.chartKey === "revenue-year-one" ? (
+                  <div className="mediaLightboxChart">
+                    <RevenueYearOneChartInvestor />
+                  </div>
+                ) : null}
+
+                {mediaLightbox.type === "chart" && mediaLightbox.chartKey === "revenue-year-two" ? (
+                  <div className="mediaLightboxChart">
+                    <RevenueYearTwoChartInvestor />
+                  </div>
+                ) : null}
+
+                {mediaLightbox.type === "chart" && mediaLightbox.chartKey === "rollout-schedule" ? (
+                  <div className="mediaLightboxChart">
+                    <RolloutTimelineChartInvestor />
+                  </div>
+                ) : null}
+
+                {mediaLightbox.type === "chart" && mediaLightbox.chartKey === "raise-milestones" ? (
+                  <div className="mediaLightboxChart">
+                    <RaiseMilestonesChartInvestor />
+                  </div>
+                ) : null}
+
+                {mediaLightbox.type === "chart" && mediaLightbox.chartKey === "phase-framing" ? (
+                  <div className="mediaLightboxChart">
+                    <div className="phaseFramingCard phaseFramingCardLarge">
+                      <h3>Phase 1 framing</h3>
+                      <div className="phaseMeter">
+                        <span>Returns driven by low confidence</span>
+                        <div><i style={{ width: "78%" }} /></div>
+                        <b>High</b>
+                      </div>
+                      <div className="phaseMeter">
+                        <span>Discovery is search-bar driven</span>
+                        <div><i style={{ width: "85%" }} /></div>
+                        <b>Common</b>
+                      </div>
+                      <div className="phaseMeter">
+                        <span>Social shopping is limited</span>
+                        <div><i style={{ width: "68%" }} /></div>
+                        <b>Gap</b>
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+
+                {mediaLightbox.type === "chart" && mediaLightbox.chartKey === "market-opportunity" ? (
+                  <div className="mediaLightboxChart">
+                    <div className="marketOpportunityWrap marketOpportunityWrapLarge">
+                      <div className="marketOpportunityVisual" aria-hidden="true">
+                        <div className="tamRing">
+                          <div className="samRing">
+                            <div className="somCore">SOM</div>
+                          </div>
+                          <span className="tamLabel">TAM</span>
+                          <span className="samLabel">SAM</span>
+                          <span className="somLabel">SOM</span>
+                          <div className="wedgeSlice" />
+                        </div>
+                      </div>
+                      <div className="marketOpportunityStats">
+                        <div className="marketStatCard">
+                          <strong>TAM</strong>
+                          <span>Total Addressable Market · $ —</span>
+                        </div>
+                        <div className="marketStatCard">
+                          <strong>SAM</strong>
+                          <span>Serviceable Available Market · $ —</span>
+                        </div>
+                        <div className="marketStatCard">
+                          <strong>SOM</strong>
+                          <span>Serviceable Obtainable Market · $ — · First wedge segment</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          ) : null}
         </div>
       ) : (
         <div className="card">
@@ -2159,14 +3944,6 @@ export default function App() {
                 disabled={demoRunning}
               >
                 Back to Landing
-              </button>
-
-              <button
-                className="btn"
-                onClick={goToInvestorPage}
-                disabled={demoRunning}
-              >
-                Back to Investor Page
               </button>
 
               <button
@@ -2267,14 +4044,14 @@ export default function App() {
                       </span>
                     </div>
                     <div className="walkDemoActivation walkDemoInline">
-                      <div className="walkDemoTitle">Luxury Demo Guide</div>
+                      <div className="walkDemoTitle">Luxury Simulator Guide</div>
                       <div className="walkDemoControls">
                         <select
                           value={demoKey}
                           onChange={(ev) => setDemoKey(ev.target.value)}
                           className="btn"
                           disabled={demoRunning}
-                          aria-label="Luxury Demo Script"
+                          aria-label="Luxury Simulator Script"
                         >
                           {DEMO_SELECTOR_KEYS.map((key) => {
                             const script = DEMO_SCRIPTS[key];
@@ -2294,8 +4071,8 @@ export default function App() {
                           {demoRunning
                             ? demoCountdown
                               ? `Starting in ${demoCountdown}…`
-                              : "Running Demo…"
-                            : "Run Luxury Demo"}
+                              : "Running Simulator…"
+                            : "Run Luxury Simulator"}
                         </button>
                         <button
                           className="btn"
@@ -2308,7 +4085,7 @@ export default function App() {
                           className="btn"
                           onClick={() => resetDemo(false)}
                         >
-                          Reset Demo
+                          Reset Simulator
                         </button>
                       </div>
                     </div>
@@ -2397,7 +4174,7 @@ export default function App() {
                     </div>
 
                     <div className="summaryItem">
-                      <p className="title">Social Demo</p>
+                      <p className="title">Social Simulator</p>
                       <p className="value">
                         Two people in different locations can meet inside the virtual mall, shop together, and let separate Elly assistants analyze each shopper at the same time.
                       </p>
@@ -2512,7 +4289,7 @@ export default function App() {
                     <p className="muted">
                       {activeStorefront?.label
                         ? "Connected storefront inventory (filtered from catalog)."
-                        : "Baseline inventory for demo"}
+                        : "Baseline inventory for simulator"}
                     </p>
 
                     <div className="products" style={{ marginTop: 12 }}>
@@ -2622,6 +4399,26 @@ export default function App() {
           </div>
         </div>
       )}
+      {ndaStatus === "pending" && showPublicLanding && flowStage !== "brand_intro" ? (
+        <div className="ndaModalBackdrop">
+          <div className="ndaModal">
+            <div className="ndaModalFrame">
+              <img src={NDA_POPUP_IMAGE} alt="NDA terms and conditions" />
+            </div>
+            <p className="ndaModalCopy">
+              I have read and understand the terms and conditions and accept them.
+            </p>
+            <div className="ndaModalActions">
+              <button className="officialGetStarted officialGetStartedSmall" type="button" onClick={acceptNda}>
+                ACCEPT
+              </button>
+              <button className="officialAuthBtn" type="button" onClick={rejectNda}>
+                REJECT
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
