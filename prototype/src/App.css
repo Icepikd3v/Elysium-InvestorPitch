@@ -2625,6 +2625,9 @@ select.btn {
   align-items: center;
   justify-content: center;
   white-space: nowrap;
+  padding-inline: 16px;
+  font-size: clamp(10px, 1.02vw, 12px);
+  letter-spacing: 0.03em;
 }
 
 .officialHeroVisual {
@@ -3251,6 +3254,23 @@ select.btn {
 
 .rolloutPlanGrid > .investorListCard {
   margin-top: 0;
+}
+
+#rollout-financials .rolloutScheduleChartCard {
+  margin-top: clamp(54px, 7vw, 110px);
+}
+
+#rollout-financials .rolloutScheduleSlideWide {
+  grid-column: 1 / -1;
+  min-height: clamp(360px, 42vw, 620px);
+}
+
+#rollout-financials .rolloutScheduleSlideWide img {
+  width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  object-position: center top;
 }
 
 .investorMediaContain {
@@ -4495,6 +4515,15 @@ select.btn {
 
   #rollout-financials .investorSlideCard img {
     height: auto;
+  }
+
+  #rollout-financials .rolloutScheduleChartCard {
+    margin-top: 0;
+  }
+
+  #rollout-financials .rolloutScheduleSlideWide {
+    grid-column: auto;
+    min-height: auto;
   }
 
   #financial-ipo .investorSlideCard img,

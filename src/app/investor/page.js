@@ -53,7 +53,7 @@ const SECTIONS = [
   { id: "capital-raise-pre-ipo", label: "Capital Raise Pre-IPO" },
   { id: "draft-cap-table", label: "Draft Cap Table" },
   { id: "investor-overview", label: "Investor" },
-  { id: "board-directors", label: "Board of Directors" },
+  { id: "board-directors", label: "Board Of Directors" },
   { id: "management-leadership", label: "Management" },
   { id: "special-advisors", label: "Special Advisors" },
   { id: "cover", label: "Overview" },
@@ -63,7 +63,7 @@ const SECTIONS = [
   { id: "product", label: "SmartMall" },
   { id: "ai", label: "AI Brain" },
   { id: "avatar", label: "Shop Experience" },
-  { id: "gtm", label: "Go-to-market" },
+  { id: "gtm", label: "Go-To-Market" },
   { id: "rollout", label: "Rollout" },
   { id: "financials", label: "Financials" },
   { id: "capitalization", label: "Capitalization" },
@@ -79,7 +79,7 @@ const NAV_ITEMS = [
     label: "Overview",
     children: [
       { id: "overview-summary", label: "Summary" },
-      { id: "overview-market-solution", label: "Elysium market solution" },
+      { id: "overview-market-solution", label: "Elysium Market Solution" },
       { id: "overview-enhanced-shopping", label: "Enhanced Shopping" },
     ],
   },
@@ -94,9 +94,9 @@ const NAV_ITEMS = [
   {
     label: "Market Plan/Contracts",
     children: [
-      { id: "market-plan-summary", label: "Plan summary" },
+      { id: "market-plan-summary", label: "Plan Summary" },
       { id: "marketing-phases", label: "Marketing Phases" },
-      { id: "rollout-plan", label: "Roll out Plan" },
+      { id: "rollout-plan", label: "Roll Out Plan" },
     ],
   },
   {
@@ -119,7 +119,7 @@ const NAV_ITEMS = [
   {
     label: "Management Team",
     children: [
-      { id: "board-directors", label: "Board of Directors" },
+      { id: "board-directors", label: "Board Of Directors" },
       { id: "management-leadership", label: "Management" },
       { id: "special-advisors", label: "Special Advisors" },
     ],
@@ -915,12 +915,12 @@ export default function Home() {
               <div className="flex flex-wrap gap-2">
                 <Pill>Virtual SmartMall</Pill>
                 <Pill>AI Brain</Pill>
-                <Pill>Social + eCommerce</Pill>
+                <Pill>Social + ECommerce</Pill>
                 <Pill>AI-assisted mock</Pill>
               </div>
 
               <h1 className="mt-6 max-w-xl text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
-                Multi-dimensional immersion into a virtual shopping experience.
+                Multi-Dimensional Immersion Into a Virtual Shopping Experience.
               </h1>
 
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-black/70">
@@ -957,8 +957,8 @@ export default function Home() {
               <div className="mt-8 flex flex-wrap gap-2 text-xs text-black/60">
                 <Pill>Personalized discovery</Pill>
                 <Pill>Avatar try-on concept</Pill>
-                <Pill>Lower returns</Pill>
-                <Pill>Higher conversion</Pill>
+                <Pill>Lower Returns</Pill>
+                <Pill>Higher Conversion</Pill>
               </div>
             </div>
 
@@ -1036,7 +1036,7 @@ export default function Home() {
             </div>
 
             <div className="md:col-span-5 rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-              <h3 className="text-lg font-semibold text-black/90">Window Frame News</h3>
+              <h3 className="text-lg font-semibold text-black/90">News And Updates</h3>
               <p className="mt-2 text-sm leading-relaxed text-black/70">
                 Post news updates in window frames for investors and partners.
               </p>
@@ -1145,7 +1145,7 @@ export default function Home() {
       <SectionShell id="problem">
         <SectionHeader
           kicker="The problem"
-          title="Digital shopping is still frustrating"
+          title="Digital Shopping Is Still Frustrating"
           subtitle="Most online experiences are one-dimensional: search bars, static listings, and limited predictability—leading to high returns and abandonment."
           right={
             <>
@@ -1157,7 +1157,7 @@ export default function Home() {
         />
 
         <div className="mt-8 grid gap-6 md:grid-cols-2">
-          <Card title="User pain">
+          <Card title="User Pain">
             <BulletList
               items={[
                 "Low confidence without try-on → higher return rates",
@@ -1167,7 +1167,7 @@ export default function Home() {
             />
           </Card>
 
-          <Card title="Vendor pain">
+          <Card title="Vendor Pain">
             <BulletList
               items={[
                 "Exposure depends on paid marketing",
@@ -1180,7 +1180,7 @@ export default function Home() {
 
         <div className="mt-6 rounded-3xl border border-black/10 bg-gradient-to-br from-white via-cyan-50/70 to-amber-50/70 p-6 shadow-sm">
           <div className="text-sm font-semibold text-black/90">
-            Phase 1 framing
+            Phase 1 Framing
           </div>
           <div className="mt-4 space-y-3">
             <MiniBarRow
@@ -1223,7 +1223,7 @@ export default function Home() {
       <SectionShell id="solution">
         <SectionHeader
           kicker="The solution"
-          title="A SmartMall that feels guided, social, and predictive"
+          title="A SmartMall That Feels Guided, Social, And Predictive"
           subtitle="Elysium turns shopping into an interactive experience where AI improves predictability, boosts confidence, and reduces returns."
           right={
             <>
@@ -1235,7 +1235,7 @@ export default function Home() {
         />
 
         <div className="mt-8 grid gap-6 md:grid-cols-2">
-          <Card title="What changes for shoppers">
+          <Card title="What Changes For Shoppers">
             <BulletList
               items={[
                 "Guided discovery (voice/chat + experience), not just search",
@@ -1245,11 +1245,11 @@ export default function Home() {
             />
           </Card>
 
-          <Card title="What changes for vendors">
+          <Card title="What Changes For Vendors">
             <BulletList
               items={[
                 "Better targeting via predictability engine",
-                "Higher conversion through reduced friction",
+                "Higher Conversion through reduced friction",
                 "More consistent exposure via ‘mall’ layout",
               ]}
             />
@@ -1260,10 +1260,10 @@ export default function Home() {
           <Card title="Predictability">
             The AI Brain learns over time and improves recommendation relevance.
           </Card>
-          <Card title="Lower returns">
+          <Card title="Lower Returns">
             Try-on confidence reduces guesswork and post-purchase regret.
           </Card>
-          <Card title="Higher conversion">
+          <Card title="Higher Conversion">
             Social + guidance drives engagement and purchases.
           </Card>
         </div>
@@ -1283,7 +1283,7 @@ export default function Home() {
       <SectionShell id="product">
         <SectionHeader
           kicker="Product experience"
-          title="SmartMall experience (Phase 1 simulator)"
+          title="SmartMall Experience (Phase 1 Simulator)"
           subtitle="Phase 1 includes investor storytelling and the SmartMall simulator in one unified website experience."
           right={
             <>
@@ -1388,11 +1388,11 @@ export default function Home() {
         </div>
 
         <div className="mt-6 grid gap-6 md:grid-cols-2">
-          <Card title="Social + eCommerce">
+          <Card title="Social + ECommerce">
             A combined social-media experience with commerce—users can share,
             discover, and shop together inside the platform.
           </Card>
-          <Card title="Guided discovery layer">
+          <Card title="Guided Discovery Layer">
             Discovery becomes interactive (assistant + context), improving
             relevance and reducing friction vs. static listings.
           </Card>
@@ -1414,7 +1414,7 @@ export default function Home() {
       <SectionShell id="ai">
         <SectionHeader
           kicker="System narrative"
-          title="How the AI Brain works"
+          title="How The AI Brain Works"
           subtitle="Multiple signal inputs → predictive intelligence → personalized outcomes. Phase 2 replaces this mock with real system diagrams and governance."
           right={
             <>
@@ -1446,7 +1446,7 @@ export default function Home() {
           </div>
 
           <div className="md:col-span-5">
-            <Card title="Investor takeaway" right="Phase 1 framing">
+            <Card title="Investor Takeaway" right="Phase 1 Framing">
               <BulletList
                 items={[
                   "The AI Brain is the differentiator: predictability + personalization",
@@ -1463,7 +1463,7 @@ export default function Home() {
 
             <div className="mt-4 rounded-3xl border border-black/10 bg-white p-4 shadow-sm">
               <div className="text-base font-semibold text-black/90">
-                Original AI Brain narrated clip
+                Original AI Brain Narrated Clip
               </div>
               <div className="mt-1 text-sm text-black/60">
                 Existing clip kept unchanged.
@@ -1503,7 +1503,7 @@ export default function Home() {
         <div id="ai-advance-avatar" className="scroll-mt-56 md:scroll-mt-48" />
         <SectionHeader
           kicker="Shop experience"
-          title="Avatar-based shop experience to reduce returns"
+          title="Avatar-Based Shop Experience To Reduce Returns"
           subtitle="Phase 1 communicates the concept. Phase 2 formalizes privacy, opt-in, storage policy, and rendering pipeline."
           right={
             <>
@@ -1515,7 +1515,7 @@ export default function Home() {
         />
 
         <div className="mt-8 grid gap-6 md:grid-cols-2">
-          <Card title="Why it matters">
+          <Card title="Why It Matters">
             <BulletList
               items={[
                 "Improves confidence before purchase (fit + style preview)",
@@ -1525,7 +1525,7 @@ export default function Home() {
             />
           </Card>
 
-          <Card title="Phase 1 flow (mock)">
+          <Card title="Phase 1 Flow (Mock)">
             <div className="mt-4 grid gap-3 md:grid-cols-3">
               <div className="rounded-2xl border border-black/10 bg-white p-4">
                 <div className="text-xs font-medium uppercase tracking-wide text-black/45">
@@ -1642,7 +1642,7 @@ export default function Home() {
       <SectionShell id="gtm">
         <SectionHeader
           kicker="Growth"
-          title="Three-prong go-to-market"
+          title="Three-Prong Go-To-Market"
           subtitle="A market attack driven by demand creation and strategic acquisitions that bring users and revenue."
           right={
             <>
@@ -1654,7 +1654,7 @@ export default function Home() {
         />
 
         <div className="mt-8 grid gap-6 md:grid-cols-2">
-          <Card title="Prong 1 — Traditional/Direct marketing">
+          <Card title="Prong 1 — Traditional/Direct Marketing">
             <BulletList
               items={[
                 "Advertising (TV, internet, media) to drive awareness and demand",
@@ -1663,7 +1663,7 @@ export default function Home() {
             />
           </Card>
 
-          <Card title="Prong 2 + 3 — Acquire platforms">
+          <Card title="Prong 2 + 3 — Acquire Platforms">
             <BulletList
               items={[
                 "Acquire smaller social media platforms (convert users into members)",
@@ -1676,14 +1676,14 @@ export default function Home() {
         </div>
 
         <div className="mt-6 grid gap-4 md:grid-cols-3">
-          <Card title="Revenue levers">
+          <Card title="Revenue Levers">
             Memberships, vendor subscriptions, advertising, and commerce
             take-rate.
           </Card>
-          <Card title="Distribution advantage">
+          <Card title="Distribution Advantage">
             Acquisitions bootstrap user base and shorten time-to-scale.
           </Card>
-          <Card title="Platform compounding">
+          <Card title="Platform Compounding">
             Better predictability → better conversion → stronger vendor demand.
           </Card>
         </div>
@@ -1731,7 +1731,7 @@ export default function Home() {
       <SectionShell id="rollout">
         <SectionHeader
           kicker="Plan"
-          title="Projected rollout schedule"
+          title="Projected Rollout Schedule"
           subtitle="A staged approach focused on product completion, acquisition-driven scale, and revenue rollout."
           right={
             <>
@@ -1743,7 +1743,7 @@ export default function Home() {
         />
 
         <div className="mt-8">
-          <Card title="Best-practice upgrades (Phase 2)">
+          <Card title="Best-Practice Upgrades (Phase 2)">
             <BulletList
               items={[
                 "Add competitive landscape visual (positioning vs Amazon/Etsy/etc.)",
@@ -1787,7 +1787,7 @@ export default function Home() {
       <SectionShell id="financials">
         <SectionHeader
           kicker="Business model"
-          title="Financial upside & implementation plan"
+          title="Financial Upside & Implementation Plan"
           subtitle="Financial model summary across Year 1 and Year 2 projections."
           right={
             <>
@@ -1889,7 +1889,7 @@ export default function Home() {
 
         <div id="financial-budget" className="scroll-mt-56 md:scroll-mt-48" />
         <div className="mt-6 grid gap-6 md:grid-cols-2">
-          <Card title="Budget highlights (FY1/FY2 worksheet)">
+          <Card title="Budget Highlights (FY1/FY2 Worksheet)">
             <BulletList
               items={[
                 "FY1 expense sub-total: $20,405,739; FY2 expense sub-total: $22,550,000",
@@ -1903,7 +1903,7 @@ export default function Home() {
             </div>
           </Card>
 
-          <Card title="Financial projection assumptions">
+          <Card title="Financial Projection Assumptions">
             <BulletList
               items={[
                 "Year 1 projects approximately a $290K loss while targeting operational profitability by Q2.",
@@ -1949,8 +1949,8 @@ export default function Home() {
       <SectionShell id="raise">
         <SectionHeader
           kicker="Capital plan"
-          title="Investor Capitalization & milestones"
-          subtitle="Phase 1 framing: seed round to complete build + rollout, followed by a larger round aligned to expansion."
+          title="Investor Capitalization & Milestones"
+          subtitle="Phase 1 Framing: seed round to complete build + rollout, followed by a larger round aligned to expansion."
           right={
             <>
               <Pill>Seed</Pill>
@@ -1996,7 +1996,7 @@ export default function Home() {
             </Card>
 
             <div id="draft-cap-table" className="scroll-mt-56 md:scroll-mt-48" />
-            <Card title="Draft Cap Table Snapshot (As of Feb 16, 2026)">
+            <Card title="Draft Cap Table Snapshot (As Of Feb 16, 2026)">
               <BulletList
                 items={[
                   "Authorized shares: 190,000,000 Common and 10,000,000 Preferred.",
@@ -2010,15 +2010,15 @@ export default function Home() {
         </div>
 
         <div className="mt-6 grid gap-4 md:grid-cols-3">
-          <Card title="OTC pathway (if applicable)" right="Illustrative">
+          <Card title="OTC Pathway (If Applicable)" right="Illustrative">
             Registering to OTC can require reporting setup and audit readiness;
             Phase 2 should add compliance details.
           </Card>
-          <Card title="Expansion milestone">
+          <Card title="Expansion Milestone">
             Complete equity acquisitions of revenue-generating social media and
             eCommerce platforms.
           </Card>
-          <Card title="NASDAQ pathway (if applicable)" right="Illustrative">
+          <Card title="NASDAQ Pathway (If Applicable)" right="Illustrative">
             Contingent on meeting regulatory requirements; Phase 2 should
             formalize timing and criteria.
           </Card>
@@ -2040,7 +2040,7 @@ export default function Home() {
       <SectionShell id="investor-information">
         <SectionHeader
           kicker="Investor Information"
-          title="IPO pathway and advisor package"
+          title="IPO Pathway And Advisor Package"
           subtitle="Governance readiness, reporting discipline, and advisor support structure."
           right={
             <>
@@ -2077,7 +2077,7 @@ export default function Home() {
         <div className="mt-8 grid gap-6 md:grid-cols-12">
           <div className="md:col-span-7 rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="text-sm font-semibold text-black/90">
-              Illustrative public-market pathway
+              Illustrative Public-Market Pathway
             </div>
             <div className="mt-5 space-y-4">
               <div className="rounded-2xl border border-black/10 bg-black/5 p-4">
@@ -2136,7 +2136,7 @@ export default function Home() {
               </div>
             </Card>
 
-            <Card title="Investor diligence package">
+            <Card title="Investor Diligence Package">
               <BulletList
                 items={[
                   "Corporate structure, cap table, and governance framework",
@@ -2147,7 +2147,7 @@ export default function Home() {
               />
             </Card>
 
-            <Card title="Important note" right="Illustrative only">
+            <Card title="Important Note" right="Illustrative Only">
               This section is not legal, tax, or securities advice. Counsel and
               qualified advisors should define jurisdiction-specific listing and
               reporting requirements.
@@ -2160,7 +2160,7 @@ export default function Home() {
       <SectionShell id="backend">
         <SectionHeader
           kicker="Platform"
-          title="What backend is required to make Elysium real"
+          title="What Backend Is Required To Make Elysium Real"
           subtitle="The pitch and simulator are Phase 1 storytelling. A production SmartMall requires secure accounts, commerce, data persistence, AI pipelines, and a high-fidelity rendering stack for realistic visuals (not low-poly mock quality)."
           right={
             <>
@@ -2174,7 +2174,7 @@ export default function Home() {
 
         <div className="mt-8 grid gap-6 md:grid-cols-12">
           <div className="md:col-span-7 grid gap-6">
-            <Card title="Core platform services" right="Phase 2 build">
+            <Card title="Core Platform Services" right="Phase 2 build">
               <BulletList
                 items={[
                   "Accounts & identity: sign-up/login, MFA, roles (member/vendor/admin)",
@@ -2188,7 +2188,7 @@ export default function Home() {
               />
             </Card>
 
-            <Card title="Data + AI foundation" right="Efficient approach">
+            <Card title="Data + AI Foundation" right="Efficient approach">
               <BulletList
                 items={[
                   "Event tracking: clicks, searches, saves, purchases (privacy-aware)",
@@ -2207,7 +2207,7 @@ export default function Home() {
           </div>
 
           <div className="md:col-span-5 grid gap-6">
-            <Card title="Suggested architecture (investor-friendly)">
+            <Card title="Suggested Architecture (Investor-Friendly)">
               <BulletList
                 items={[
                   "Frontend: Next.js (app router) for investor site + authenticated app",
@@ -2221,7 +2221,7 @@ export default function Home() {
               />
             </Card>
 
-            <Card title="Security & governance (required)">
+            <Card title="Security & Governance (Required)">
               <BulletList
                 items={[
                   "PII protection: encryption, least privilege, audit logs",
@@ -2247,7 +2247,7 @@ export default function Home() {
           />
           <Stat
             label="Scale plan"
-            value="Services + queues"
+            value="Services + Queues"
             note="Separate rec engine, rendering/asset services, background jobs, CDN."
           />
         </div>
@@ -2310,7 +2310,7 @@ export default function Home() {
             </Card>
 
             <div id="board-directors" className="scroll-mt-56 md:scroll-mt-48" />
-            <Card title="Board of Directors">
+            <Card title="Board Of Directors">
               To be announced.
             </Card>
           </div>
@@ -2318,7 +2318,7 @@ export default function Home() {
           <div className="md:col-span-5">
             <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
               <div className="text-sm font-semibold text-black/90">
-                Operating focus (Phase 1)
+                Operating Focus (Phase 1)
               </div>
               <div className="mt-4 space-y-3">
                 <div className="rounded-2xl border border-black/10 bg-black/5 p-4 text-sm text-black/75">
@@ -2344,7 +2344,7 @@ export default function Home() {
           className="mt-6 rounded-3xl border border-black/10 bg-white p-6 shadow-sm"
         >
           <h3 className="text-base font-semibold text-black/90">
-            Special Advisors to the Company
+            Special Advisors To the Company
           </h3>
           <p className="mt-2 text-sm text-black/70">
             To be announced.
@@ -2366,7 +2366,7 @@ export default function Home() {
       <SectionShell id="contact">
         <div className="rounded-3xl border border-black/10 bg-white p-10 text-center shadow-sm">
           <h2 className="text-3xl font-semibold tracking-tight">
-            Ready to review Phase 1?
+            Ready To Review Phase 1?
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-black/70">
             This mockup is designed to communicate the opportunity,
@@ -2392,7 +2392,7 @@ export default function Home() {
           <div className="mx-auto mt-8 max-w-3xl text-left">
             <div className="rounded-2xl border border-black/10 bg-black/5 p-4 text-xs text-black/60">
               <div className="font-semibold text-black/75">
-                Phase 2 checklist (quick)
+                Phase 2 Checklist (Quick)
               </div>
               <div className="mt-2 grid gap-2 sm:grid-cols-2">
                 <div>• Real system architecture + governance</div>

@@ -2386,7 +2386,7 @@ export default function App() {
           <div className={`brandIntroLayer ${showBrandIntroMall ? "isVisible" : ""}`}>
             <div className="brandIntroMall" />
             {showBrandIntroMall ? (
-              <p className="brandIntroTagline">The Future of Digital Commerce</p>
+              <p className="brandIntroTagline">The Future Of Digital Commerce</p>
             ) : null}
           </div>
           <div className="brandIntroFizzle" aria-hidden="true" />
@@ -2482,7 +2482,7 @@ export default function App() {
                   <div className="officialNavMenu">
                     <a href="#investor-overview">Summary</a>
                     <a href="#problem-solution">Problem + Solution</a>
-                    <a href="#elysium-market-solution">Elysium market solution</a>
+                    <a href="#elysium-market-solution">Elysium Market Solution</a>
                   </div>
                 </div>
                 <div className="officialNavDropdown">
@@ -2500,8 +2500,8 @@ export default function App() {
                     Market Plan/Contracts
                   </button>
                   <div className="officialNavMenu">
-                    <a href="#growth-plan">Plan summary</a>
-                    <a href="#rollout-financials">Roll out plan</a>
+                    <a href="#growth-plan">Plan Summary</a>
+                    <a href="#rollout-financials">Roll Out Plan</a>
                   </div>
                 </div>
                 <div className="officialNavDropdown">
@@ -2509,9 +2509,9 @@ export default function App() {
                     Financials/IPO
                   </button>
                   <div className="officialNavMenu">
-                    <a href="#rollout-financials">Financial projections</a>
-                    <a href="#financial-ipo">Budget + assumptions</a>
-                    <a href="#ipo-pathway">IPO pathway</a>
+                    <a href="#rollout-financials">Financial Projections</a>
+                    <a href="#financial-ipo">Budget + Assumptions</a>
+                    <a href="#ipo-pathway">IPO Pathway</a>
                   </div>
                 </div>
                 <div className="officialNavDropdown">
@@ -2519,7 +2519,7 @@ export default function App() {
                     Capitalization/Investors
                   </button>
                   <div className="officialNavMenu">
-                    <a href="#capital-plan">Capital raise pre-IPO</a>
+                    <a href="#capital-plan">Capital Raise Pre-IPO</a>
                     <a href="#ipo-pathway">Investors</a>
                   </div>
                 </div>
@@ -2556,7 +2556,7 @@ export default function App() {
             <section className="officialHero">
               <div className="officialHeroCopy">
                 <h1>Welcome to Elysium</h1>
-                <h2>The Future of Digital Commerce</h2>
+                <h2>The Future Of Digital Commerce</h2>
                 <p>
                   Elysium combines AI-driven merchandising, immersive luxury
                   storefronts, and real-time shopper intelligence to deliver a
@@ -2571,9 +2571,6 @@ export default function App() {
                     Open Simulator
                   </button>
                 </div>
-                <p className="officialHeroActionNote">
-                  Open the password-protected SmartMall simulator.
-                </p>
               </div>
               <div className="officialHeroVisual">
                 <img
@@ -2622,10 +2619,10 @@ export default function App() {
                   <div className="investorTagGroup investorImmersionTags">
                     <span>Virtual SmartMall</span>
                     <span>AI Brain</span>
-                    <span>Social + eCommerce</span>
+                    <span>Social + ECommerce</span>
                     <span>AI-assisted mock</span>
                   </div>
-                  <h2>Multi-dimensional immersion into a virtual shopping experience.</h2>
+                  <h2>Multi-Dimensional Immersion Into a Virtual Shopping Experience.</h2>
                   <p>
                     Elysium is envisioned as a virtual smart mall that blends social
                     interaction with commerce, powered by an AI Brain that learns from
@@ -2648,8 +2645,8 @@ export default function App() {
                   <div className="investorTagGroup investorImmersionTags">
                     <span>Personalized discovery</span>
                     <span>Avatar try-on concept</span>
-                    <span>Lower returns</span>
-                    <span>Higher conversion</span>
+                    <span>Lower Returns</span>
+                    <span>Higher Conversion</span>
                   </div>
                 </article>
 
@@ -2698,7 +2695,7 @@ export default function App() {
                   </div>
                 </article>
                 <article className="investorListCard">
-                  <h3>Window Frame News</h3>
+                  <h3>News And Updates</h3>
                   <p>Post news updates in window frames for investors and partners.</p>
                   <div className="overviewMiniGrid">
                     <article className="investorPointCard">
@@ -2823,7 +2820,7 @@ export default function App() {
               <div className="investorSplitHeader">
                 <div>
                   <p className="investorKicker">The Problem</p>
-                  <h2>Digital shopping is still frustrating</h2>
+                  <h2>Digital Shopping Is Still Frustrating</h2>
                   <p>
                     Most online experiences are one-dimensional: search bars, static listings, and limited predictability.
                   </p>
@@ -2837,7 +2834,7 @@ export default function App() {
 
               <div className="investorTwoCol">
                 <article className="investorListCard">
-                  <h3>User pain</h3>
+                  <h3>User Pain</h3>
                   <ul>
                     <li>Low confidence without try-on → higher return rates</li>
                     <li>Uncertainty causes cart abandonment</li>
@@ -2845,7 +2842,7 @@ export default function App() {
                   </ul>
                 </article>
                 <article className="investorListCard">
-                  <h3>Vendor pain</h3>
+                  <h3>Vendor Pain</h3>
                   <ul>
                     <li>Exposure depends on paid marketing</li>
                     <li>Personalization is limited and shallow</li>
@@ -2855,7 +2852,7 @@ export default function App() {
               </div>
 
               <div className="phaseFramingCard investorEnlargeableBlock" data-chart-enlarge="phase-framing">
-                <h3>Phase 1 framing</h3>
+                <h3>Phase 1 Framing</h3>
                 <div className="phaseMeter">
                   <span>Returns driven by low confidence</span>
                   <div><i style={{ width: "78%" }} /></div>
@@ -2876,7 +2873,7 @@ export default function App() {
               <div className="investorSplitHeader investorSplitHeaderSolution">
                 <div>
                   <p className="investorKicker">The Solution</p>
-                  <h2>A SmartMall that feels guided, social, and predictive</h2>
+                  <h2>A SmartMall That Feels Guided, Social, And Predictive</h2>
                   <p>
                     Elysium turns shopping into an interactive experience where AI improves predictability, boosts confidence, and reduces returns.
                   </p>
@@ -2890,7 +2887,7 @@ export default function App() {
 
               <div className="investorTwoCol">
                 <article className="investorListCard">
-                  <h3>What changes for shoppers</h3>
+                  <h3>What Changes For Shoppers</h3>
                   <ul>
                     <li>Guided discovery (voice/chat + experience), not just search</li>
                     <li>Try-on concept (avatar) to visualize before buying</li>
@@ -2898,10 +2895,10 @@ export default function App() {
                   </ul>
                 </article>
                 <article className="investorListCard">
-                  <h3>What changes for vendors</h3>
+                  <h3>What Changes For Vendors</h3>
                   <ul>
                     <li>Better targeting via predictability engine</li>
-                    <li>Higher conversion through reduced friction</li>
+                    <li>Higher Conversion through reduced friction</li>
                     <li>More consistent exposure via mall layout</li>
                   </ul>
                 </article>
@@ -2915,11 +2912,11 @@ export default function App() {
                   <p>The AI Brain learns over time and improves recommendation relevance.</p>
                 </article>
                 <article className="investorInfoMiniCard">
-                  <h3>Lower returns</h3>
+                  <h3>Lower Returns</h3>
                   <p>Try-on confidence reduces guesswork and post-purchase regret.</p>
                 </article>
                 <article className="investorInfoMiniCard">
-                  <h3>Higher conversion</h3>
+                  <h3>Higher Conversion</h3>
                   <p>Social + guidance drives engagement and purchases.</p>
                 </article>
               </div>
@@ -2961,7 +2958,7 @@ export default function App() {
               <div className="investorSplitHeader">
                 <div>
                   <p className="investorKicker">System Narrative</p>
-                  <h2>How the AI Brain works</h2>
+                  <h2>How The AI Brain Works</h2>
                   <p>
                     Multiple signal inputs → predictive intelligence → personalized outcomes.
                     Phase 2 replaces this mock with real system diagrams and governance.
@@ -3010,7 +3007,7 @@ export default function App() {
 
                 <div className="investorAiRightCol">
                   <article className="investorListCard investorListCardTight">
-                    <h3>Investor takeaway</h3>
+                    <h3>Investor Takeaway</h3>
                     <ul>
                       <li>The AI Brain is the differentiator: predictability + personalization</li>
                       <li>Inputs: behavior, intent/context, social signals, optional physical variables (opt-in)</li>
@@ -3020,7 +3017,7 @@ export default function App() {
                   </article>
 
                   <article className="investorVideoCard">
-                    <h3>Original AI Brain narrated clip</h3>
+                    <h3>Original AI Brain Narrated Clip</h3>
                     <video
                       ref={soloClipRef}
                       src="/soloAIBrain.mp4"
@@ -3135,7 +3132,7 @@ export default function App() {
               <div className="investorSplitHeader">
                 <div>
                   <p className="investorKicker">Shop Experience</p>
-                  <h2>Avatar-based shop experience to reduce returns</h2>
+                  <h2>Avatar-Based Shop Experience To Reduce Returns</h2>
                   <p>
                     Phase 1 communicates the concept. Phase 2 formalizes privacy, opt-in,
                     storage policy, and rendering pipeline.
@@ -3150,7 +3147,7 @@ export default function App() {
 
               <div className="investorTwoCol">
                 <article className="investorListCard">
-                  <h3>Why it matters</h3>
+                  <h3>Why It Matters</h3>
                   <ul>
                     <li>Improves confidence before purchase (fit + style preview)</li>
                     <li>Reduces returns by decreasing uncertainty</li>
@@ -3158,7 +3155,7 @@ export default function App() {
                   </ul>
                 </article>
                 <article className="investorListCard">
-                  <h3>Phase 1 flow (mock)</h3>
+                  <h3>Phase 1 Flow (Mock)</h3>
                   <div className="flowGridMock">
                     <div><small>STEP 1</small><strong>Capture</strong><span>Phone scan / measurements</span></div>
                     <div><small>STEP 2</small><strong>Avatar</strong><span>Personal body model</span></div>
@@ -3191,7 +3188,7 @@ export default function App() {
               <div className="investorSplitHeader">
                 <div>
                   <p className="investorKicker">Growth</p>
-                  <h2>Three-prong go-to-market</h2>
+                  <h2>Three-Prong Go-To-Market</h2>
                   <p>A market attack driven by demand creation and strategic acquisitions that bring users and revenue.</p>
                 </div>
                 <div className="investorTagGroup">
@@ -3203,14 +3200,14 @@ export default function App() {
 
               <div className="investorTwoCol">
                 <article className="investorListCard">
-                  <h3>Prong 1 — Traditional/Direct marketing</h3>
+                  <h3>Prong 1 — Traditional/Direct Marketing</h3>
                   <ul>
                     <li>Advertising (TV, internet, media) to drive awareness and demand</li>
                     <li>Performance marketing aligned to conversion + retention KPIs</li>
                   </ul>
                 </article>
                 <article className="investorListCard">
-                  <h3>Prong 2 + 3 — Acquire platforms</h3>
+                  <h3>Prong 2 + 3 — Acquire Platforms</h3>
                   <ul>
                     <li>Acquire smaller social media platforms (convert users into members)</li>
                     <li>Acquire smaller eCommerce platforms (vendors + existing revenues)</li>
@@ -3221,15 +3218,15 @@ export default function App() {
 
               <div className="investorCards3">
                 <article className="investorInfoMiniCard">
-                  <h3>Revenue levers</h3>
+                  <h3>Revenue Levers</h3>
                   <p>Memberships, vendor subscriptions, advertising, and commerce take-rate.</p>
                 </article>
                 <article className="investorInfoMiniCard">
-                  <h3>Distribution advantage</h3>
+                  <h3>Distribution Advantage</h3>
                   <p>Acquisitions bootstrap user base and shorten time-to-scale.</p>
                 </article>
                 <article className="investorInfoMiniCard">
-                  <h3>Platform compounding</h3>
+                  <h3>Platform Compounding</h3>
                   <p>Better predictability → better conversion → stronger vendor demand.</p>
                 </article>
               </div>
@@ -3272,7 +3269,7 @@ export default function App() {
               <div className="investorSplitHeader">
                 <div>
                   <p className="investorKicker">Plan</p>
-                  <h2>Projected rollout schedule</h2>
+                  <h2>Projected Rollout Schedule</h2>
                   <p>A staged approach focused on product completion, acquisition-driven scale, and revenue rollout.</p>
                 </div>
                 <div className="investorTagGroup">
@@ -3297,23 +3294,24 @@ export default function App() {
                       <p>Execution is presented as a staged program with explicit build, launch, and scale checkpoints.</p>
                     </div>
                   </article>
-                  <div className="capitalRightStack">
-                    <article className="animatedChartCard chartInvestorCard investorEnlargeableBlock" data-chart-enlarge="rollout-schedule">
-                      <RolloutTimelineChartInvestor />
-                      <p>Rollout Timeline (Mock) — Phase 2: replace with validated plan + dependencies.</p>
-                    </article>
-                    <article className="investorMediaCard investorSlideCard">
-                      <img src="/Slide/page%2024.png" alt="Projected rollout schedule chart" />
-                      <p>Projected rollout schedule chart</p>
-                    </article>
-                  </div>
+                  <article
+                    className="animatedChartCard chartInvestorCard investorEnlargeableBlock rolloutScheduleChartCard"
+                    data-chart-enlarge="rollout-schedule"
+                  >
+                    <RolloutTimelineChartInvestor />
+                    <p>Rollout Timeline (Mock) — Phase 2: replace with validated plan + dependencies.</p>
+                  </article>
+                  <article className="investorMediaCard investorSlideCard rolloutScheduleSlideWide">
+                    <img src="/Slide/page%2024.png" alt="Projected rollout schedule chart" />
+                    <p>Projected rollout schedule chart</p>
+                  </article>
                 </div>
               </article>
 
               <div className="investorSplitHeader investorSplitHeaderSolution">
                 <div>
                   <p className="investorKicker">Business Model</p>
-                  <h2>Financial upside & implementation plan</h2>
+                  <h2>Financial Upside & Implementation Plan</h2>
                   <p>Financial model summary across Year 1 and Year 2 projections.</p>
                 </div>
                 <div className="investorTagGroup">
@@ -3352,7 +3350,7 @@ export default function App() {
               <div className="investorSplitHeader">
                 <div>
                   <p className="investorKicker">Financials / IPO</p>
-                  <h2>Budget highlights and projection assumptions</h2>
+                  <h2>Budget Highlights And Projection Assumptions</h2>
                   <p>Financial figures are illustrative in Phase 1 and replaced with validated assumptions in Phase 2.</p>
                 </div>
                 <div className="investorTagGroup">
@@ -3364,7 +3362,7 @@ export default function App() {
 
               <div className="investorTwoCol">
                 <article className="investorListCard">
-                  <h3>Budget highlights (FY1/FY2 worksheet)</h3>
+                  <h3>Budget Highlights (FY1/FY2 Worksheet)</h3>
                   <ul>
                     <li>FY1 expense sub-total: $20,405,739; FY2 expense sub-total: $22,550,000</li>
                     <li>FY1 EBITDA: $2,594,050; FY2 EBITDA: $4,185,152.88</li>
@@ -3373,7 +3371,7 @@ export default function App() {
                   </ul>
                 </article>
                 <article className="investorListCard">
-                  <h3>Financial projection assumptions</h3>
+                  <h3>Financial Projection Assumptions</h3>
                   <ul>
                     <li>Year 1 projects approximately a $290K loss while targeting operational profitability by Q2.</li>
                     <li>Core strategy is a three-prong marketing approach with acquisitions of social and ecommerce platforms.</li>
@@ -3426,7 +3424,7 @@ export default function App() {
               <div className="investorSplitHeader">
                 <div>
                   <p className="investorKicker">Capital plan</p>
-                  <h2>Investor Capitalization & milestones</h2>
+                  <h2>Investor Capitalization & Milestones</h2>
                   <p>Seed round to complete build + rollout, followed by a larger round aligned to expansion.</p>
                 </div>
                 <div className="investorTagGroup">
@@ -3438,15 +3436,15 @@ export default function App() {
 
               <div className="investorCards3">
                 <article className="investorInfoMiniCard">
-                  <h3>OTC pathway (if applicable)</h3>
+                  <h3>OTC Pathway (If Applicable)</h3>
                   <p>Registering to OTC can require reporting setup and audit readiness; Phase 2 adds compliance detail.</p>
                 </article>
                 <article className="investorInfoMiniCard">
-                  <h3>Expansion milestone</h3>
+                  <h3>Expansion Milestone</h3>
                   <p>Complete equity acquisitions of revenue-generating social media and eCommerce platforms.</p>
                 </article>
                 <article className="investorInfoMiniCard">
-                  <h3>NASDAQ pathway (if applicable)</h3>
+                  <h3>NASDAQ Pathway (If Applicable)</h3>
                   <p>Contingent on meeting regulatory requirements with formal timing and criteria in Phase 2.</p>
                 </article>
               </div>
@@ -3466,7 +3464,7 @@ export default function App() {
                     </ul>
                   </article>
                   <article className="investorListCard">
-                    <h3>Draft Cap Table Snapshot (As of Feb 16, 2026)</h3>
+                    <h3>Draft Cap Table Snapshot (As Of Feb 16, 2026)</h3>
                     <ul>
                       <li>Authorized shares: 190,000,000 Common and 10,000,000 Preferred.</li>
                       <li>Issued and outstanding: 81,000,000 Common; 0 Preferred.</li>
@@ -3503,7 +3501,7 @@ export default function App() {
               <div className="investorSplitHeader">
                 <div>
                   <p className="investorKicker">Investor Information</p>
-                  <h2>IPO pathway and advisor package</h2>
+                  <h2>IPO Pathway And Advisor Package</h2>
                   <p>Governance readiness, reporting discipline, and advisor support structure.</p>
                 </div>
                 <div className="investorTagGroup">
@@ -3559,7 +3557,7 @@ export default function App() {
 
               <div className="investorTwoCol">
                 <article className="investorListCard">
-                  <h3>Illustrative public-market pathway</h3>
+                  <h3>Illustrative Public-Market Pathway</h3>
                   <ul>
                     <li>Stage 1: Governance + controls baseline</li>
                     <li>Stage 2: OTC-readiness (if pursued)</li>
@@ -3577,7 +3575,7 @@ export default function App() {
               </div>
 
               <article className="investorListCard investorSocialCard">
-                <h3>Investor diligence package</h3>
+                <h3>Investor Diligence Package</h3>
                 <ul>
                   <li>Corporate structure, cap table, and governance framework</li>
                   <li>Audited/attestable financial package and controls documentation</li>
@@ -3587,7 +3585,7 @@ export default function App() {
               </article>
 
               <article className="investorTakeawayCard">
-                <p className="investorPointLabel">Important note</p>
+                <p className="investorPointLabel">Important Note</p>
                 <p>This section is not legal, tax, or securities advice. Counsel and qualified advisors should define jurisdiction-specific listing and reporting requirements.</p>
               </article>
             </section>
@@ -3596,7 +3594,7 @@ export default function App() {
               <div className="investorSplitHeader">
                 <div>
                   <p className="investorKicker">Platform</p>
-                  <h2>What backend is required to make Elysium real</h2>
+                  <h2>What Backend Is Required To Make Elysium Real</h2>
                   <p>A production SmartMall requires secure accounts, commerce, data persistence, AI pipelines, and high-fidelity rendering infrastructure.</p>
                 </div>
                 <div className="investorTagGroup">
@@ -3609,7 +3607,7 @@ export default function App() {
 
               <div className="investorTwoCol">
                 <article className="investorListCard">
-                  <h3>Core platform services</h3>
+                  <h3>Core Platform Services</h3>
                   <ul>
                     <li>Accounts & identity: sign-up/login, MFA, roles (member/vendor/admin)</li>
                     <li>Product catalog + inventory: items, variants, pricing, availability</li>
@@ -3618,7 +3616,7 @@ export default function App() {
                   </ul>
                 </article>
                 <article className="investorListCard">
-                  <h3>Suggested architecture (investor-friendly)</h3>
+                  <h3>Suggested Architecture (Investor-Friendly)</h3>
                   <ul>
                     <li>Frontend: Next.js app router for investor site + authenticated app</li>
                     <li>API layer: Next.js routes or separate Node service as scale grows</li>
@@ -3638,7 +3636,7 @@ export default function App() {
                   <p>Orders, users, vendors, assets, and audit logs.</p>
                 </article>
                 <article className="investorInfoMiniCard">
-                  <h3>Services + queues</h3>
+                  <h3>Services + Queues</h3>
                   <p>Separate recommendation engine, rendering/asset services, background jobs, CDN.</p>
                 </article>
               </div>
@@ -3677,16 +3675,16 @@ export default function App() {
                     <p>Central Florida major theme park hospitality background.</p>
                   </article>
                   <article className="investorListCard">
-                    <h3>Board of Directors</h3>
+                    <h3>Board Of Directors</h3>
                     <p>To be announced.</p>
                   </article>
                   <article className="investorListCard">
-                    <h3>Special Advisors to the Company</h3>
+                    <h3>Special Advisors To the Company</h3>
                     <p>To be announced.</p>
                   </article>
                 </div>
                 <article className="investorListCard">
-                  <h3>Operating focus (Phase 1)</h3>
+                  <h3>Operating Focus (Phase 1)</h3>
                   <ul>
                     <li>Build → validate → iterate (Phase 2 MVP)</li>
                     <li>Secure + monitor commerce + data pipelines</li>
@@ -3724,7 +3722,7 @@ export default function App() {
             <section id="contact-review" className="officialSection officialContactSection investorSection">
               <div className="reviewCtaCard">
                 <div className="officialSectionHeader reviewCtaHead">
-                  <h2>Ready to review Phase 1?</h2>
+                  <h2>Ready To Review Phase 1?</h2>
                   <p>This mockup is designed to communicate the opportunity, differentiation, and investor narrative clearly. Feedback is welcome, iteration will be fast.</p>
                 </div>
                 <div className="reviewCtaActions">
@@ -3740,7 +3738,7 @@ export default function App() {
                   </a>
                 </div>
                 <article className="reviewChecklistCard">
-                  <h3>Phase 2 checklist (quick)</h3>
+                  <h3>Phase 2 Checklist (Quick)</h3>
                   <div className="reviewChecklistGrid">
                     <p>• Real system architecture + governance</p>
                     <p>• TAM/SAM/SOM + wedge strategy</p>
@@ -3861,7 +3859,7 @@ export default function App() {
                 {mediaLightbox.type === "chart" && mediaLightbox.chartKey === "phase-framing" ? (
                   <div className="mediaLightboxChart">
                     <div className="phaseFramingCard phaseFramingCardLarge">
-                      <h3>Phase 1 framing</h3>
+                      <h3>Phase 1 Framing</h3>
                       <div className="phaseMeter">
                         <span>Returns driven by low confidence</span>
                         <div><i style={{ width: "78%" }} /></div>
