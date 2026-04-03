@@ -4039,32 +4039,16 @@ export default function App() {
                 </article>
 
                 <article className="investorListCard">
-                  <h3>Actual Ownership Table</h3>
-                  <div className="investorTableWrap investorTableScroll">
-                    <table className="investorDataTable">
-                      <thead>
-                        <tr>
-                          <th>Shareholder</th>
-                          <th>Common</th>
-                          <th>% Ownership</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr><td>Chairman/CEO - MR</td><td>30,000,000</td><td>37.04%</td></tr>
-                        <tr><td>Board Member 1</td><td>2,000,000</td><td>2.47%</td></tr>
-                        <tr><td>Board Member 2</td><td>2,000,000</td><td>2.47%</td></tr>
-                        <tr><td>Board Member 3</td><td>2,000,000</td><td>2.47%</td></tr>
-                        <tr><td>DC</td><td>800,000</td><td>0.99%</td></tr>
-                        <tr><td>LB</td><td>400,000</td><td>0.49%</td></tr>
-                        <tr><td>PE</td><td>400,000</td><td>0.49%</td></tr>
-                        <tr><td>MR Trust</td><td>400,000</td><td>0.49%</td></tr>
-                        <tr><td>Officer - KR</td><td>10,000,000</td><td>12.35%</td></tr>
-                        <tr><td>Officer - AR</td><td>10,000,000</td><td>12.35%</td></tr>
-                        <tr><td>Officer - SX</td><td>10,000,000</td><td>12.35%</td></tr>
-                        <tr><td>Officer - CG</td><td>10,000,000</td><td>12.35%</td></tr>
-                      </tbody>
-                    </table>
+                  <h3>Capital Raise Slide Snapshot</h3>
+                  <div className="investorMediaCard investorSlideCard">
+                    <img
+                      src="/Slide/page 28.png"
+                      alt="PowerPoint slide showing initial raise rounds and capital pathway"
+                    />
                   </div>
+                  <p className="investorPointLabel">
+                    PowerPoint source image (Slide 28)
+                  </p>
                 </article>
               </div>
 
