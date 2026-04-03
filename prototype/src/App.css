@@ -4558,6 +4558,16 @@ select.btn {
 }
 
 @media (max-width: 1200px), (hover: none) and (pointer: coarse) {
+  html,
+  body,
+  #root,
+  .app,
+  .officialLanding,
+  .officialCanvas {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
   .officialLanding {
     padding-top: 134px;
   }
@@ -4588,6 +4598,7 @@ select.btn {
 
   .officialCanvas {
     min-height: auto;
+    width: 100%;
   }
 
   .officialHeaderInner {
@@ -4649,6 +4660,9 @@ select.btn {
     display: grid;
     gap: 12px;
     padding: 14px;
+    max-height: min(68svh, 540px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     border-radius: 16px;
     border: 1px solid rgba(136, 180, 255, 0.36);
     background:
@@ -4722,6 +4736,67 @@ select.btn {
   .officialHero {
     grid-template-columns: 1fr;
     gap: 20px;
+  }
+
+  .officialCanvas {
+    padding-inline: clamp(14px, 4vw, 24px);
+  }
+
+  .officialSection,
+  .investorSection,
+  .investorSplitHeader,
+  .investorTwoCol,
+  .investorCards3,
+  .investorMediaGrid,
+  .investorMediaTwin,
+  .investorAiSystemGrid,
+  .investorSummaryBlock,
+  .investorPointCard,
+  .investorListCard,
+  .investorInfoMiniCard,
+  .investorTakeawayCard {
+    min-width: 0;
+  }
+
+  .officialSection p,
+  .officialSection li,
+  .officialSection h2,
+  .officialSection h3,
+  .officialSection h4 {
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .officialSection * {
+    max-width: 100%;
+  }
+
+  .marketOpportunityWrap {
+    padding: 14px;
+    gap: 14px;
+  }
+
+  .marketOpportunityVisual {
+    width: 100%;
+  }
+
+  .tamRing {
+    width: min(260px, 100%);
+  }
+
+  .wedgeSlice {
+    right: 0;
+  }
+
+  .investorEnlargeableBlock::after {
+    right: 8px;
+    top: 8px;
+    padding: 5px 8px;
+    font-size: 10px;
+    max-width: calc(100% - 16px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .officialFeatureRow {
@@ -4802,10 +4877,17 @@ select.btn {
 
   .investorMediaCard img,
   .investorVideoCard video {
-    height: 220px;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+    object-position: center top;
   }
 
   .investorSlideCard img {
+    height: auto;
+  }
+
+  #ai-brain-system .investorVideoCard video {
     height: auto;
   }
 
@@ -4880,5 +4962,17 @@ select.btn {
     width: min(92vw, 420px);
     margin-inline: auto;
     font-size: clamp(12px, 3.8vw, 18px);
+  }
+
+  .officialSection {
+    padding: 14px;
+  }
+
+  .marketOpportunityWrap {
+    padding: 12px;
+  }
+
+  .tamRing {
+    width: min(228px, 100%);
   }
 }
