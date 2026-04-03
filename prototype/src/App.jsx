@@ -409,6 +409,182 @@ function RaiseMilestonesChartInvestor() {
   );
 }
 
+function RevenueMixBarChartInvestor() {
+  const rows = [
+    { label: "Membership", value: 34 },
+    { label: "Advertising", value: 22 },
+    { label: "Vendor Reports", value: 18 },
+    { label: "Acquisition Revenue", value: 26 },
+  ];
+  return (
+    <div className="investorBarGraphCard">
+      <h4>Revenue Mix (Illustrative)</h4>
+      {rows.map((row, idx) => (
+        <div key={row.label} className="investorBarRow">
+          <span>{row.label}</span>
+          <div><i style={{ width: `${row.value}%`, animationDelay: `${idx * 120}ms` }} /></div>
+          <b>{row.value}%</b>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function RolloutBarsChartInvestor() {
+  const rows = [
+    { label: "Team + Build", value: 78 },
+    { label: "Testing + QA", value: 56 },
+    { label: "Acquisitions", value: 62 },
+    { label: "Scale Marketing", value: 86 },
+  ];
+  return (
+    <div className="investorBarGraphCard">
+      <h4>Rollout Workstream Load</h4>
+      {rows.map((row, idx) => (
+        <div key={row.label} className="investorBarRow">
+          <span>{row.label}</span>
+          <div><i style={{ width: `${row.value}%`, animationDelay: `${idx * 120}ms` }} /></div>
+          <b>{row.value}%</b>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function BridgeUseOfFundsBarChartInvestor() {
+  const rows = [
+    { label: "Reg / Legal", value: 28 },
+    { label: "Audit Setup", value: 19 },
+    { label: "Raise Expenses", value: 21 },
+    { label: "Operating Coverage", value: 32 },
+  ];
+  return (
+    <div className="investorBarGraphCard">
+      <h4>Bridge Raise Use Of Funds</h4>
+      {rows.map((row, idx) => (
+        <div key={row.label} className="investorBarRow">
+          <span>{row.label}</span>
+          <div><i style={{ width: `${row.value}%`, animationDelay: `${idx * 120}ms` }} /></div>
+          <b>{row.value}%</b>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function YearOneRevenueBarsChartInvestor() {
+  const rows = [
+    { label: "Membership", value: 26 },
+    { label: "Advertising", value: 18 },
+    { label: "Vendor Data", value: 21 },
+    { label: "Acquisition", value: 35 },
+  ];
+  return (
+    <div className="investorBarGraphCard">
+      <h4>Year 1 Revenue Drivers</h4>
+      {rows.map((row, idx) => (
+        <div key={row.label} className="investorBarRow">
+          <span>{row.label}</span>
+          <div><i style={{ width: `${row.value}%`, animationDelay: `${idx * 120}ms` }} /></div>
+          <b>{row.value}%</b>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function YearTwoRevenueBarsChartInvestor() {
+  const rows = [
+    { label: "Membership", value: 32 },
+    { label: "Advertising", value: 24 },
+    { label: "Vendor Data", value: 19 },
+    { label: "Acquisition", value: 25 },
+  ];
+  return (
+    <div className="investorBarGraphCard">
+      <h4>Year 2 Revenue Drivers</h4>
+      {rows.map((row, idx) => (
+        <div key={row.label} className="investorBarRow">
+          <span>{row.label}</span>
+          <div><i style={{ width: `${row.value}%`, animationDelay: `${idx * 120}ms` }} /></div>
+          <b>{row.value}%</b>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function formatInvestorNumber(value) {
+  return new Intl.NumberFormat("en-US").format(value);
+}
+
+function MarketSizeContextChartInvestor() {
+  const rows = [
+    { label: "Global eCommerce (2023)", valueLabel: "$21,100B", width: 11.5 },
+    { label: "Projected eCommerce (2032)", valueLabel: "$183,800B", width: 100 },
+    { label: "Global Online Retail (2023)", valueLabel: "$4,400B", width: 2.4 },
+    { label: "Projected Online Retail (2028)", valueLabel: "$6,800B", width: 3.7 },
+    { label: "Social Media (2025)", valueLabel: "$286.53B", width: 0.5 },
+    { label: "Projected Social Media (2029)", valueLabel: "$466.56B", width: 0.7 },
+  ];
+
+  return (
+    <div className="investorBarGraphCard">
+      <h4>Market Size Context (Slide 11)</h4>
+      {rows.map((row, idx) => (
+        <div key={row.label} className="investorBarRow investorBarRowWide">
+          <span>{row.label}</span>
+          <div><i style={{ width: `${Math.max(3, row.width)}%`, animationDelay: `${idx * 120}ms` }} /></div>
+          <b>{row.valueLabel}</b>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function CapitalizationShareStructureChartInvestor() {
+  const rows = [
+    { label: "Common Authorized", value: 190000000 },
+    { label: "Blank Check Preferred Stock Authorized", value: 10000000 },
+    { label: "Common Issued", value: 81000000 },
+    { label: "Preferred Issued", value: 0 },
+  ];
+  const max = Math.max(...rows.map((row) => row.value), 1);
+  return (
+    <div className="investorBarGraphCard">
+      <h4>Capitalization Share Structure</h4>
+      {rows.map((row, idx) => (
+        <div key={row.label} className="investorBarRow investorBarRowWide">
+          <span>{row.label}</span>
+          <div><i style={{ width: `${Math.max(3, (row.value / max) * 100)}%`, animationDelay: `${idx * 120}ms` }} /></div>
+          <b>{formatInvestorNumber(row.value)} shares</b>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ValuationRaiseSnapshotChartInvestor() {
+  const rows = [
+    { label: "Pre-Money Valuation", value: 8000000 },
+    { label: "New Equity Raised", value: 750000 },
+    { label: "Post-Money Valuation", value: 8750000 },
+  ];
+  const max = Math.max(...rows.map((row) => row.value), 1);
+  return (
+    <div className="investorBarGraphCard">
+      <h4>Valuation + Raise Snapshot</h4>
+      {rows.map((row, idx) => (
+        <div key={row.label} className="investorBarRow investorBarRowWide">
+          <span>{row.label}</span>
+          <div><i style={{ width: `${Math.max(3, (row.value / max) * 100)}%`, animationDelay: `${idx * 120}ms` }} /></div>
+          <b>${formatInvestorNumber(row.value)}</b>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 /**
  * ✅ Walkthrough storefront → category + brand filter + label
  * This makes each storefront enter into a "real shop" view with the right products.
@@ -2476,57 +2652,59 @@ export default function App() {
               <nav className="officialNavLinks" aria-label="Primary">
                 <a href="#home" className="officialNavItem">Home</a>
                 <div className="officialNavDropdown">
-                  <button className="officialNavItem officialNavItemBtn" type="button">
+                  <a className="officialNavItem officialNavItemBtn" href="#overview-summary">
                     Overview
-                  </button>
+                  </a>
                   <div className="officialNavMenu">
-                    <a href="#investor-overview">Summary</a>
+                    <a href="#overview-summary">Summary</a>
                     <a href="#problem-solution">Problem + Solution</a>
-                    <a href="#elysium-market-solution">Elysium Market Solution</a>
+                    <a href="#elysium-market-solution">Elysium Market Solutions</a>
                   </div>
                 </div>
                 <div className="officialNavDropdown">
-                  <button className="officialNavItem officialNavItemBtn" type="button">
+                  <a className="officialNavItem officialNavItemBtn" href="#elysium-market-solution">
                     AI Brain/SmartMall
-                  </button>
+                  </a>
                   <div className="officialNavMenu">
+                    <a href="#social-media">Social Media</a>
                     <a href="#ai-brain-system">AI Brain</a>
-                    <a href="#avatar-experience">Advance Avatar</a>
-                    <a href="#elysium-market-solution">Social Media</a>
+                    <a href="#avatar-experience">Advanced Avatar</a>
                   </div>
                 </div>
                 <div className="officialNavDropdown">
-                  <button className="officialNavItem officialNavItemBtn" type="button">
-                    Market Plan/Contracts
-                  </button>
+                  <a className="officialNavItem officialNavItemBtn" href="#growth-plan">
+                    Market Plan/Contract
+                  </a>
                   <div className="officialNavMenu">
                     <a href="#growth-plan">Plan Summary</a>
-                    <a href="#rollout-financials">Roll Out Plan</a>
+                    <a href="#market-contracts">Contracts</a>
+                    <a href="#rollout-financials">Rollout Plan</a>
                   </div>
                 </div>
                 <div className="officialNavDropdown">
-                  <button className="officialNavItem officialNavItemBtn" type="button">
+                  <a className="officialNavItem officialNavItemBtn" href="#financial-projections">
                     Financials/IPO
-                  </button>
+                  </a>
                   <div className="officialNavMenu">
-                    <a href="#rollout-financials">Financial Projections</a>
+                    <a href="#financial-projections">Financial Projections</a>
                     <a href="#financial-ipo">Budget + Assumptions</a>
                     <a href="#ipo-pathway">IPO Pathway</a>
                   </div>
                 </div>
                 <div className="officialNavDropdown">
-                  <button className="officialNavItem officialNavItemBtn" type="button">
+                  <a className="officialNavItem officialNavItemBtn" href="#capital-plan">
                     Capitalization/Investors
-                  </button>
+                  </a>
                   <div className="officialNavMenu">
-                    <a href="#capital-plan">Capital Raise Pre-IPO</a>
-                    <a href="#ipo-pathway">Investors</a>
+                    <a href="#capital-overview">Capitalization Overview</a>
+                    <a href="#draft-cap-tables">Draft Cap Tables</a>
+                    <a href="#capital-raise-pre-ipo">Capital Raise Pre-IPO</a>
                   </div>
                 </div>
                 <div className="officialNavDropdown">
-                  <button className="officialNavItem officialNavItemBtn" type="button">
+                  <a className="officialNavItem officialNavItemBtn" href="#management-team">
                     Management Team
-                  </button>
+                  </a>
                   <div className="officialNavMenu">
                     <a href="#leadership">Leadership</a>
                     <a href="#management-team">Management Team</a>
@@ -2536,7 +2714,7 @@ export default function App() {
               </nav>
               <div className="officialNavAuth">
                 <a className="officialAuthBtn officialNavJumpBtn" href="#ai-brain-system">
-                  Jump to Simulation Videos
+                  Simulation Videos
                 </a>
                 <div className="officialPasswordRequestWrap">
                   <button
@@ -2613,7 +2791,7 @@ export default function App() {
               </article>
             </section>
 
-            <section className="officialSection investorSection investorImmersionSection">
+            <section id="overview-summary" className="officialSection investorSection investorImmersionSection">
               <div className="investorImmersionGrid">
                 <article className="investorImmersionCopy">
                   <div className="investorTagGroup investorImmersionTags">
@@ -2667,7 +2845,7 @@ export default function App() {
                 </article>
                 <article className="investorInfoMiniCard">
                   <h3>Social Commerce</h3>
-                  <p>Users can discover, share, and shop together without leaving the platform.</p>
+                  <p>Shoppers can discover, share, and shop together without leaving the platform.</p>
                 </article>
                 <article className="investorInfoMiniCard">
                   <h3>Growth Story</h3>
@@ -2753,6 +2931,7 @@ export default function App() {
                   </article>
                 </div>
               </article>
+
             </section>
 
             <section id="investor-overview" className="officialSection investorSection">
@@ -2792,6 +2971,54 @@ export default function App() {
                   </div>
                 </div>
               </div>
+
+              <article className="investorListCard investorSocialCard">
+                <h3>Market Size And Timing</h3>
+                <div className="investorTwoCol">
+                  <article className="investorListCard">
+                    <h3>What This Section Shows</h3>
+                    <ul>
+                      <li>Market framing combines global eCommerce and social media growth trajectories.</li>
+                      <li>The thesis positions Elysium at the intersection of both expanding markets.</li>
+                      <li>Deck language distinguishes this from narrow AI personalization approaches.</li>
+                    </ul>
+                    <div className="investorTakeawayCard">
+                      <p className="investorPointLabel">INVESTOR TAKEAWAY</p>
+                      <p>The opportunity case is tied to category convergence and projected market expansion.</p>
+                    </div>
+                  </article>
+                  <article className="investorMediaCard investorSlideCard">
+                    <img src="/Slide/page%2011.png" alt="Market size and timing slide" />
+                    <p>Market size and timing source slide</p>
+                  </article>
+                </div>
+                <div className="investorTwoCol">
+                  <div className="capitalRightStack">
+                    <article className="investorInfoMiniCard">
+                      <p className="investorPointLabel">Global eCommerce (2023)</p>
+                      <h3>$21.1T</h3>
+                      <p>Slide 11 market context.</p>
+                    </article>
+                    <article className="investorInfoMiniCard">
+                      <p className="investorPointLabel">Projected eCommerce (2032)</p>
+                      <h3>$183.8T</h3>
+                      <p>Source text from deck slide market assumptions.</p>
+                    </article>
+                    <article className="investorInfoMiniCard">
+                      <p className="investorPointLabel">Social Media (2025)</p>
+                      <h3>$286.53B</h3>
+                      <p>Projected to $466.56B by 2029 in deck context.</p>
+                    </article>
+                  </div>
+                  <article
+                    className="investorListCard investorEnlargeableBlock"
+                    data-chart-enlarge="market-size-context-bars"
+                  >
+                    <MarketSizeContextChartInvestor />
+                    <p className="investorPointLabel">Converted from deck market values into native bar chart</p>
+                  </article>
+                </div>
+              </article>
 
               <div className="investorPointsGrid">
                 <article className="investorPointCard">
@@ -2834,7 +3061,7 @@ export default function App() {
 
               <div className="investorTwoCol">
                 <article className="investorListCard">
-                  <h3>User Pain</h3>
+                  <h3>Shopper Pain</h3>
                   <ul>
                     <li>Low confidence without try-on → higher return rates</li>
                     <li>Uncertainty causes cart abandonment</li>
@@ -2903,6 +3130,7 @@ export default function App() {
                   </ul>
                 </article>
               </div>
+
             </section>
 
             <section id="elysium-market-solution" className="officialSection investorSection">
@@ -2922,7 +3150,7 @@ export default function App() {
               </div>
 
               <div className="investorSummaryBlock">
-                <h2>Elysium Market Solution</h2>
+                <h2>Elysium Market Solutions</h2>
                 <div className="investorPointsGrid">
                   <article className="investorPointCard">
                     <p className="investorPointLabel">KEY POINT 1</p>
@@ -2943,6 +3171,7 @@ export default function App() {
                 </div>
               </div>
 
+              <div id="social-media" className="navAnchor" />
               <article className="investorListCard investorSocialCard">
                 <h3>Social Media Experience</h3>
                 <ul>
@@ -2952,6 +3181,7 @@ export default function App() {
                   <li>Shoppers can share, record, and comment on shopping experiences as they happen.</li>
                 </ul>
               </article>
+
             </section>
 
             <section id="ai-brain-system" className="officialSection investorSection">
@@ -2996,11 +3226,11 @@ export default function App() {
                     </article>
                     <article className="investorInfoMiniCard">
                       <h3>Security Monitoring</h3>
-                      <p>AI-supported monitoring helps protect users and transactions.</p>
+                      <p>AI-supported monitoring helps protect shoppers and transactions.</p>
                     </article>
                     <article className="investorInfoMiniCard">
                       <h3>Multilingual</h3>
-                      <p>Assistance can be presented in the user’s preferred language.</p>
+                      <p>Assistance can be presented in the shopper’s preferred language.</p>
                     </article>
                   </div>
                 </div>
@@ -3126,6 +3356,29 @@ export default function App() {
                   <p>AI is positioned as the differentiator that drives personalization, efficiency, and measurable lift.</p>
                 </div>
               </div>
+
+              <article className="investorListCard investorSocialCard">
+                <h3>AI Data Collection Model</h3>
+                <div className="investorTwoCol">
+                  <article className="investorListCard">
+                    <h3>What This Section Shows</h3>
+                    <ul>
+                      <li>The AI model is framed as combining sensory, behavioral, and social-context inputs.</li>
+                      <li>The goal is to improve predictability and recommendation quality over time.</li>
+                      <li>Input diversity is positioned as the core advantage versus narrow historical-only models.</li>
+                    </ul>
+                    <div className="investorTakeawayCard">
+                      <p className="investorPointLabel">INVESTOR TAKEAWAY</p>
+                      <p>A richer input layer supports more adaptive recommendations and shopper guidance.</p>
+                    </div>
+                  </article>
+                  <article className="investorMediaCard investorSlideCard">
+                    <img src="/Slide/page%2014.png" alt="AI data collection model slide" />
+                    <p>AI data collection model source slide</p>
+                  </article>
+                </div>
+              </article>
+
             </section>
 
             <section id="avatar-experience" className="officialSection investorSection">
@@ -3182,6 +3435,29 @@ export default function App() {
                 <p className="investorPointLabel">Phase 2 upgrade (recommended)</p>
                 <p>Add a dedicated diagram: capture → privacy/consent → avatar generation → preview rendering → retention & deletion policy.</p>
               </article>
+
+              <article className="investorListCard investorSocialCard">
+                <h3>Collaborative Shopping</h3>
+                <div className="investorTwoCol">
+                  <article className="investorListCard">
+                    <h3>What This Section Shows</h3>
+                    <ul>
+                      <li>Slide framing emphasizes a group-first shopping journey inside the virtual mall.</li>
+                      <li>Avatar-linked participation and continuous interaction are positioned as a social differentiator.</li>
+                      <li>The shopping session is designed to remain connected before, during, and after purchase decisions.</li>
+                    </ul>
+                    <div className="investorTakeawayCard">
+                      <p className="investorPointLabel">INVESTOR TAKEAWAY</p>
+                      <p>The collaborative flow supports stronger engagement and more confident purchase behavior.</p>
+                    </div>
+                  </article>
+                  <article className="investorMediaCard investorSlideCard">
+                    <img src="/Slide/page%2018.png" alt="Collaborative shopping slide" />
+                    <p>Collaborative shopping source slide</p>
+                  </article>
+                </div>
+              </article>
+
             </section>
 
             <section id="growth-plan" className="officialSection investorSection">
@@ -3189,7 +3465,7 @@ export default function App() {
                 <div>
                   <p className="investorKicker">Growth</p>
                   <h2>Three-Prong Go-To-Market</h2>
-                  <p>A market attack driven by demand creation and strategic acquisitions that bring users and revenue.</p>
+                  <p>A market attack driven by demand creation and strategic acquisitions that bring shoppers and revenue.</p>
                 </div>
                 <div className="investorTagGroup">
                   <span>Marketing</span>
@@ -3209,7 +3485,7 @@ export default function App() {
                 <article className="investorListCard">
                   <h3>Prong 2 + 3 — Acquire Platforms</h3>
                   <ul>
-                    <li>Acquire smaller social media platforms (convert users into members)</li>
+                    <li>Acquire smaller social media platforms (convert shoppers into members)</li>
                     <li>Acquire smaller eCommerce platforms (vendors + existing revenues)</li>
                     <li>Use equity as acquisition currency to preserve operating capital while scaling</li>
                   </ul>
@@ -3223,7 +3499,7 @@ export default function App() {
                 </article>
                 <article className="investorInfoMiniCard">
                   <h3>Distribution Advantage</h3>
-                  <p>Acquisitions bootstrap user base and shorten time-to-scale.</p>
+                  <p>Acquisitions bootstrap shopper base and shorten time-to-scale.</p>
                 </article>
                 <article className="investorInfoMiniCard">
                   <h3>Platform Compounding</h3>
@@ -3242,7 +3518,7 @@ export default function App() {
                 </article>
               </div>
 
-              <div className="investorSummaryBlock">
+              <div id="market-contracts" className="investorSummaryBlock navAnchor">
                 <h2>Market Plan / Contracts</h2>
                 <div className="investorPointsGrid">
                   <article className="investorPointCard">
@@ -3263,6 +3539,7 @@ export default function App() {
                   <p>Growth is framed as acquisition-accelerated scale with diversified recurring monetization.</p>
                 </div>
               </div>
+
             </section>
 
             <section id="rollout-financials" className="officialSection investorSection">
@@ -3280,7 +3557,7 @@ export default function App() {
               </div>
 
               <article className="investorListCard">
-                <h3>Roll Out Plan</h3>
+                  <h3>Rollout Plan</h3>
                 <div className="investorTwoCol rolloutPlanGrid">
                   <article className="investorListCard">
                     <h3>What This Section Shows</h3>
@@ -3301,13 +3578,19 @@ export default function App() {
                     <RolloutTimelineChartInvestor />
                     <p>Rollout Timeline (Mock) — Phase 2: replace with validated plan + dependencies.</p>
                   </article>
-                  <article className="investorMediaCard investorSlideCard rolloutScheduleSlideWide">
-                    <img src="/Slide/page%2024.png" alt="Projected rollout schedule chart" />
-                    <p>Projected rollout schedule chart</p>
+                  <article
+                    className="investorMediaCard investorSlideCard rolloutScheduleSlideWide investorEnlargeableBlock"
+                    data-chart-enlarge="rollout-bars"
+                  >
+                    <RolloutBarsChartInvestor />
+                    <p>Converted from deck graph into native rollout bar chart</p>
                   </article>
                 </div>
               </article>
 
+            </section>
+
+            <section id="financial-projections" className="officialSection investorSection">
               <div className="investorSplitHeader investorSplitHeaderSolution">
                 <div>
                   <p className="investorKicker">Business Model</p>
@@ -3401,100 +3684,32 @@ export default function App() {
                       <p>Financial framing emphasizes a transition from launch-phase pressure to year-two operating strength.</p>
                     </div>
                   </article>
-                  <article className="investorMediaCard investorSlideCard projectionsPrimarySlide">
-                    <img src="/Slide/page%2023.png" alt="Year 1 and year 2 revenue assumptions slide" />
-                    <p>YR 1-2 revenues: assumptions and timing framework</p>
+                  <article
+                    className="investorMediaCard investorSlideCard projectionsPrimarySlide investorEnlargeableBlock"
+                    data-chart-enlarge="revenue-mix-bars"
+                  >
+                    <RevenueMixBarChartInvestor />
+                    <p>Converted from deck graph into native revenue-mix bar chart</p>
                   </article>
                 </div>
               </article>
 
               <div className="investorMediaTwin projectionsSlidesGrid">
-                <article className="investorMediaCard investorSlideCard projectionsSecondarySlide">
-                  <img src="/Slide/page%2025.png" alt="Projected revenue year one slide" />
-                  <p>Projected revenue — Year one assumptions</p>
+                <article
+                  className="investorListCard projectionsSecondarySlide investorEnlargeableBlock"
+                  data-chart-enlarge="revenue-year-one-bars"
+                >
+                  <YearOneRevenueBarsChartInvestor />
+                  <p className="investorPointLabel">Converted from deck graph (Year 1)</p>
                 </article>
-                <article className="investorMediaCard investorSlideCard projectionsSecondarySlide">
-                  <img src="/Slide/page%2026.png" alt="Revenue projections year one and two slide" />
-                  <p>Revenue projections year one and two</p>
-                </article>
-              </div>
-            </section>
-
-            <section id="capital-plan" className="officialSection investorSection">
-              <div className="investorSplitHeader">
-                <div>
-                  <p className="investorKicker">Capital plan</p>
-                  <h2>Investor Capitalization & Milestones</h2>
-                  <p>Seed round to complete build + rollout, followed by a larger round aligned to expansion.</p>
-                </div>
-                <div className="investorTagGroup">
-                  <span>Seed</span>
-                  <span>Expansion</span>
-                  <span>Public pathway</span>
-                </div>
-              </div>
-
-              <div className="investorCards3">
-                <article className="investorInfoMiniCard">
-                  <h3>OTC Pathway (If Applicable)</h3>
-                  <p>Registering to OTC can require reporting setup and audit readiness; Phase 2 adds compliance detail.</p>
-                </article>
-                <article className="investorInfoMiniCard">
-                  <h3>Expansion Milestone</h3>
-                  <p>Complete equity acquisitions of revenue-generating social media and eCommerce platforms.</p>
-                </article>
-                <article className="investorInfoMiniCard">
-                  <h3>NASDAQ Pathway (If Applicable)</h3>
-                  <p>Contingent on meeting regulatory requirements with formal timing and criteria in Phase 2.</p>
+                <article
+                  className="investorListCard projectionsSecondarySlide investorEnlargeableBlock"
+                  data-chart-enlarge="revenue-year-two-bars"
+                >
+                  <YearTwoRevenueBarsChartInvestor />
+                  <p className="investorPointLabel">Converted from deck graph (Year 2)</p>
                 </article>
               </div>
-
-              <div className="investorTwoCol">
-                <article className="animatedChartCard chartInvestorCard investorEnlargeableBlock" data-chart-enlarge="raise-milestones">
-                  <RaiseMilestonesChartInvestor />
-                  <p>Raise Flow (Mock) — Phase 2: add compliance + timing criteria.</p>
-                </article>
-                <div className="capitalRightStack">
-                  <article className="investorListCard">
-                    <h3>Capital Raise Pre-IPO</h3>
-                    <ul>
-                      <li>Current model uses a pre-money valuation of $8,000,000 at $0.04/share.</li>
-                      <li>New equity raised tracked in cap materials: $750,000.</li>
-                      <li>Seed completion remains aligned to Phase 1 to Phase 2 build-out readiness.</li>
-                    </ul>
-                  </article>
-                  <article className="investorListCard">
-                    <h3>Draft Cap Table Snapshot (As Of Feb 16, 2026)</h3>
-                    <ul>
-                      <li>Authorized shares: 190,000,000 Common and 10,000,000 Preferred.</li>
-                      <li>Issued and outstanding: 81,000,000 Common; 0 Preferred.</li>
-                      <li>Cash raised shown in cap table package: $750,000.</li>
-                    </ul>
-                  </article>
-                </div>
-              </div>
-
-              <article className="investorListCard investorSocialCard">
-                <h3>Capital Raise Pre-IPO</h3>
-                <div className="investorTwoCol">
-                  <article className="investorListCard">
-                    <h3>What This Section Shows</h3>
-                    <ul>
-                      <li>Bridge raise target is presented at $750K to $1.0M for pre-IPO execution.</li>
-                      <li>Use of proceeds includes registration/legal work, initial audit work, and capital-raise expenses.</li>
-                      <li>General company operating coverage is included as a use-of-funds category.</li>
-                    </ul>
-                    <div className="investorTakeawayCard">
-                      <p className="investorPointLabel">INVESTOR TAKEAWAY</p>
-                      <p>This capital stage is positioned as a bridge to public-market readiness and scaling actions.</p>
-                    </div>
-                  </article>
-                  <article className="investorMediaCard investorSlideCard">
-                    <img src="/Slide/page%2027.png" alt="Bridge capital raise slide" />
-                    <p>Bridge Capital Raise: $750K–$1,000,000Mm</p>
-                  </article>
-                </div>
-              </article>
             </section>
 
             <section id="ipo-pathway" className="officialSection investorSection">
@@ -3532,6 +3747,44 @@ export default function App() {
                   <p>The investor narrative emphasizes strategic conviction in category creation and long-term scale.</p>
                 </div>
               </div>
+
+              <div className="investorTwoCol">
+                <article className="investorListCard">
+                  <h3>Early Investor Thesis</h3>
+                  <ul>
+                    <li>Investor case emphasizes category convergence: AI + social + commerce in one platform.</li>
+                    <li>Initial capital focus was AI Brain development and Phase 1 platform narrative.</li>
+                    <li>Public-market pathway and equity-led acquisitions are positioned as growth levers.</li>
+                  </ul>
+                </article>
+                <article className="investorListCard">
+                  <h3>Government Opportunity Context</h3>
+                  <ul>
+                    <li>Deck narrative references provisional verbal approval and planning participation for a 2026 government commerce initiative.</li>
+                    <li>Potential upside includes member-revenue share and broader commerce-data monetization.</li>
+                    <li>A one-stop commerce integration concept is presented if a formal agreement is executed.</li>
+                  </ul>
+                  <p className="investorPointLabel">Important: no formal contract or binding agreement is represented as executed at this stage.</p>
+                </article>
+              </div>
+
+              <article className="investorListCard investorSocialCard">
+                <h3>Prominent Investor Bios</h3>
+                <div className="investorCards3">
+                  <article className="investorInfoMiniCard">
+                    <h3>David Cheriton</h3>
+                    <p>Early Google investor; co-founded multiple technology companies with notable exits and public-market outcomes.</p>
+                  </article>
+                  <article className="investorInfoMiniCard">
+                    <h3>Leon Black</h3>
+                    <p>Apollo Global Management co-founder with deep private-equity and M&A background.</p>
+                  </article>
+                  <article className="investorInfoMiniCard">
+                    <h3>Paul Erickson</h3>
+                    <p>Entrepreneur with cross-industry company-building background and strategic networking support.</p>
+                  </article>
+                </div>
+              </article>
 
               <article className="investorListCard investorSocialCard">
                 <h3>IPO</h3>
@@ -3590,6 +3843,263 @@ export default function App() {
               </article>
             </section>
 
+
+
+            <section id="capital-plan" className="officialSection investorSection">
+              <div id="capital-overview" className="navAnchor" />
+              <div className="investorSplitHeader">
+                <div>
+                  <p className="investorKicker">Capital plan</p>
+                  <h2>Investor Capitalization & Milestones</h2>
+                  <p>Seed round to complete build + rollout, followed by a larger round aligned to expansion.</p>
+                </div>
+                <div className="investorTagGroup">
+                  <span>Seed</span>
+                  <span>Expansion</span>
+                  <span>Public pathway</span>
+                </div>
+              </div>
+
+              <div className="investorTwoCol">
+                <article
+                  className="investorListCard investorEnlargeableBlock"
+                  data-chart-enlarge="capital-share-structure-bars"
+                >
+                  <CapitalizationShareStructureChartInvestor />
+                  <p className="investorPointLabel">Bar-form view from cap-table workbook data.</p>
+                </article>
+                <article className="investorListCard">
+                  <h3>Capital Raise Pre-IPO</h3>
+                  <ul>
+                    <li>Current model uses a pre-money valuation of $8,000,000 at $0.04/share.</li>
+                    <li>New equity raised tracked in cap materials: $750,000.</li>
+                    <li>Seed completion is still aligned to Phase 1 to Phase 2 build-out and rollout readiness.</li>
+                  </ul>
+                </article>
+              </div>
+
+              <div className="investorTwoCol">
+                <article
+                  className="investorListCard investorEnlargeableBlock"
+                  data-chart-enlarge="valuation-raise-snapshot-bars"
+                >
+                  <ValuationRaiseSnapshotChartInvestor />
+                  <p className="investorPointLabel">Series A rows from the February 16, 2026 cap table.</p>
+                </article>
+                <article className="investorListCard">
+                  <div id="draft-cap-tables" className="navAnchor" />
+                  <h3>Draft Cap Tables Snapshot (As Of Feb 16, 2026)</h3>
+                  <ul>
+                    <li>Authorized shares: 190,000,000 Common and 10,000,000 Blank Check Preferred Stock.</li>
+                    <li>Issued and outstanding: 81,000,000 Common; 0 Blank Check Preferred Stock.</li>
+                    <li>Cash raised shown in cap table package: $750,000.</li>
+                    <li>Summary ownership percentages and shareholder rows are included in the attached workbook for diligence review.</li>
+                  </ul>
+                </article>
+              </div>
+
+              <div className="investorTwoCol">
+                <article className="investorListCard">
+                  <h3>Actual Cap Table Summary</h3>
+                  <div className="investorTableWrap">
+                    <table className="investorDataTable">
+                      <thead>
+                        <tr>
+                          <th>Class</th>
+                          <th>Authorized</th>
+                          <th>Issued</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Common</td>
+                          <td>190,000,000</td>
+                          <td>81,000,000</td>
+                        </tr>
+                        <tr>
+                          <td>Blank Check Preferred Stock</td>
+                          <td>10,000,000</td>
+                          <td>0</td>
+                        </tr>
+                        <tr>
+                          <td><strong>Cash Raised</strong></td>
+                          <td colSpan="2">$750,000</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </article>
+
+                <article className="investorListCard">
+                  <h3>Actual Ownership Table</h3>
+                  <div className="investorTableWrap investorTableScroll">
+                    <table className="investorDataTable">
+                      <thead>
+                        <tr>
+                          <th>Shareholder</th>
+                          <th>Common</th>
+                          <th>% Ownership</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr><td>Chairman/CEO - MR</td><td>30,000,000</td><td>37.04%</td></tr>
+                        <tr><td>Board Member 1</td><td>2,000,000</td><td>2.47%</td></tr>
+                        <tr><td>Board Member 2</td><td>2,000,000</td><td>2.47%</td></tr>
+                        <tr><td>Board Member 3</td><td>2,000,000</td><td>2.47%</td></tr>
+                        <tr><td>DC</td><td>800,000</td><td>0.99%</td></tr>
+                        <tr><td>LB</td><td>400,000</td><td>0.49%</td></tr>
+                        <tr><td>PE</td><td>400,000</td><td>0.49%</td></tr>
+                        <tr><td>MR Trust</td><td>400,000</td><td>0.49%</td></tr>
+                        <tr><td>Officer - KR</td><td>10,000,000</td><td>12.35%</td></tr>
+                        <tr><td>Officer - AR</td><td>10,000,000</td><td>12.35%</td></tr>
+                        <tr><td>Officer - SX</td><td>10,000,000</td><td>12.35%</td></tr>
+                        <tr><td>Officer - CG</td><td>10,000,000</td><td>12.35%</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </article>
+              </div>
+
+              <div className="investorCards3">
+                <article className="investorInfoMiniCard">
+                  <h3>OTC Pathway (If Applicable)</h3>
+                  <p>Registering to OTC can require reporting setup and audit readiness; Phase 2 adds compliance detail.</p>
+                </article>
+                <article className="investorInfoMiniCard">
+                  <h3>Expansion Milestone</h3>
+                  <p>Complete equity acquisitions of revenue-generating social media and eCommerce platforms.</p>
+                </article>
+                <article className="investorInfoMiniCard">
+                  <h3>NASDAQ Pathway (If Applicable)</h3>
+                  <p>Contingent on meeting regulatory requirements with formal timing and criteria in Phase 2.</p>
+                </article>
+              </div>
+
+              <div className="investorTwoCol">
+                <article className="animatedChartCard chartInvestorCard investorEnlargeableBlock" data-chart-enlarge="raise-milestones">
+                  <RaiseMilestonesChartInvestor />
+                  <p>Raise Flow (Mock) — Phase 2: add compliance + timing criteria.</p>
+                </article>
+                <div className="capitalRightStack">
+                  <article className="investorListCard">
+                    <h3>Capital Raise Pre-IPO</h3>
+                    <ul>
+                      <li>Current model uses a pre-money valuation of $8,000,000 at $0.04/share.</li>
+                      <li>New equity raised tracked in cap materials: $750,000.</li>
+                      <li>Seed completion remains aligned to Phase 1 to Phase 2 build-out readiness.</li>
+                    </ul>
+                  </article>
+                </div>
+              </div>
+
+              <article className="investorListCard investorSocialCard">
+                <div id="capital-raise-pre-ipo" className="navAnchor" />
+                <div id="capital-investors" className="navAnchor" />
+                <h3>Capital Raise Pre-IPO</h3>
+                <div className="investorTwoCol">
+                  <article className="investorListCard">
+                    <h3>What This Section Shows</h3>
+                    <ul>
+                      <li>Bridge raise target is presented at $750K to $1.0M for pre-IPO execution.</li>
+                      <li>Use of proceeds includes registration/legal work, initial audit work, and capital-raise expenses.</li>
+                      <li>General company operating coverage is included as a use-of-funds category.</li>
+                    </ul>
+                    <div className="investorTakeawayCard">
+                      <p className="investorPointLabel">INVESTOR TAKEAWAY</p>
+                      <p>This capital stage is positioned as a bridge to public-market readiness and scaling actions.</p>
+                    </div>
+                  </article>
+                  <article
+                    className="investorListCard investorEnlargeableBlock"
+                    data-chart-enlarge="bridge-use-of-funds-bars"
+                  >
+                    <BridgeUseOfFundsBarChartInvestor />
+                    <p className="investorPointLabel">Converted from deck graph into native use-of-funds bars</p>
+                  </article>
+                </div>
+              </article>
+
+            </section>
+            <section id="leadership" className="officialSection investorSection">
+              <div className="investorSplitHeader">
+                <div>
+                  <p className="investorKicker">Execution</p>
+                  <h2>Leadership</h2>
+                  <p>Investors want confidence in execution: strong management, clear plan, and disciplined growth.</p>
+                </div>
+                <div className="investorTagGroup">
+                  <span>Strategy</span>
+                  <span>Finance</span>
+                  <span>Growth</span>
+                </div>
+              </div>
+
+              <div className="investorTwoCol">
+                <div className="leadershipBioCol">
+                  <article className="investorListCard">
+                    <h3>Dr. Michael Rivera — CEO / Managing Partner</h3>
+                    <p>Conceptual design lead and managing partner with board leadership and strategic execution oversight.</p>
+                  </article>
+                  <article className="investorListCard">
+                    <h3>Sophia Xue — CFO</h3>
+                    <p>Financial strategy, modeling, and capital planning with prior senior finance roles.</p>
+                  </article>
+                  <article className="investorListCard">
+                    <h3>Jason Lynn — Chief Product Officer (CPO)</h3>
+                    <p>Product and platform leadership with consumer privacy and protection focus.</p>
+                  </article>
+                  <article className="investorListCard">
+                    <h3>Kori Rivers — Director of Marketing</h3>
+                    <p>Central Florida major theme park hospitality background.</p>
+                  </article>
+                  <article className="investorListCard">
+                    <h3>Board Of Directors</h3>
+                    <p>To be announced.</p>
+                  </article>
+                  <article className="investorListCard">
+                    <h3>Special Advisors To the Company</h3>
+                    <p>To be announced.</p>
+                  </article>
+                </div>
+                <article className="investorListCard">
+                  <h3>Operating Focus (Phase 1)</h3>
+                  <ul>
+                    <li>Build → validate → iterate (Phase 2 MVP)</li>
+                    <li>Secure + monitor commerce + data pipelines</li>
+                    <li>Scale via partnerships + acquisitions</li>
+                  </ul>
+                  <p className="investorPointLabel" style={{ marginTop: "12px" }}>Phase 2 add: org chart + hiring plan + advisors.</p>
+                </article>
+              </div>
+
+            </section>
+
+            <section id="management-team" className="officialSection investorSection">
+              <div className="investorSummaryBlock">
+                <h2>Management Team</h2>
+                <div className="investorPointsGrid">
+                  <article className="investorPointCard">
+                    <p className="investorPointLabel">KEY POINT 1</p>
+                    <p>Leadership content presents executive bios and role ownership across strategy, finance, product, and marketing.</p>
+                  </article>
+                  <article className="investorPointCard">
+                    <p className="investorPointLabel">KEY POINT 2</p>
+                    <p>The team profile emphasizes operational delivery capability for Phase 1 and scale readiness for Phase 2.</p>
+                  </article>
+                  <article className="investorPointCard">
+                    <p className="investorPointLabel">KEY POINT 3</p>
+                    <p>Management depth is positioned as a core risk-reduction factor for investors.</p>
+                  </article>
+                </div>
+                <div className="investorTakeawayCard">
+                  <p className="investorPointLabel">INVESTOR TAKEAWAY</p>
+                  <p>Execution confidence is anchored in role clarity, leadership background, and staged operating focus.</p>
+                </div>
+              </div>
+            </section>
+
+
+
             <section id="platform-backend" className="officialSection investorSection">
               <div className="investorSplitHeader">
                 <div>
@@ -3639,83 +4149,6 @@ export default function App() {
                   <h3>Services + Queues</h3>
                   <p>Separate recommendation engine, rendering/asset services, background jobs, CDN.</p>
                 </article>
-              </div>
-            </section>
-
-            <section id="leadership" className="officialSection investorSection">
-              <div className="investorSplitHeader">
-                <div>
-                  <p className="investorKicker">Execution</p>
-                  <h2>Leadership</h2>
-                  <p>Investors want confidence in execution: strong management, clear plan, and disciplined growth.</p>
-                </div>
-                <div className="investorTagGroup">
-                  <span>Strategy</span>
-                  <span>Finance</span>
-                  <span>Growth</span>
-                </div>
-              </div>
-
-              <div className="investorTwoCol">
-                <div className="leadershipBioCol">
-                  <article className="investorListCard">
-                    <h3>Dr. Michael Rivers — CEO / Managing Partner</h3>
-                    <p>Conceptual design lead and managing partner with board leadership and strategic execution oversight.</p>
-                  </article>
-                  <article className="investorListCard">
-                    <h3>Sophia Xue — CFO</h3>
-                    <p>Financial strategy, modeling, and capital planning with prior senior finance roles.</p>
-                  </article>
-                  <article className="investorListCard">
-                    <h3>Jason Lynn — Chief Product Officer (CPO)</h3>
-                    <p>Product and platform leadership with consumer privacy and protection focus.</p>
-                  </article>
-                  <article className="investorListCard">
-                    <h3>Kori Rivers — Director of Marketing</h3>
-                    <p>Central Florida major theme park hospitality background.</p>
-                  </article>
-                  <article className="investorListCard">
-                    <h3>Board Of Directors</h3>
-                    <p>To be announced.</p>
-                  </article>
-                  <article className="investorListCard">
-                    <h3>Special Advisors To the Company</h3>
-                    <p>To be announced.</p>
-                  </article>
-                </div>
-                <article className="investorListCard">
-                  <h3>Operating Focus (Phase 1)</h3>
-                  <ul>
-                    <li>Build → validate → iterate (Phase 2 MVP)</li>
-                    <li>Secure + monitor commerce + data pipelines</li>
-                    <li>Scale via partnerships + acquisitions</li>
-                  </ul>
-                  <p className="investorPointLabel" style={{ marginTop: "12px" }}>Phase 2 add: org chart + hiring plan + advisors.</p>
-                </article>
-              </div>
-            </section>
-
-            <section id="management-team" className="officialSection investorSection">
-              <div className="investorSummaryBlock">
-                <h2>Management Team</h2>
-                <div className="investorPointsGrid">
-                  <article className="investorPointCard">
-                    <p className="investorPointLabel">KEY POINT 1</p>
-                    <p>Leadership content presents executive bios and role ownership across strategy, finance, product, and marketing.</p>
-                  </article>
-                  <article className="investorPointCard">
-                    <p className="investorPointLabel">KEY POINT 2</p>
-                    <p>The team profile emphasizes operational delivery capability for Phase 1 and scale readiness for Phase 2.</p>
-                  </article>
-                  <article className="investorPointCard">
-                    <p className="investorPointLabel">KEY POINT 3</p>
-                    <p>Management depth is positioned as a core risk-reduction factor for investors.</p>
-                  </article>
-                </div>
-                <div className="investorTakeawayCard">
-                  <p className="investorPointLabel">INVESTOR TAKEAWAY</p>
-                  <p>Execution confidence is anchored in role clarity, leadership background, and staged operating focus.</p>
-                </div>
               </div>
             </section>
 
@@ -3850,9 +4283,57 @@ export default function App() {
                   </div>
                 ) : null}
 
+                {mediaLightbox.type === "chart" && mediaLightbox.chartKey === "rollout-bars" ? (
+                  <div className="mediaLightboxChart">
+                    <RolloutBarsChartInvestor />
+                  </div>
+                ) : null}
+
                 {mediaLightbox.type === "chart" && mediaLightbox.chartKey === "raise-milestones" ? (
                   <div className="mediaLightboxChart">
                     <RaiseMilestonesChartInvestor />
+                  </div>
+                ) : null}
+
+                {mediaLightbox.type === "chart" && mediaLightbox.chartKey === "revenue-mix-bars" ? (
+                  <div className="mediaLightboxChart">
+                    <RevenueMixBarChartInvestor />
+                  </div>
+                ) : null}
+
+                {mediaLightbox.type === "chart" && mediaLightbox.chartKey === "revenue-year-one-bars" ? (
+                  <div className="mediaLightboxChart">
+                    <YearOneRevenueBarsChartInvestor />
+                  </div>
+                ) : null}
+
+                {mediaLightbox.type === "chart" && mediaLightbox.chartKey === "revenue-year-two-bars" ? (
+                  <div className="mediaLightboxChart">
+                    <YearTwoRevenueBarsChartInvestor />
+                  </div>
+                ) : null}
+
+                {mediaLightbox.type === "chart" && mediaLightbox.chartKey === "bridge-use-of-funds-bars" ? (
+                  <div className="mediaLightboxChart">
+                    <BridgeUseOfFundsBarChartInvestor />
+                  </div>
+                ) : null}
+
+                {mediaLightbox.type === "chart" && mediaLightbox.chartKey === "market-size-context-bars" ? (
+                  <div className="mediaLightboxChart">
+                    <MarketSizeContextChartInvestor />
+                  </div>
+                ) : null}
+
+                {mediaLightbox.type === "chart" && mediaLightbox.chartKey === "capital-share-structure-bars" ? (
+                  <div className="mediaLightboxChart">
+                    <CapitalizationShareStructureChartInvestor />
+                  </div>
+                ) : null}
+
+                {mediaLightbox.type === "chart" && mediaLightbox.chartKey === "valuation-raise-snapshot-bars" ? (
+                  <div className="mediaLightboxChart">
+                    <ValuationRaiseSnapshotChartInvestor />
                   </div>
                 ) : null}
 

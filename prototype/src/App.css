@@ -3239,7 +3239,53 @@ select.btn {
 
 #financial-ipo .projectionsPrimarySlide p,
 #financial-ipo .projectionsSecondarySlide p {
-  color: rgba(207, 223, 246, 0.96);
+  color: rgba(41, 58, 96, 0.94);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+#financial-ipo .projectionsPrimarySlide .investorPointLabel,
+#financial-ipo .projectionsSecondarySlide .investorPointLabel {
+  color: rgba(41, 58, 96, 0.96);
+  font-weight: 700;
+}
+
+#financial-ipo .projectionsPrimarySlide .investorBarGraphCard,
+#financial-ipo .projectionsSecondarySlide .investorBarGraphCard {
+  background: rgba(124, 136, 178, 0.94);
+  border-color: rgba(104, 122, 173, 0.66);
+}
+
+#financial-ipo .projectionsPrimarySlide .investorBarGraphCard h4,
+#financial-ipo .projectionsSecondarySlide .investorBarGraphCard h4 {
+  color: rgba(242, 248, 255, 0.98);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+#financial-ipo .projectionsPrimarySlide .investorBarRow span,
+#financial-ipo .projectionsPrimarySlide .investorBarRow b,
+#financial-ipo .projectionsSecondarySlide .investorBarRow span,
+#financial-ipo .projectionsSecondarySlide .investorBarRow b {
+  color: rgba(236, 244, 255, 0.98);
+  font-size: 14px;
+  font-weight: 700;
+  text-shadow: 0 1px 0 rgba(9, 20, 62, 0.25);
+}
+
+#financial-ipo .projectionsPrimarySlide .investorBarRow div,
+#financial-ipo .projectionsSecondarySlide .investorBarRow div {
+  background: rgba(170, 190, 236, 0.36);
+}
+
+#financial-ipo .projectionsPrimarySlide.investorEnlargeableBlock::after,
+#financial-ipo .projectionsSecondarySlide.investorEnlargeableBlock::after,
+#rollout-financials .rolloutScheduleSlideWide.investorEnlargeableBlock::after,
+#capital-plan #capital-investors .investorListCard.investorEnlargeableBlock::after {
+  border-color: rgba(31, 52, 104, 0.42);
+  background: rgba(242, 248, 255, 0.92);
+  color: rgba(33, 53, 104, 0.98);
+  font-weight: 700;
 }
 
 #capital-plan .investorSlideCard img,
@@ -3262,7 +3308,8 @@ select.btn {
 
 #rollout-financials .rolloutScheduleSlideWide {
   grid-column: 1 / -1;
-  min-height: clamp(360px, 42vw, 620px);
+  min-height: auto;
+  align-self: start;
 }
 
 #rollout-financials .rolloutScheduleSlideWide img {
@@ -3481,7 +3528,8 @@ select.btn {
   transform-origin: center bottom;
   animation:
     chartBarGrow 900ms cubic-bezier(0.2, 1, 0.3, 1) both,
-    chartBarFloat 3.2s ease-in-out infinite;
+    chartBarFloat 3.2s ease-in-out infinite,
+    chartBarGlow 4.4s ease-in-out infinite;
 }
 
 @keyframes chartBarGrow {
@@ -3655,6 +3703,16 @@ select.btn {
   }
   68% {
     transform: scaleY(1.03);
+  }
+}
+
+@keyframes chartBarGlow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0 rgba(109, 215, 255, 0));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(109, 215, 255, 0.4));
   }
 }
 
@@ -3908,7 +3966,9 @@ select.btn {
   inset: 0;
   width: 0;
   border-radius: inherit;
-  animation: investorBarGrow 1400ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation:
+    investorBarGrow 1400ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
+    investorBarBreath 4.2s ease-in-out 1200ms infinite;
 }
 
 .mediaLightboxBackdrop {
@@ -3992,6 +4052,132 @@ select.btn {
   box-shadow: inset 0 1px 0 rgba(180, 205, 255, 0.08);
   padding: clamp(18px, 2vw, 28px);
   scroll-margin-top: 86px;
+}
+
+.navAnchor {
+  scroll-margin-top: 92px;
+}
+
+.investorBarGraphCard {
+  border-radius: 14px;
+  border: 1px solid rgba(122, 166, 255, 0.3);
+  background: rgba(11, 25, 88, 0.5);
+  padding: 14px;
+}
+
+.investorBarGraphCard h4 {
+  margin: 0 0 10px;
+  color: #ecf5ff;
+  font-size: 13px;
+}
+
+.investorBarRow {
+  display: grid;
+  grid-template-columns: minmax(110px, 1fr) 2.2fr auto;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.investorBarRow:last-child {
+  margin-bottom: 0;
+}
+
+.investorBarRow span,
+.investorBarRow b {
+  color: rgba(214, 231, 255, 0.82);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.investorBarRow div {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(142, 176, 255, 0.14);
+  overflow: hidden;
+}
+
+.investorBarRow div i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #63a3ff, #35d58b);
+  animation:
+    investorBarGrow 900ms ease both,
+    investorBarBreath 4.2s ease-in-out 1000ms infinite;
+  box-shadow:
+    0 0 0 rgba(77, 169, 255, 0),
+    0 0 0 rgba(53, 213, 139, 0);
+}
+
+@keyframes investorBarBreath {
+  0%,
+  100% {
+    filter: brightness(1);
+    box-shadow:
+      0 0 0 rgba(77, 169, 255, 0),
+      0 0 0 rgba(53, 213, 139, 0);
+  }
+  50% {
+    filter: brightness(1.1);
+    box-shadow:
+      0 0 10px rgba(77, 169, 255, 0.34),
+      0 0 14px rgba(53, 213, 139, 0.2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chart-bar,
+  .bar::before,
+  .investorBarRow div i {
+    animation: none !important;
+  }
+}
+
+.investorBarRowWide {
+  grid-template-columns: minmax(200px, 1.5fr) 2.2fr auto;
+}
+
+.investorTableWrap {
+  margin-top: 12px;
+  overflow-x: auto;
+}
+
+.investorTableScroll {
+  max-height: 360px;
+  overflow: auto;
+}
+
+.investorDataTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 520px;
+}
+
+.investorDataTable th,
+.investorDataTable td {
+  text-align: left;
+  padding: 10px 8px;
+  border-bottom: 1px solid rgba(153, 187, 255, 0.24);
+  color: rgba(222, 236, 255, 0.92);
+  font-size: 14px;
+}
+
+.investorDataTable th {
+  color: rgba(183, 211, 255, 0.9);
+  font-weight: 700;
+}
+
+#rollout-financials .rolloutScheduleSlideWide > p {
+  margin-top: 12px;
+}
+
+#capital-plan #capital-investors .investorTwoCol {
+  align-items: start;
+}
+
+#capital-plan #capital-investors .investorListCard > .investorPointLabel {
+  margin-top: 12px;
 }
 
 .officialSectionHeader h2 {

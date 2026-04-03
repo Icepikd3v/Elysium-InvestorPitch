@@ -34,15 +34,18 @@ export default function ClientNav({ sections, items = [] }) {
     <nav className="hidden min-w-0 flex-1 flex-wrap items-center justify-center gap-2 pr-1 text-sm lg:flex">
       {items.map((item) => {
         if (item.children?.length) {
-          const isGroupActive = item.children.some((c) => c.id === activeId);
-          const primaryChild = item.children[0];
+          const activeIds = item.activeIds?.length
+            ? item.activeIds
+            : item.children.map((child) => child.id);
+          const isGroupActive = activeIds.includes(activeId);
+          const primaryTargetId = item.primaryId || item.children[0]?.id;
 
           return (
             <div key={item.label} className="group relative">
               <a
-                href={primaryChild ? `#${primaryChild.id}` : "#cover"}
+                href={primaryTargetId ? `#${primaryTargetId}` : "#cover"}
                 onClick={() => {
-                  if (primaryChild?.id) setActiveId(primaryChild.id);
+                  if (primaryTargetId) setActiveId(primaryTargetId);
                 }}
                 className={cx(
                   "inline-flex rounded-full px-2.5 py-1 text-sm whitespace-nowrap transition",
