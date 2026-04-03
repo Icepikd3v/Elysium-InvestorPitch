@@ -970,6 +970,7 @@ export default function App() {
   const [introReadyToContinue, setIntroReadyToContinue] = useState(false);
   const [showLandingMallTransition, setShowLandingMallTransition] = useState(false);
   const [showLandingPage, setShowLandingPage] = useState(false);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [error, setError] = useState("");
   // Flow: brand_intro -> landing/auth/verify -> scan -> app
   const [flowStage, setFlowStage] = useState(() => {
@@ -1051,6 +1052,7 @@ export default function App() {
     }
     setShowLandingMallTransition(true);
     setPublicView("landing");
+    setIsMobileNavOpen(false);
     setError("");
     setAuthNotice("");
     setVerificationStatus("");
@@ -1071,6 +1073,7 @@ export default function App() {
     setShowLandingMallTransition(true);
 
     const routeToSignIn = () => {
+      setIsMobileNavOpen(false);
       setAuthIntent("signin");
       setPublicView("auth");
       setError("");
@@ -1090,6 +1093,7 @@ export default function App() {
 
   const openSimulatorGate = () => {
     setShowLandingMallTransition(true);
+    setIsMobileNavOpen(false);
     if (!isLoggedIn) {
       openAuthScreen({ withDissolve: true });
       return;
@@ -2712,6 +2716,99 @@ export default function App() {
                 </div>
                 <a href="#contact-review" className="officialNavItem">Contact Us</a>
               </nav>
+              <div
+                id="official-mobile-nav-panel"
+                className={`officialMobileNavPanel ${isMobileNavOpen ? "isOpen" : ""}`}
+                aria-label="Mobile Navigation"
+              >
+                <a href="#home" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                  Home
+                </a>
+                <div className="officialMobileNavGroup">
+                  <a href="#overview-summary" className="officialMobileNavGroupTitle" onClick={() => setIsMobileNavOpen(false)}>
+                    Overview
+                  </a>
+                  <a href="#overview-summary" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                    Summary
+                  </a>
+                  <a href="#problem-solution" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                    Problem + Solution
+                  </a>
+                  <a href="#elysium-market-solution" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                    Elysium Market Solutions
+                  </a>
+                </div>
+                <div className="officialMobileNavGroup">
+                  <a href="#elysium-market-solution" className="officialMobileNavGroupTitle" onClick={() => setIsMobileNavOpen(false)}>
+                    AI Brain/SmartMall
+                  </a>
+                  <a href="#social-media" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                    Social Media
+                  </a>
+                  <a href="#ai-brain-system" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                    AI Brain
+                  </a>
+                  <a href="#avatar-experience" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                    Advanced Avatar
+                  </a>
+                </div>
+                <div className="officialMobileNavGroup">
+                  <a href="#growth-plan" className="officialMobileNavGroupTitle" onClick={() => setIsMobileNavOpen(false)}>
+                    Market Plan/Contract
+                  </a>
+                  <a href="#growth-plan" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                    Plan Summary
+                  </a>
+                  <a href="#market-contracts" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                    Contracts
+                  </a>
+                  <a href="#rollout-financials" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                    Rollout Plan
+                  </a>
+                </div>
+                <div className="officialMobileNavGroup">
+                  <a href="#financial-projections" className="officialMobileNavGroupTitle" onClick={() => setIsMobileNavOpen(false)}>
+                    Financials/IPO
+                  </a>
+                  <a href="#financial-projections" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                    Financial Projections
+                  </a>
+                  <a href="#financial-ipo" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                    Budget + Assumptions
+                  </a>
+                  <a href="#ipo-pathway" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                    IPO Pathway
+                  </a>
+                </div>
+                <div className="officialMobileNavGroup">
+                  <a href="#capital-plan" className="officialMobileNavGroupTitle" onClick={() => setIsMobileNavOpen(false)}>
+                    Capitalization/Investors
+                  </a>
+                  <a href="#capital-overview" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                    Capitalization Overview
+                  </a>
+                  <a href="#draft-cap-tables" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                    Draft Cap Tables
+                  </a>
+                  <a href="#capital-raise-pre-ipo" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                    Capital Raise Pre-IPO
+                  </a>
+                </div>
+                <div className="officialMobileNavGroup">
+                  <a href="#management-team" className="officialMobileNavGroupTitle" onClick={() => setIsMobileNavOpen(false)}>
+                    Management Team
+                  </a>
+                  <a href="#leadership" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                    Leadership
+                  </a>
+                  <a href="#management-team" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                    Management Team
+                  </a>
+                </div>
+                <a href="#contact-review" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                  Contact Us
+                </a>
+              </div>
               <div className="officialNavAuth">
                 <a className="officialAuthBtn officialNavJumpBtn" href="#ai-brain-system">
                   Simulation Videos
@@ -2726,6 +2823,17 @@ export default function App() {
                   </button>
                   <span className="officialPasswordHint">Requires Password</span>
                 </div>
+                <button
+                  className="officialMobileNavToggle"
+                  type="button"
+                  aria-expanded={isMobileNavOpen}
+                  aria-controls="official-mobile-nav-panel"
+                  aria-label={isMobileNavOpen ? "Close navigation menu" : "Open navigation menu"}
+                  onClick={() => setIsMobileNavOpen((prev) => !prev)}
+                >
+                  <span className="officialMobileNavDots" aria-hidden="true">⋯</span>
+                  <span className="officialMobileNavLabel">{isMobileNavOpen ? "Close" : "Menu"}</span>
+                </button>
               </div>
             </div>
           </header>
