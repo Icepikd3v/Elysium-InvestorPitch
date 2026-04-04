@@ -2460,14 +2460,16 @@ select.btn {
 
 .officialNavDropdown {
   position: relative;
+  padding-bottom: 12px;
+  margin-bottom: -12px;
 }
 
 .officialNavMenu {
   position: absolute;
-  top: 100%;
+  top: calc(100% - 2px);
   left: 0;
   min-width: 220px;
-  margin-top: 2px;
+  margin-top: 0;
   padding: 8px;
   border-radius: 12px;
   border: 1px solid rgba(146, 181, 255, 0.25);
@@ -2475,8 +2477,11 @@ select.btn {
   display: grid;
   gap: 2px;
   opacity: 0;
+  transform: translateY(6px);
   pointer-events: none;
-  transition: opacity 180ms ease;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
   box-shadow: 0 14px 26px rgba(5, 13, 45, 0.5);
 }
 
@@ -2498,6 +2503,7 @@ select.btn {
 .officialNavDropdown:hover .officialNavMenu,
 .officialNavDropdown:focus-within .officialNavMenu {
   opacity: 1;
+  transform: translateY(0);
   pointer-events: auto;
 }
 
@@ -2694,7 +2700,7 @@ select.btn {
   max-width: none;
   margin: 0 auto;
   height: auto;
-  transform: translateY(-5%);
+  transform: translateY(-12%);
   object-fit: contain;
   object-position: center center;
   mix-blend-mode: normal;
@@ -3532,9 +3538,11 @@ select.btn {
   transform-box: fill-box;
   transform-origin: center bottom;
   animation:
-    chartBarGrow 900ms cubic-bezier(0.2, 1, 0.3, 1) both,
-    chartBarFloat 3.2s ease-in-out infinite,
-    chartBarGlow 4.4s ease-in-out infinite;
+    chartBarGrow 2400ms cubic-bezier(0.2, 1, 0.3, 1) both,
+    chartBarFloat 3.2s ease-in-out 0ms infinite,
+    chartBarGlow 3.6s ease-in-out 0ms infinite;
+  transform: scaleY(1);
+  opacity: 1;
 }
 
 @keyframes chartBarGrow {
@@ -3555,49 +3563,69 @@ select.btn {
 .rollout-progress-rail {
   transform-box: fill-box;
   transform-origin: left center;
-  animation: rolloutRailGrow 780ms cubic-bezier(0.2, 1, 0.3, 1) both;
+  animation:
+    rolloutRailGrow 2200ms cubic-bezier(0.2, 1, 0.3, 1) both,
+    rolloutRailBreath 2.8s ease-in-out 0ms infinite;
+  transform: scaleX(1);
+  opacity: 1;
 }
 
 .rollout-node-pop {
   transform-box: fill-box;
   transform-origin: center;
-  animation: rolloutNodePop 820ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: rolloutNodePop 1400ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform: scale(1);
+  opacity: 1;
 }
 
 .rollout-node-core {
   transform-box: fill-box;
   transform-origin: center;
-  animation: rolloutNodePulse 1.1s ease-in-out infinite;
+  animation:
+    rolloutNodePop 1400ms cubic-bezier(0.22, 1, 0.36, 1) both,
+    rolloutNodePulse 2.2s ease-in-out 0ms infinite;
+  transform: scale(1);
+  opacity: 1;
 }
 
 .rollout-milestone-group {
   opacity: 0;
   transform: translateY(8px);
-  animation: rolloutMilestoneIn 420ms ease-out forwards;
+  animation: rolloutMilestoneIn 780ms ease-out forwards;
 }
 
 .raise-progress-rail {
   transform-box: fill-box;
   transform-origin: left center;
-  animation: raiseRailGrow 760ms cubic-bezier(0.2, 1, 0.3, 1) both;
+  animation:
+    raiseRailGrow 2200ms cubic-bezier(0.2, 1, 0.3, 1) both,
+    raiseRailBreath 2.8s ease-in-out 0ms infinite;
+  transform: scaleX(1);
+  opacity: 1;
 }
 
 .raise-node-pop {
   transform-box: fill-box;
   transform-origin: center;
-  animation: raiseNodePop 760ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: raiseNodePop 1400ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform: scale(1);
+  opacity: 1;
 }
 
 .raise-node-core {
   transform-box: fill-box;
   transform-origin: center;
-  animation: raiseCorePulse 1.05s ease-in-out infinite;
+  animation:
+    raiseNodePop 1400ms cubic-bezier(0.22, 1, 0.36, 1) both,
+    raiseCorePulse 2.2s ease-in-out 0ms infinite;
+  transform: scale(1);
+  opacity: 1;
 }
 
 .raise-step-group {
   opacity: 0;
   transform: translateY(8px);
-  animation: raiseStepIn 380ms ease-out forwards;
+  animation: raiseStepIn 780ms ease-out forwards;
 }
 
 @keyframes rolloutRailGrow {
@@ -3608,6 +3636,18 @@ select.btn {
   to {
     transform: scaleX(1);
     opacity: 1;
+  }
+}
+
+@keyframes rolloutRailBreath {
+  0%,
+  100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.84;
+    filter: brightness(1.2);
   }
 }
 
@@ -3633,8 +3673,8 @@ select.btn {
     filter: brightness(1);
   }
   50% {
-    transform: scale(1.22);
-    filter: brightness(1.28);
+    transform: scale(1.28);
+    filter: brightness(1.36);
   }
 }
 
@@ -3660,6 +3700,18 @@ select.btn {
   }
 }
 
+@keyframes raiseRailBreath {
+  0%,
+  100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.84;
+    filter: brightness(1.2);
+  }
+}
+
 @keyframes raiseNodePop {
   0% {
     transform: scale(0.55);
@@ -3682,8 +3734,8 @@ select.btn {
     filter: brightness(1);
   }
   50% {
-    transform: scale(1.22);
-    filter: brightness(1.26);
+    transform: scale(1.28);
+    filter: brightness(1.34);
   }
 }
 
@@ -3701,13 +3753,13 @@ select.btn {
 @keyframes chartBarFloat {
   0%,
   100% {
-    transform: scaleY(1);
+    transform: translateY(0) scaleY(1);
   }
   35% {
-    transform: scaleY(0.94);
+    transform: translateY(3px) scaleY(0.92);
   }
   68% {
-    transform: scaleY(1.03);
+    transform: translateY(-2.6px) scaleY(1.08);
   }
 }
 
@@ -4108,34 +4160,119 @@ select.btn {
   border-radius: inherit;
   background: linear-gradient(90deg, #63a3ff, #35d58b);
   animation:
-    investorBarGrow 900ms ease both,
-    investorBarBreath 4.2s ease-in-out 1000ms infinite;
+    investorBarGrow 2400ms ease both,
+    investorBarPulse 2.4s ease-in-out 0ms infinite,
+    investorBarBreath 3s ease-in-out 0ms infinite,
+    investorBarShimmer 3s linear 0ms infinite;
+  background-size: 200% 100%;
+  transform: scaleX(1);
+  transform-origin: left center;
+  opacity: 1;
   box-shadow:
     0 0 0 rgba(77, 169, 255, 0),
     0 0 0 rgba(53, 213, 139, 0);
 }
 
+[data-chart-enlarge].is-chart-visible .investorDataTable tbody tr {
+  animation: tableRowBreath 5.4s ease-in-out infinite;
+}
+
+[data-chart-enlarge].is-chart-visible .investorDataTable tbody tr:nth-child(2) {
+  animation-delay: 240ms;
+}
+
+[data-chart-enlarge].is-chart-visible .investorDataTable tbody tr:nth-child(3) {
+  animation-delay: 480ms;
+}
+
 @keyframes investorBarBreath {
   0%,
   100% {
-    filter: brightness(1);
+    filter: brightness(1) saturate(1);
     box-shadow:
       0 0 0 rgba(77, 169, 255, 0),
       0 0 0 rgba(53, 213, 139, 0);
   }
   50% {
-    filter: brightness(1.1);
+    filter: brightness(1.16) saturate(1.08);
     box-shadow:
-      0 0 10px rgba(77, 169, 255, 0.34),
-      0 0 14px rgba(53, 213, 139, 0.2);
+      0 0 12px rgba(77, 169, 255, 0.42),
+      0 0 18px rgba(53, 213, 139, 0.28);
+  }
+}
+
+@keyframes investorBarPulse {
+  0%,
+  100% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(0.94);
+  }
+}
+
+@keyframes investorBarShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes tableRowBreath {
+  0%,
+  100% {
+    background: rgba(149, 184, 255, 0.04);
+  }
+  50% {
+    background: rgba(149, 184, 255, 0.12);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .chart-bar,
   .bar::before,
-  .investorBarRow div i {
+  .investorBarRow div i,
+  .rollout-progress-rail,
+  .rollout-node-pop,
+  .rollout-node-core,
+  .rollout-milestone-group,
+  .raise-progress-rail,
+  .raise-node-pop,
+  .raise-node-core,
+  .raise-step-group {
     animation: none !important;
+  }
+
+  .investorDataTable tbody tr {
+    animation: none !important;
+  }
+
+  .chart-bar,
+  .investorBarRow div i {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .rollout-progress-rail,
+  .raise-progress-rail {
+    transform: scaleX(1) !important;
+    opacity: 1 !important;
+  }
+
+  .rollout-node-pop,
+  .rollout-node-core,
+  .raise-node-pop,
+  .raise-node-core {
+    transform: scale(1) !important;
+    opacity: 1 !important;
+  }
+
+  .rollout-milestone-group,
+  .raise-step-group {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
   }
 }
 
@@ -4731,6 +4868,7 @@ select.btn {
   .officialHeroVisual img {
     width: min(100%, 980px);
     max-width: 980px;
+    transform: translateY(-8%);
   }
 
   .officialHero {

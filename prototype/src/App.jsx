@@ -2529,6 +2529,47 @@ export default function App() {
   const introTransitionActive =
     flowStage === "brand_intro" && showBrandIntroMall && !introReadyToContinue;
 
+  useEffect(() => {
+    if (!showPublicLanding || typeof window === "undefined") return undefined;
+
+    const chartBlocks = Array.from(
+      document.querySelectorAll("[data-chart-enlarge]"),
+    );
+    if (!chartBlocks.length) return undefined;
+
+    let rafId = null;
+    let pollId = null;
+
+    const updateChartVisibility = () => {
+      const viewportH = window.innerHeight || 0;
+      chartBlocks.forEach((node) => {
+        const rect = node.getBoundingClientRect();
+        const isVisible = rect.top < viewportH * 0.9 && rect.bottom > viewportH * 0.12;
+        node.classList.toggle("is-chart-visible", isVisible);
+      });
+    };
+
+    const queueUpdate = () => {
+      if (rafId !== null) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = null;
+        updateChartVisibility();
+      });
+    };
+
+    updateChartVisibility();
+    window.addEventListener("scroll", queueUpdate, { passive: true });
+    window.addEventListener("resize", queueUpdate);
+    pollId = window.setInterval(updateChartVisibility, 450);
+
+    return () => {
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+      if (pollId !== null) window.clearInterval(pollId);
+      window.removeEventListener("scroll", queueUpdate);
+      window.removeEventListener("resize", queueUpdate);
+    };
+  }, [showPublicLanding]);
+
   if (ndaStatus === "rejected") {
     return (
       <div className="app appFull">
@@ -3282,12 +3323,20 @@ export default function App() {
               <div id="social-media" className="navAnchor" />
               <article className="investorListCard investorSocialCard">
                 <h3>Social Media Experience</h3>
-                <ul>
-                  <li>Group shopping supports real-time visual and audio interaction inside the virtual mall.</li>
-                  <li>AI suggestions adapt in real time based on shopper behavior and social interactions.</li>
-                  <li>Bio-measurement and behavioral signals improve predictability across shopper groups.</li>
-                  <li>Shoppers can share, record, and comment on shopping experiences as they happen.</li>
-                </ul>
+                <div className="investorTwoCol">
+                  <article className="investorListCard">
+                    <ul>
+                      <li>Group shopping supports real-time visual and audio interaction inside the virtual mall.</li>
+                      <li>AI suggestions adapt in real time based on shopper behavior and social interactions.</li>
+                      <li>Bio-measurement and behavioral signals improve predictability across shopper groups.</li>
+                      <li>Shoppers can share, record, and comment on shopping experiences as they happen.</li>
+                    </ul>
+                  </article>
+                  <article className="investorMediaCard investorSlideCard">
+                    <img src="/Slide/page%2019.png" alt="Social media experience slide from the PowerPoint deck" />
+                    <p>Social media experience source slide</p>
+                  </article>
+                </div>
               </article>
 
             </section>
@@ -3910,7 +3959,7 @@ export default function App() {
                     </div>
                   </article>
                   <article className="investorMediaCard investorSlideCard">
-                    <img src="/Slide/page%2028.png" alt="IPO pathway slide" />
+                    <img src="/Slide/page%2027.png" alt="IPO strategy and pathway slide" />
                     <p>IPO pathway visual and advisor narrative</p>
                   </article>
                 </div>
@@ -4006,51 +4055,36 @@ export default function App() {
                 </article>
               </div>
 
-              <div className="investorTwoCol">
-                <article className="investorListCard">
-                  <h3>Actual Cap Table Summary</h3>
-                  <div className="investorTableWrap">
-                    <table className="investorDataTable">
-                      <thead>
-                        <tr>
-                          <th>Class</th>
-                          <th>Authorized</th>
-                          <th>Issued</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Common</td>
-                          <td>190,000,000</td>
-                          <td>81,000,000</td>
-                        </tr>
-                        <tr>
-                          <td>Blank Check Preferred Stock</td>
-                          <td>10,000,000</td>
-                          <td>0</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Cash Raised</strong></td>
-                          <td colSpan="2">$750,000</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </article>
-
-                <article className="investorListCard">
-                  <h3>Capital Raise Slide Snapshot</h3>
-                  <div className="investorMediaCard investorSlideCard">
-                    <img
-                      src="/Slide/page 28.png"
-                      alt="PowerPoint slide showing initial raise rounds and capital pathway"
-                    />
-                  </div>
-                  <p className="investorPointLabel">
-                    PowerPoint source image (Slide 28)
-                  </p>
-                </article>
-              </div>
+              <article className="investorListCard" data-chart-enlarge="actual-cap-table">
+                <h3>Actual Cap Table Summary</h3>
+                <div className="investorTableWrap">
+                  <table className="investorDataTable">
+                    <thead>
+                      <tr>
+                        <th>Class</th>
+                        <th>Authorized</th>
+                        <th>Issued</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Common</td>
+                        <td>190,000,000</td>
+                        <td>81,000,000</td>
+                      </tr>
+                      <tr>
+                        <td>Blank Check Preferred Stock</td>
+                        <td>10,000,000</td>
+                        <td>0</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Cash Raised</strong></td>
+                        <td colSpan="2">$750,000</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </article>
 
               <div className="investorCards3">
                 <article className="investorInfoMiniCard">
@@ -4150,7 +4184,22 @@ export default function App() {
                   </article>
                   <article className="investorListCard">
                     <h3>Special Advisors To the Company</h3>
-                    <p>To be announced.</p>
+                    <ul>
+                      <li>
+                        <strong>SRFC — Corporate Counsel (Jesse Blue, ESQ):</strong> National securities and
+                        corporate law firm focused on complex legal execution and commercial outcomes.
+                      </li>
+                      <li>
+                        <strong>RRBB Accountants + Advisors — Audit Lead (Brian Zucker, CPA):</strong> Audit and
+                        advisory firm known for responsive service, deep accounting expertise, and long-term
+                        business consulting support.
+                      </li>
+                      <li>
+                        <strong>Skyline Corporate Communications Group — IR/PR Lead (Scott Powell):</strong> Integrated
+                        investor relations, public relations, and digital communications support for late-stage
+                        private and publicly listed companies.
+                      </li>
+                    </ul>
                   </article>
                 </div>
                 <article className="investorListCard">
