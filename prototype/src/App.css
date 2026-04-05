@@ -5192,3 +5192,60 @@ select.btn {
     transform: translateY(calc(-10% + 33px)) !important;
   }
 }
+
+/* Mobile overflow guard for investor landing sections */
+@media (max-width: 1200px), (hover: none) and (pointer: coarse) {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  #root,
+  .app,
+  .officialLanding,
+  .officialCanvas {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: visible;
+  }
+
+  .officialCanvas * {
+    min-width: 0;
+  }
+
+  .officialHeaderInner,
+  .officialNavAuth,
+  .officialSection,
+  .investorSection,
+  .investorListCard,
+  .investorTwoCol,
+  .investorCards3,
+  .investorPointsGrid,
+  .investorMediaGrid,
+  .investorMediaTwin,
+  .investorAiSystemGrid,
+  .marketOpportunityWrap {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .officialNavAuth {
+    flex-wrap: wrap;
+  }
+
+  .investorMediaCard,
+  .investorSlideCard,
+  .investorVideoCard,
+  .investorMediaCard img,
+  .investorSlideCard img,
+  .investorVideoCard video,
+  .chartSvgInvestor {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+}
