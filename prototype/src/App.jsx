@@ -860,6 +860,41 @@ function ProductThumb({ product }) {
   );
 }
 
+function ResponsiveMediaImage({
+  src,
+  alt,
+  className,
+  sizes = "(max-width: 1200px) 100vw, 50vw",
+  loading = "lazy",
+  decoding = "async",
+}) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const modernBase = src.replace(/\.(png|jpe?g)$/i, "");
+  const hasModernCandidates = modernBase !== src;
+
+  return (
+    <span className={`responsiveMediaImage ${isLoaded ? "isLoaded" : "isLoading"}`}>
+      <picture>
+        {hasModernCandidates ? (
+          <>
+            <source srcSet={`${modernBase}.avif`} type="image/avif" sizes={sizes} />
+            <source srcSet={`${modernBase}.webp`} type="image/webp" sizes={sizes} />
+          </>
+        ) : null}
+        <img
+          src={src}
+          alt={alt}
+          className={className}
+          loading={loading}
+          decoding={decoding}
+          sizes={sizes}
+          onLoad={() => setIsLoaded(true)}
+        />
+      </picture>
+    </span>
+  );
+}
+
 /** ✅ Brand matching helper (robust) */
 function matchesStorefront(product, storefrontCtx) {
   if (!product || !storefrontCtx) return true;
@@ -1015,6 +1050,11 @@ export default function App() {
   const simulationLeadInTimeoutRef = useRef(null);
   const simulationCountdownIntervalRef = useRef(null);
   const authTransitionTimeoutRef = useRef(null);
+  const mobileNavPanelRef = useRef(null);
+  const mobileNavToggleRef = useRef(null);
+  const passwordModalRef = useRef(null);
+  const mediaLightboxRef = useRef(null);
+  const ndaModalRef = useRef(null);
   const [soloClipReady, setSoloClipReady] = useState(false);
   const [inviteClipReady, setInviteClipReady] = useState(false);
   const [isSoloPlaying, setIsSoloPlaying] = useState(false);
@@ -1024,6 +1064,139 @@ export default function App() {
   const [simulationLeadInCountdown, setSimulationLeadInCountdown] = useState(
     SIMULATION_VIDEO_LEAD_IN_SECONDS,
   );
+
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+
+    const mobileQuery = window.matchMedia("(max-width: 1200px)");
+    let wasMobileLayout = mobileQuery.matches;
+
+    const handleViewportChange = () => {
+      const isMobileLayout = mobileQuery.matches;
+      if (isMobileLayout !== wasMobileLayout) {
+        setIsMobileNavOpen(false);
+        wasMobileLayout = isMobileLayout;
+      }
+    };
+
+    const handleOrientationChange = () => {
+      setIsMobileNavOpen(false);
+    };
+
+    window.addEventListener("resize", handleViewportChange);
+    window.addEventListener("orientationchange", handleOrientationChange);
+    mobileQuery.addEventListener("change", handleViewportChange);
+
+    return () => {
+      window.removeEventListener("resize", handleViewportChange);
+      window.removeEventListener("orientationchange", handleOrientationChange);
+      mobileQuery.removeEventListener("change", handleViewportChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isMobileNavOpen || typeof window === "undefined") return undefined;
+
+    const panel = mobileNavPanelRef.current;
+    const toggle = mobileNavToggleRef.current;
+
+    if (panel) {
+      const firstLink = panel.querySelector("a[href], button:not([disabled])");
+      if (firstLink && typeof firstLink.focus === "function") {
+        firstLink.focus();
+      }
+    }
+
+    const focusableSelector =
+      "a[href], button:not([disabled]), [tabindex]:not([tabindex='-1'])";
+
+    const closeNav = () => {
+      setIsMobileNavOpen(false);
+      if (toggle && typeof toggle.focus === "function") {
+        toggle.focus();
+      }
+    };
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeNav();
+        return;
+      }
+
+      if (event.key !== "Tab" || !panel) return;
+
+      const focusables = Array.from(panel.querySelectorAll(focusableSelector)).filter(
+        (node) => node.offsetParent !== null,
+      );
+      if (!focusables.length) {
+        event.preventDefault();
+        panel.focus();
+        return;
+      }
+
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement;
+
+      if (event.shiftKey && active === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    const handleOutsidePointer = (event) => {
+      const targetNode = event.target;
+      if (!(targetNode instanceof Node)) return;
+      if (panel && panel.contains(targetNode)) return;
+      if (toggle && toggle.contains(targetNode)) return;
+      setIsMobileNavOpen(false);
+    };
+
+    window.addEventListener("keydown", handleKeyDown, true);
+    window.addEventListener("pointerdown", handleOutsidePointer);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown, true);
+      window.removeEventListener("pointerdown", handleOutsidePointer);
+    };
+  }, [isMobileNavOpen]);
+
+  useEffect(() => {
+    if (!showPasswordRequestModal || typeof window === "undefined") return undefined;
+
+    const handleEscClose = (event) => {
+      if (event.key === "Escape") {
+        setShowPasswordRequestModal(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleEscClose);
+    return () => window.removeEventListener("keydown", handleEscClose);
+  }, [showPasswordRequestModal]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+
+    const handleGlobalEscape = (event) => {
+      if (event.key !== "Escape") return;
+
+      setIsMobileNavOpen((prev) => {
+        if (!prev) return prev;
+        event.preventDefault();
+        if (mobileNavToggleRef.current && typeof mobileNavToggleRef.current.focus === "function") {
+          window.setTimeout(() => mobileNavToggleRef.current?.focus(), 0);
+        }
+        return false;
+      });
+    };
+
+    window.addEventListener("keydown", handleGlobalEscape, true);
+    return () => window.removeEventListener("keydown", handleGlobalEscape, true);
+  }, []);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -2528,6 +2701,80 @@ export default function App() {
   const isFullPageStage = flowStage === "brand_intro" || showPublicLanding;
   const introTransitionActive =
     flowStage === "brand_intro" && showBrandIntroMall && !introReadyToContinue;
+  const showNdaModal =
+    ndaStatus === "pending" && showPublicLanding && flowStage !== "brand_intro";
+
+  useEffect(() => {
+    if (typeof window === "undefined" || typeof document === "undefined") return undefined;
+
+    const activeDialog =
+      mediaLightboxRef.current || passwordModalRef.current || ndaModalRef.current;
+    if (!activeDialog) return undefined;
+
+    const previousFocus = document.activeElement;
+    const focusableSelector = [
+      "a[href]",
+      "button:not([disabled])",
+      "input:not([disabled])",
+      "textarea:not([disabled])",
+      "select:not([disabled])",
+      "[tabindex]:not([tabindex='-1'])",
+    ].join(", ");
+
+    const focusables = Array.from(activeDialog.querySelectorAll(focusableSelector)).filter(
+      (node) => node.offsetParent !== null,
+    );
+    const initialFocus = focusables[0] || activeDialog;
+    initialFocus.focus();
+
+    const handleTrapTab = (event) => {
+      if (event.key !== "Tab") return;
+
+      const currentFocusable = Array.from(
+        activeDialog.querySelectorAll(focusableSelector),
+      ).filter((node) => node.offsetParent !== null);
+      if (!currentFocusable.length) {
+        event.preventDefault();
+        activeDialog.focus();
+        return;
+      }
+
+      const first = currentFocusable[0];
+      const last = currentFocusable[currentFocusable.length - 1];
+      const active = document.activeElement;
+
+      if (event.shiftKey && active === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    window.addEventListener("keydown", handleTrapTab);
+
+    return () => {
+      window.removeEventListener("keydown", handleTrapTab);
+      if (previousFocus && typeof previousFocus.focus === "function") {
+        previousFocus.focus();
+      }
+    };
+  }, [showPasswordRequestModal, mediaLightbox, showNdaModal]);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return undefined;
+    const hasOverlayOpen =
+      isMobileNavOpen || showPasswordRequestModal || Boolean(mediaLightbox) || showNdaModal;
+    if (!hasOverlayOpen) return undefined;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isMobileNavOpen, showPasswordRequestModal, mediaLightbox, showNdaModal]);
 
   useEffect(() => {
     if (!showPublicLanding || typeof window === "undefined") return undefined;
@@ -2538,8 +2785,6 @@ export default function App() {
     if (!chartBlocks.length) return undefined;
 
     let rafId = null;
-    let pollId = null;
-
     const updateChartVisibility = () => {
       const viewportH = window.innerHeight || 0;
       chartBlocks.forEach((node) => {
@@ -2548,6 +2793,24 @@ export default function App() {
         node.classList.toggle("is-chart-visible", isVisible);
       });
     };
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            entry.target.classList.toggle("is-chart-visible", entry.isIntersecting);
+          });
+        },
+        {
+          root: null,
+          threshold: 0.12,
+          rootMargin: "-10% 0px -12% 0px",
+        },
+      );
+
+      chartBlocks.forEach((node) => observer.observe(node));
+      return () => observer.disconnect();
+    }
 
     const queueUpdate = () => {
       if (rafId !== null) return;
@@ -2560,11 +2823,9 @@ export default function App() {
     updateChartVisibility();
     window.addEventListener("scroll", queueUpdate, { passive: true });
     window.addEventListener("resize", queueUpdate);
-    pollId = window.setInterval(updateChartVisibility, 450);
 
     return () => {
       if (rafId !== null) window.cancelAnimationFrame(rafId);
-      if (pollId !== null) window.clearInterval(pollId);
       window.removeEventListener("scroll", queueUpdate);
       window.removeEventListener("resize", queueUpdate);
     };
@@ -2759,8 +3020,12 @@ export default function App() {
               </nav>
               <div
                 id="official-mobile-nav-panel"
+                ref={mobileNavPanelRef}
                 className={`officialMobileNavPanel ${isMobileNavOpen ? "isOpen" : ""}`}
                 aria-label="Mobile Navigation"
+                aria-hidden={!isMobileNavOpen}
+                hidden={!isMobileNavOpen}
+                tabIndex={-1}
               >
                 <a href="#home" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
                   Home
@@ -2865,6 +3130,7 @@ export default function App() {
                   <span className="officialPasswordHint">Requires Password</span>
                 </div>
                 <button
+                  ref={mobileNavToggleRef}
                   className="officialMobileNavToggle"
                   type="button"
                   aria-expanded={isMobileNavOpen}
@@ -2978,7 +3244,11 @@ export default function App() {
                 </article>
 
                 <article className="investorMediaCard investorImmersionVisual">
-                  <img src="/illustrations/store3-red.png" alt="Digital storefront mock UI" />
+                  <ResponsiveMediaImage
+                    src="/illustrations/store3-red.png"
+                    alt="Digital storefront mock UI"
+                    sizes="(max-width: 1200px) 100vw, 44vw"
+                  />
                   <p>
                     <span>Digital Storefront (Mock UI)</span>
                     <span>View details</span>
@@ -3137,7 +3407,11 @@ export default function App() {
                     </div>
                   </article>
                   <article className="investorMediaCard investorSlideCard">
-                    <img src="/Slide/page%2011.png" alt="Market size and timing slide" />
+                    <ResponsiveMediaImage
+                      src="/Slide/page%2011.png"
+                      alt="Market size and timing slide"
+                      sizes="(max-width: 1200px) 100vw, 46vw"
+                    />
                     <p>Market size and timing source slide</p>
                   </article>
                 </div>
@@ -3333,7 +3607,11 @@ export default function App() {
                     </ul>
                   </article>
                   <article className="investorMediaCard investorSlideCard">
-                    <img src="/Slide/page%2019.png" alt="Social media experience slide from the PowerPoint deck" />
+                    <ResponsiveMediaImage
+                      src="/Slide/page%2019.png"
+                      alt="Social media experience slide from the PowerPoint deck"
+                      sizes="(max-width: 1200px) 100vw, 46vw"
+                    />
                     <p>Social media experience source slide</p>
                   </article>
                 </div>
@@ -3361,17 +3639,31 @@ export default function App() {
               <div className="investorAiSystemGrid">
                 <div className="investorAiLeftCol">
                   <article className="investorMediaCard investorBrainHeroCard">
-                    <img src="/illustrations/EllyBrain2.png" alt="Elly Brain hero render" />
+                    <ResponsiveMediaImage
+                      src="/illustrations/EllyBrain2.png"
+                      alt="Elly Brain hero render"
+                      sizes="(max-width: 1200px) 100vw, 52vw"
+                    />
                     <p>Elly Brain: hero render</p>
                   </article>
 
                   <div className="investorMediaTwin investorMediaTwinCompact">
                     <article className="investorMediaCard">
-                      <img className="investorMediaContain" src="/illustrations/AI Dash.png" alt="Elly command panel live scan and ranking output" />
+                      <ResponsiveMediaImage
+                        className="investorMediaContain"
+                        src="/illustrations/AI Dash.png"
+                        alt="Elly command panel live scan and ranking output"
+                        sizes="(max-width: 1200px) 100vw, 30vw"
+                      />
                       <p>Elly Command Panel: live scan + ranking output</p>
                     </article>
                     <article className="investorMediaCard">
-                      <img className="investorMediaContain" src="/EllyBubbleReasoning.png" alt="Elly bubble reasoning view" />
+                      <ResponsiveMediaImage
+                        className="investorMediaContain"
+                        src="/EllyBubbleReasoning.png"
+                        alt="Elly bubble reasoning view"
+                        sizes="(max-width: 1200px) 100vw, 30vw"
+                      />
                       <p>Elly Brain: bubble reasoning view</p>
                     </article>
                   </div>
@@ -3530,7 +3822,11 @@ export default function App() {
                     </div>
                   </article>
                   <article className="investorMediaCard investorSlideCard">
-                    <img src="/Slide/page%2014.png" alt="AI data collection model slide" />
+                    <ResponsiveMediaImage
+                      src="/Slide/page%2014.png"
+                      alt="AI data collection model slide"
+                      sizes="(max-width: 1200px) 100vw, 46vw"
+                    />
                     <p>AI data collection model source slide</p>
                   </article>
                 </div>
@@ -3579,11 +3875,19 @@ export default function App() {
 
               <div className="investorMediaTwin">
                 <article className="investorMediaCard">
-                  <img src="/illustrations/product1.png" alt="SmartMall mock desktop product view" />
+                  <ResponsiveMediaImage
+                    src="/illustrations/product1.png"
+                    alt="SmartMall mock desktop product view"
+                    sizes="(max-width: 1200px) 100vw, 50vw"
+                  />
                   <p>SmartMall Mock (Hero) — click to use yourself</p>
                 </article>
                 <article className="investorMediaCard">
-                  <img src="/illustrations/avatar-try-on-mobile.jpg" alt="Shop experience mobile mock" />
+                  <ResponsiveMediaImage
+                    src="/illustrations/avatar-try-on-mobile.jpg"
+                    alt="Shop experience mobile mock"
+                    sizes="(max-width: 1200px) 100vw, 38vw"
+                  />
                   <p>Shop Experience Mobile Mock — click to expand</p>
                 </article>
               </div>
@@ -3609,7 +3913,11 @@ export default function App() {
                     </div>
                   </article>
                   <article className="investorMediaCard investorSlideCard">
-                    <img src="/Slide/page%2018.png" alt="Collaborative shopping slide" />
+                    <ResponsiveMediaImage
+                      src="/Slide/page%2018.png"
+                      alt="Collaborative shopping slide"
+                      sizes="(max-width: 1200px) 100vw, 46vw"
+                    />
                     <p>Collaborative shopping source slide</p>
                   </article>
                 </div>
@@ -3666,11 +3974,19 @@ export default function App() {
 
               <div className="investorMediaTwin">
                 <article className="investorMediaCard investorSlideCard">
-                  <img src="/Slide/page%2020.png" alt="Prong one traditional marketing development slide" />
+                  <ResponsiveMediaImage
+                    src="/Slide/page%2020.png"
+                    alt="Prong one traditional marketing development slide"
+                    sizes="(max-width: 1200px) 100vw, 46vw"
+                  />
                   <p>Traditional marketing benchmark timeline</p>
                 </article>
                 <article className="investorMediaCard investorSlideCard">
-                  <img src="/Slide/page%2021.png" alt="Prong two three platform acquisitions slide" />
+                  <ResponsiveMediaImage
+                    src="/Slide/page%2021.png"
+                    alt="Prong two three platform acquisitions slide"
+                    sizes="(max-width: 1200px) 100vw, 46vw"
+                  />
                   <p>Platform acquisition strategy benchmark</p>
                 </article>
               </div>
@@ -3959,7 +4275,11 @@ export default function App() {
                     </div>
                   </article>
                   <article className="investorMediaCard investorSlideCard">
-                    <img src="/Slide/page%2027.png" alt="IPO strategy and pathway slide" />
+                    <ResponsiveMediaImage
+                      src="/Slide/page%2027.png"
+                      alt="IPO strategy and pathway slide"
+                      sizes="(max-width: 1200px) 100vw, 46vw"
+                    />
                     <p>IPO pathway visual and advisor narrative</p>
                   </article>
                 </div>
@@ -4340,8 +4660,15 @@ export default function App() {
           </footer>
 
           {showPasswordRequestModal ? (
-            <div className="officialPasswordModalBackdrop">
-              <div className="officialPasswordModal">
+            <div className="officialPasswordModalBackdrop" role="presentation">
+              <div
+                className="officialPasswordModal"
+                ref={passwordModalRef}
+                role="dialog"
+                aria-modal="true"
+                aria-label="Request password"
+                tabIndex={-1}
+              >
                 <div className="officialPasswordModalKicker">Requires Password</div>
                 <h3>Request Password</h3>
                 <form onSubmit={submitPasswordRequest}>
@@ -4392,8 +4719,16 @@ export default function App() {
           ) : null}
 
           {mediaLightbox ? (
-            <div className="mediaLightboxBackdrop" onClick={closeMediaLightbox}>
-              <div className="mediaLightboxDialog" onClick={(event) => event.stopPropagation()}>
+            <div className="mediaLightboxBackdrop" role="presentation" onClick={closeMediaLightbox}>
+              <div
+                className="mediaLightboxDialog"
+                ref={mediaLightboxRef}
+                role="dialog"
+                aria-modal="true"
+                aria-label="Expanded investor media"
+                tabIndex={-1}
+                onClick={(event) => event.stopPropagation()}
+              >
                 <button className="mediaLightboxClose" type="button" onClick={closeMediaLightbox}>
                   Close
                 </button>
@@ -5019,11 +5354,23 @@ export default function App() {
           </div>
         </div>
       )}
-      {ndaStatus === "pending" && showPublicLanding && flowStage !== "brand_intro" ? (
-        <div className="ndaModalBackdrop">
-          <div className="ndaModal">
+      {showNdaModal ? (
+        <div className="ndaModalBackdrop" role="presentation">
+          <div
+            className="ndaModal"
+            ref={ndaModalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="NDA acknowledgement required"
+            tabIndex={-1}
+          >
             <div className="ndaModalFrame">
-              <img src={NDA_POPUP_IMAGE} alt="NDA terms and conditions" />
+              <img
+                src={NDA_POPUP_IMAGE}
+                alt="NDA terms and conditions"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
             <p className="ndaModalCopy">
               I have read and understand the terms and conditions and accept them.

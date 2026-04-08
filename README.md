@@ -35,6 +35,44 @@ You can start editing the page by modifying `app/page.js`. The page auto-updates
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Mobile QA Matrix
+
+Validate the landing and investor sections at these viewport sizes:
+
+- `390x844` (iPhone 12/13 style)
+- `430x932` (iPhone Pro Max style)
+- `768x1024` (tablet portrait)
+- `1024x768` (tablet landscape)
+- Desktop to mobile live resize transitions (`>1200px` down to `<=1200px`)
+
+Automated regression checks (Playwright):
+
+```bash
+npm run test:e2e:install
+npm run test:e2e:list
+npm run test:e2e
+```
+
+The suite covers:
+- Mobile nav open/close behavior
+- Desktop to mobile resize state reset
+- Password modal focus trap + escape close
+- Media lightbox focus trap + escape close
+
+Image optimization:
+
+```bash
+npm run optimize:images
+```
+
+This generates modern `.webp` and `.avif` variants for mobile-critical assets in:
+- `public/Slide`
+- `public/illustrations`
+
+CI automation:
+- GitHub Actions workflow: `.github/workflows/mobile-e2e.yml`
+- Runs on pull requests to `main` and uploads Playwright artifacts (`playwright-report`, `test-results`)
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

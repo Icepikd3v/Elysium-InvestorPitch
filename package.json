@@ -7,10 +7,15 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "npm run build:demo && next build",
+    "build": "npm run optimize:images && npm run build:demo && next build",
     "build:demo": "npm --prefix prototype ci --include=dev && npm --prefix prototype run build && rm -rf public/demo && mkdir -p public/demo && cp -R prototype/dist/* public/demo/",
+    "optimize:images": "node scripts/optimize-images.mjs",
     "start": "next start",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "test:e2e": "playwright test",
+    "test:e2e:list": "playwright test --list",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:install": "playwright install chromium"
   },
   "dependencies": {
     "next": "16.1.1",
@@ -18,10 +23,12 @@
     "react-dom": "19.2.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "@tailwindcss/postcss": "^4",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
+    "sharp": "^0.34.4",
     "tailwindcss": "^4"
   }
 }
