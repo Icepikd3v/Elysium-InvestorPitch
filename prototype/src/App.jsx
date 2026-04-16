@@ -33,6 +33,7 @@ const PASSWORD_REQUEST_EMAIL = "kori@elysiummall.com";
 const ORIGINAL_NARRATION_AUDIO = "/voiceovers/full-experience-narration-sequence.mp3";
 const SIMULATION_NARRATION_AUDIO = "/voiceovers/simulation-voiceover-20260318.m4a";
 const SIMULATION_VIDEO_LEAD_IN_SECONDS = 26;
+const SIMULATION_TIMELINE_PADDING_SECONDS = 27;
 const INVITE_FRIEND_AI_BRAIN_VIDEO = "/InviteFriendSimDemo.mp4";
 
 function RevenueYearOneChartInvestor() {
@@ -867,15 +868,24 @@ function ResponsiveMediaImage({
   sizes = "(max-width: 1200px) 100vw, 50vw",
   loading = "lazy",
   decoding = "async",
+  enableModernSources = false,
 }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const modernBase = src.replace(/\.(png|jpe?g)$/i, "");
   const hasModernCandidates = modernBase !== src;
+  const [preferModernSources, setPreferModernSources] = useState(
+    enableModernSources && hasModernCandidates,
+  );
+
+  useEffect(() => {
+    setIsLoaded(false);
+    setPreferModernSources(enableModernSources && hasModernCandidates);
+  }, [src, hasModernCandidates, enableModernSources]);
 
   return (
     <span className={`responsiveMediaImage ${isLoaded ? "isLoaded" : "isLoading"}`}>
       <picture>
-        {hasModernCandidates ? (
+        {hasModernCandidates && enableModernSources && preferModernSources ? (
           <>
             <source srcSet={`${modernBase}.avif`} type="image/avif" sizes={sizes} />
             <source srcSet={`${modernBase}.webp`} type="image/webp" sizes={sizes} />
@@ -889,6 +899,13 @@ function ResponsiveMediaImage({
           decoding={decoding}
           sizes={sizes}
           onLoad={() => setIsLoaded(true)}
+          onError={() => {
+            if (preferModernSources) {
+              setPreferModernSources(false);
+              return;
+            }
+            setIsLoaded(true);
+          }}
         />
       </picture>
     </span>
@@ -1055,14 +1072,25 @@ export default function App() {
   const passwordModalRef = useRef(null);
   const mediaLightboxRef = useRef(null);
   const ndaModalRef = useRef(null);
+  const scrollLockYRef = useRef(0);
+  const ignoreSimulationPauseRef = useRef(false);
   const [soloClipReady, setSoloClipReady] = useState(false);
   const [inviteClipReady, setInviteClipReady] = useState(false);
   const [isSoloPlaying, setIsSoloPlaying] = useState(false);
+  const [hasSoloStarted, setHasSoloStarted] = useState(false);
+  const [isSoloStopped, setIsSoloStopped] = useState(false);
+  const [soloTimelineCurrent, setSoloTimelineCurrent] = useState(0);
+  const [soloTimelineDuration, setSoloTimelineDuration] = useState(0);
   const [isSimulationPlaying, setIsSimulationPlaying] = useState(false);
+  const [isSimulationStopped, setIsSimulationStopped] = useState(false);
   const [isSimulationWaitingForLeadIn, setIsSimulationWaitingForLeadIn] = useState(false);
   const [simulationHasVideoStarted, setSimulationHasVideoStarted] = useState(false);
   const [simulationLeadInCountdown, setSimulationLeadInCountdown] = useState(
     SIMULATION_VIDEO_LEAD_IN_SECONDS,
+  );
+  const [simulationTimelineCurrent, setSimulationTimelineCurrent] = useState(0);
+  const [simulationTimelineDuration, setSimulationTimelineDuration] = useState(
+    SIMULATION_VIDEO_LEAD_IN_SECONDS + SIMULATION_TIMELINE_PADDING_SECONDS,
   );
 
   useEffect(() => {
@@ -1337,7 +1365,57 @@ export default function App() {
     return `${mins}:${secs}`;
   }, []);
 
-  const playSoloNarratedClip = useCallback(async () => {
+  const deriveSoloTimelineDuration = useCallback(() => {
+    const videoDuration = soloClipRef.current?.duration;
+    const narrationDuration = soloNarrationRef.current?.duration;
+    const maxDuration = Math.max(
+      Number.isFinite(videoDuration) ? videoDuration : 0,
+      Number.isFinite(narrationDuration) ? narrationDuration : 0,
+    );
+    if (maxDuration <= 0) return;
+    setSoloTimelineDuration(Math.ceil(maxDuration));
+  }, []);
+
+  const syncSoloTimelineCurrent = useCallback(() => {
+    const videoTime = soloClipRef.current?.currentTime;
+    const narrationTime = soloNarrationRef.current?.currentTime;
+    const next = Number.isFinite(videoTime)
+      ? Math.max(0, videoTime)
+      : Number.isFinite(narrationTime)
+        ? Math.max(0, narrationTime)
+        : 0;
+    setSoloTimelineCurrent((prev) => (Math.abs(prev - next) < 0.05 ? prev : next));
+  }, []);
+
+  const deriveSimulationTimelineDuration = useCallback(() => {
+    const videoDuration = inviteClipRef.current?.duration;
+    if (!Number.isFinite(videoDuration) || videoDuration <= 0) return;
+    setSimulationTimelineDuration(
+      Math.ceil(videoDuration + SIMULATION_TIMELINE_PADDING_SECONDS),
+    );
+  }, []);
+
+  const readSimulationTimelineCurrent = useCallback(() => {
+    const narrationTime = simulationNarrationRef.current?.currentTime;
+    if (Number.isFinite(narrationTime)) {
+      return Math.max(0, narrationTime);
+    }
+    const videoTime = inviteClipRef.current?.currentTime;
+    if (Number.isFinite(videoTime)) {
+      return Math.max(0, videoTime + SIMULATION_VIDEO_LEAD_IN_SECONDS);
+    }
+    return 0;
+  }, []);
+
+  const syncSimulationTimelineCurrent = useCallback(() => {
+    setSimulationTimelineCurrent((prev) => {
+      const next = readSimulationTimelineCurrent();
+      if (Math.abs(next - prev) < 0.05) return prev;
+      return next;
+    });
+  }, [readSimulationTimelineCurrent]);
+
+  const beginSoloNarratedClip = useCallback(async () => {
     const video = soloClipRef.current;
     const narration = soloNarrationRef.current;
     if (!video || !narration) return;
@@ -1345,53 +1423,125 @@ export default function App() {
     narration.pause();
     video.currentTime = 0;
     narration.currentTime = 0;
+    setSoloTimelineCurrent(0);
+    deriveSoloTimelineDuration();
     try {
       await Promise.all([video.play(), narration.play()]);
       setIsSoloPlaying(true);
+      setHasSoloStarted(true);
+      setIsSoloStopped(false);
     } catch {
       setIsSoloPlaying(false);
     }
-  }, []);
+  }, [deriveSoloTimelineDuration]);
 
-  const syncSoloNarrationOnVideoPlay = useCallback(async () => {
+  const resumeSoloNarratedClip = useCallback(async () => {
+    const video = soloClipRef.current;
     const narration = soloNarrationRef.current;
-    if (!narration || !narration.paused) return;
+    if (!video || !narration) return;
+    if (video.ended || narration.ended) {
+      await beginSoloNarratedClip();
+      return;
+    }
+    if (Math.abs((video.currentTime || 0) - (narration.currentTime || 0)) > 0.35) {
+      narration.currentTime = video.currentTime || narration.currentTime || 0;
+    }
     try {
-      await narration.play();
+      await Promise.all([video.play(), narration.play()]);
       setIsSoloPlaying(true);
-    } catch {}
-  }, []);
+      setHasSoloStarted(true);
+      setIsSoloStopped(false);
+      syncSoloTimelineCurrent();
+    } catch {
+      setIsSoloPlaying(false);
+    }
+  }, [beginSoloNarratedClip, syncSoloTimelineCurrent]);
 
   const pauseSoloNarratedClip = useCallback(() => {
     [soloClipRef.current, soloNarrationRef.current]
       .filter(Boolean)
       .forEach((node) => node.pause());
     setIsSoloPlaying(false);
+    setHasSoloStarted(true);
+    syncSoloTimelineCurrent();
+  }, [syncSoloTimelineCurrent]);
+
+  const stopSoloNarratedClip = useCallback(() => {
+    [soloClipRef.current, soloNarrationRef.current]
+      .filter(Boolean)
+      .forEach((node) => node.pause());
+    setIsSoloPlaying(false);
+    setHasSoloStarted(true);
+    setIsSoloStopped(true);
+    syncSoloTimelineCurrent();
+  }, [syncSoloTimelineCurrent]);
+
+  const toggleSoloPlayback = useCallback(async () => {
+    if (isSoloPlaying) {
+      pauseSoloNarratedClip();
+      return;
+    }
+    if (soloTimelineCurrent <= 0.05) {
+      await beginSoloNarratedClip();
+      return;
+    }
+    await resumeSoloNarratedClip();
+  }, [
+    beginSoloNarratedClip,
+    isSoloPlaying,
+    pauseSoloNarratedClip,
+    resumeSoloNarratedClip,
+    soloTimelineCurrent,
+  ]);
+
+  const handleSoloTimelineScrub = useCallback((event) => {
+    const target = Math.max(0, Number(event.target.value || 0));
+    const video = soloClipRef.current;
+    const narration = soloNarrationRef.current;
+    if (!video || !narration) return;
+    video.pause();
+    narration.pause();
+    video.currentTime = target;
+    narration.currentTime = target;
+    setIsSoloPlaying(false);
+    setHasSoloStarted(true);
+    setSoloTimelineCurrent(target);
   }, []);
 
-  const startTimedSimulationClip = useCallback(async () => {
+  const beginTimedSimulationClip = useCallback(async () => {
     const video = inviteClipRef.current;
     const narration = simulationNarrationRef.current;
     if (!video || !narration) return;
-    clearSimulationLeadInTimers();
-    video.pause();
-    narration.pause();
+    [video, narration].forEach((node) => node.pause());
     video.currentTime = 0;
     narration.currentTime = 0;
+    clearSimulationLeadInTimers();
     setSimulationHasVideoStarted(false);
     setIsSimulationWaitingForLeadIn(false);
     setSimulationLeadInCountdown(SIMULATION_VIDEO_LEAD_IN_SECONDS);
+    setSimulationTimelineCurrent(0);
+    setIsSimulationStopped(false);
+    deriveSimulationTimelineDuration();
+
     try {
       await narration.play();
       setIsSimulationPlaying(true);
       setIsSimulationWaitingForLeadIn(true);
+      setSimulationLeadInCountdown(SIMULATION_VIDEO_LEAD_IN_SECONDS);
+
       simulationCountdownIntervalRef.current = setInterval(() => {
-        setSimulationLeadInCountdown((prev) => (prev <= 1 ? 0 : prev - 1));
-      }, 1000);
+        const remaining = Math.max(
+          0,
+          SIMULATION_VIDEO_LEAD_IN_SECONDS - (simulationNarrationRef.current?.currentTime || 0),
+        );
+        setSimulationLeadInCountdown(Math.ceil(remaining));
+      }, 250);
+
       simulationLeadInTimeoutRef.current = setTimeout(async () => {
         clearSimulationLeadInTimers();
         try {
           await video.play();
+          setSimulationHasVideoStarted(true);
           setIsSimulationWaitingForLeadIn(false);
           setSimulationLeadInCountdown(0);
         } catch {}
@@ -1401,19 +1551,68 @@ export default function App() {
       setIsSimulationWaitingForLeadIn(false);
       clearSimulationLeadInTimers();
     }
-  }, [clearSimulationLeadInTimers]);
+  }, [clearSimulationLeadInTimers, deriveSimulationTimelineDuration]);
 
-  const syncSimulationNarrationOnVideoPlay = useCallback(async () => {
+  const resumeTimedSimulationClip = useCallback(async () => {
+    const video = inviteClipRef.current;
     const narration = simulationNarrationRef.current;
+    if (!video || !narration) return;
+
+    if (video.ended || narration.ended) {
+      await beginTimedSimulationClip();
+      return;
+    }
+
     clearSimulationLeadInTimers();
-    setSimulationHasVideoStarted(true);
-    setIsSimulationWaitingForLeadIn(false);
-    setSimulationLeadInCountdown(0);
-    if (!narration || !narration.paused) return;
+    setIsSimulationStopped(false);
+
+    const remaining = Math.max(
+      0,
+      SIMULATION_VIDEO_LEAD_IN_SECONDS - (narration.currentTime || 0),
+    );
+
     try {
-      await narration.play();
-    } catch {}
-  }, [clearSimulationLeadInTimers]);
+      if (remaining > 0) {
+        await narration.play();
+        setIsSimulationPlaying(true);
+        setIsSimulationWaitingForLeadIn(true);
+        setSimulationHasVideoStarted(false);
+        setSimulationLeadInCountdown(Math.ceil(remaining));
+
+        simulationCountdownIntervalRef.current = setInterval(() => {
+          const nextRemaining = Math.max(
+            0,
+            SIMULATION_VIDEO_LEAD_IN_SECONDS - (simulationNarrationRef.current?.currentTime || 0),
+          );
+          setSimulationLeadInCountdown(Math.ceil(nextRemaining));
+        }, 250);
+
+        simulationLeadInTimeoutRef.current = setTimeout(async () => {
+          clearSimulationLeadInTimers();
+          try {
+            await video.play();
+            setSimulationHasVideoStarted(true);
+            setIsSimulationWaitingForLeadIn(false);
+            setSimulationLeadInCountdown(0);
+          } catch {}
+        }, remaining * 1000);
+        return;
+      }
+
+      const desiredVideoTime = Math.max(0, (narration.currentTime || 0) - SIMULATION_VIDEO_LEAD_IN_SECONDS);
+      if (Math.abs((video.currentTime || 0) - desiredVideoTime) > 0.35) {
+        video.currentTime = desiredVideoTime;
+      }
+      await Promise.all([narration.play(), video.play()]);
+      setIsSimulationPlaying(true);
+      setSimulationHasVideoStarted(true);
+      setIsSimulationWaitingForLeadIn(false);
+      setSimulationLeadInCountdown(0);
+      syncSimulationTimelineCurrent();
+    } catch {
+      setIsSimulationPlaying(false);
+    }
+  }, [beginTimedSimulationClip, clearSimulationLeadInTimers, syncSimulationTimelineCurrent]);
 
   const pauseTimedSimulationClip = useCallback(() => {
     clearSimulationLeadInTimers();
@@ -1422,38 +1621,181 @@ export default function App() {
       .forEach((node) => node.pause());
     setIsSimulationPlaying(false);
     setIsSimulationWaitingForLeadIn(false);
-    setSimulationHasVideoStarted(false);
-    setSimulationLeadInCountdown(SIMULATION_VIDEO_LEAD_IN_SECONDS);
+    const narrationTime = simulationNarrationRef.current?.currentTime || 0;
+    const remaining = Math.max(0, SIMULATION_VIDEO_LEAD_IN_SECONDS - narrationTime);
+    setSimulationHasVideoStarted((inviteClipRef.current?.currentTime || 0) > 0);
+    setSimulationLeadInCountdown(Math.ceil(remaining));
+    syncSimulationTimelineCurrent();
+  }, [clearSimulationLeadInTimers, syncSimulationTimelineCurrent]);
+
+  const handleSimulationVideoPlayNative = useCallback(async () => {
+    const video = inviteClipRef.current;
+    const narration = simulationNarrationRef.current;
+    if (!video || !narration) return;
+
+    clearSimulationLeadInTimers();
+
+    const remaining = Math.max(
+      0,
+      SIMULATION_VIDEO_LEAD_IN_SECONDS - (narration.currentTime || 0),
+    );
+
+    try {
+      if (remaining > 0.05) {
+        if (!video.paused) {
+          ignoreSimulationPauseRef.current = true;
+          video.pause();
+        }
+        if (narration.paused) await narration.play();
+        setIsSimulationPlaying(true);
+        setIsSimulationStopped(false);
+        setSimulationHasVideoStarted(false);
+        setIsSimulationWaitingForLeadIn(true);
+        setSimulationLeadInCountdown(Math.ceil(remaining));
+
+        simulationCountdownIntervalRef.current = setInterval(() => {
+          const nextRemaining = Math.max(
+            0,
+            SIMULATION_VIDEO_LEAD_IN_SECONDS - (simulationNarrationRef.current?.currentTime || 0),
+          );
+          setSimulationLeadInCountdown(Math.ceil(nextRemaining));
+        }, 250);
+
+        simulationLeadInTimeoutRef.current = setTimeout(async () => {
+          clearSimulationLeadInTimers();
+          try {
+            await video.play();
+            setSimulationHasVideoStarted(true);
+            setIsSimulationWaitingForLeadIn(false);
+            setSimulationLeadInCountdown(0);
+          } catch {}
+        }, remaining * 1000);
+        return;
+      }
+
+      const desiredVideoTime = Math.max(
+        0,
+        (narration.currentTime || 0) - SIMULATION_VIDEO_LEAD_IN_SECONDS,
+      );
+      if (Math.abs((video.currentTime || 0) - desiredVideoTime) > 0.35) {
+        video.currentTime = desiredVideoTime;
+      }
+      if (narration.paused) await narration.play();
+      setIsSimulationPlaying(true);
+      setIsSimulationStopped(false);
+      setSimulationHasVideoStarted(true);
+      setIsSimulationWaitingForLeadIn(false);
+      setSimulationLeadInCountdown(0);
+    } catch {}
   }, [clearSimulationLeadInTimers]);
 
-  const handleSimulationVideoPause = useCallback(() => {
-    const narration = simulationNarrationRef.current;
-    if (narration && !narration.paused) {
-      setIsSimulationPlaying(true);
+  const handleSimulationVideoPauseNative = useCallback(() => {
+    if (ignoreSimulationPauseRef.current) {
+      ignoreSimulationPauseRef.current = false;
       return;
     }
+    pauseTimedSimulationClip();
+  }, [pauseTimedSimulationClip]);
+
+  const handleSimulationVideoSeekedNative = useCallback(() => {
+    const video = inviteClipRef.current;
+    const narration = simulationNarrationRef.current;
+    if (!video || !narration) return;
+    const target = Math.max(
+      0,
+      (video.currentTime || 0) + SIMULATION_VIDEO_LEAD_IN_SECONDS,
+    );
+    const cappedTarget = Number.isFinite(narration.duration)
+      ? Math.min(target, narration.duration)
+      : target;
+    if (Math.abs((narration.currentTime || 0) - cappedTarget) > 0.2) {
+      narration.currentTime = cappedTarget;
+    }
+    setSimulationHasVideoStarted((video.currentTime || 0) > 0);
+    setIsSimulationWaitingForLeadIn((narration.currentTime || 0) < SIMULATION_VIDEO_LEAD_IN_SECONDS);
+    if ((narration.currentTime || 0) >= SIMULATION_VIDEO_LEAD_IN_SECONDS) {
+      setSimulationLeadInCountdown(0);
+    }
+    syncSimulationTimelineCurrent();
+  }, [syncSimulationTimelineCurrent]);
+
+  const stopTimedSimulationClip = useCallback(() => {
+    clearSimulationLeadInTimers();
+    [inviteClipRef.current, simulationNarrationRef.current]
+      .filter(Boolean)
+      .forEach((node) => node.pause());
     setIsSimulationPlaying(false);
-  }, []);
+    setIsSimulationWaitingForLeadIn(false);
+    const narrationTime = simulationNarrationRef.current?.currentTime || 0;
+    const remaining = Math.max(0, SIMULATION_VIDEO_LEAD_IN_SECONDS - narrationTime);
+    setSimulationHasVideoStarted((inviteClipRef.current?.currentTime || 0) > 0);
+    setSimulationLeadInCountdown(Math.ceil(remaining));
+    setIsSimulationStopped(true);
+    syncSimulationTimelineCurrent();
+  }, [clearSimulationLeadInTimers, syncSimulationTimelineCurrent]);
 
   const handleSimulationVideoEnd = useCallback(() => {
     clearSimulationLeadInTimers();
-    const video = inviteClipRef.current;
-    const narration = simulationNarrationRef.current;
-    if (video && narration && !narration.paused) {
-      video.currentTime = 0;
-      video
-        .play()
-        .then(() => {
-          setIsSimulationPlaying(true);
-          setSimulationHasVideoStarted(true);
-        })
-        .catch(() => {});
-      return;
-    }
+    [inviteClipRef.current, simulationNarrationRef.current]
+      .filter(Boolean)
+      .forEach((node) => node.pause());
     setSimulationHasVideoStarted(false);
     setIsSimulationWaitingForLeadIn(false);
-    setIsSimulationPlaying(Boolean(narration && !narration.paused));
-  }, [clearSimulationLeadInTimers]);
+    setIsSimulationPlaying(false);
+    setIsSimulationStopped(true);
+    syncSimulationTimelineCurrent();
+  }, [clearSimulationLeadInTimers, syncSimulationTimelineCurrent]);
+
+  const toggleSimulationPlayback = useCallback(async () => {
+    if (isSimulationPlaying) {
+      pauseTimedSimulationClip();
+      return;
+    }
+    const current = readSimulationTimelineCurrent();
+    if (current <= 0.05) {
+      await beginTimedSimulationClip();
+      return;
+    }
+    await resumeTimedSimulationClip();
+  }, [
+    beginTimedSimulationClip,
+    isSimulationPlaying,
+    pauseTimedSimulationClip,
+    readSimulationTimelineCurrent,
+    resumeTimedSimulationClip,
+  ]);
+
+  const handleSimulationTimelineScrub = useCallback(
+    (event) => {
+      const targetTime = Number(event.target.value || 0);
+      const narration = simulationNarrationRef.current;
+      const video = inviteClipRef.current;
+      if (!narration || !video) return;
+
+      clearSimulationLeadInTimers();
+      narration.pause();
+      video.pause();
+
+      const safeTarget = Math.max(0, targetTime);
+      narration.currentTime = safeTarget;
+      if (safeTarget <= SIMULATION_VIDEO_LEAD_IN_SECONDS) {
+        video.currentTime = 0;
+        setSimulationHasVideoStarted(false);
+        setIsSimulationWaitingForLeadIn(safeTarget < SIMULATION_VIDEO_LEAD_IN_SECONDS);
+        setSimulationLeadInCountdown(
+          Math.max(0, Math.ceil(SIMULATION_VIDEO_LEAD_IN_SECONDS - safeTarget)),
+        );
+      } else {
+        video.currentTime = safeTarget - SIMULATION_VIDEO_LEAD_IN_SECONDS;
+        setSimulationHasVideoStarted(true);
+        setIsSimulationWaitingForLeadIn(false);
+        setSimulationLeadInCountdown(0);
+      }
+      setIsSimulationPlaying(false);
+      setSimulationTimelineCurrent(safeTarget);
+    },
+    [clearSimulationLeadInTimers],
+  );
 
   const openImageLightbox = useCallback((src, alt) => {
     if (!src) return;
@@ -1480,13 +1822,16 @@ export default function App() {
     (event) => {
       const chartTarget = event.target.closest("[data-chart-enlarge]");
       if (chartTarget) {
+        event.preventDefault();
         openChartLightbox(chartTarget.getAttribute("data-chart-enlarge"));
         return;
       }
 
       const imageTarget = event.target.closest(".investorMediaCard img");
       if (imageTarget) {
-        openImageLightbox(imageTarget.currentSrc || imageTarget.src, imageTarget.alt);
+        event.preventDefault();
+        const stableSrc = imageTarget.getAttribute("src") || imageTarget.src || imageTarget.currentSrc;
+        openImageLightbox(stableSrc, imageTarget.alt);
       }
     },
     [openChartLightbox, openImageLightbox],
@@ -1506,6 +1851,38 @@ export default function App() {
       clearSimulationLeadInTimers();
     };
   }, [clearSimulationLeadInTimers]);
+
+  useEffect(() => {
+    deriveSoloTimelineDuration();
+  }, [deriveSoloTimelineDuration]);
+
+  useEffect(() => {
+    syncSoloTimelineCurrent();
+  }, [syncSoloTimelineCurrent]);
+
+  useEffect(() => {
+    if (!isSoloPlaying) return undefined;
+    const interval = window.setInterval(() => {
+      syncSoloTimelineCurrent();
+    }, 120);
+    return () => window.clearInterval(interval);
+  }, [isSoloPlaying, syncSoloTimelineCurrent]);
+
+  useEffect(() => {
+    deriveSimulationTimelineDuration();
+  }, [deriveSimulationTimelineDuration]);
+
+  useEffect(() => {
+    syncSimulationTimelineCurrent();
+  }, [syncSimulationTimelineCurrent]);
+
+  useEffect(() => {
+    if (!isSimulationPlaying && !isSimulationWaitingForLeadIn) return undefined;
+    const interval = window.setInterval(() => {
+      syncSimulationTimelineCurrent();
+    }, 120);
+    return () => window.clearInterval(interval);
+  }, [isSimulationPlaying, isSimulationWaitingForLeadIn, syncSimulationTimelineCurrent]);
 
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
@@ -2769,10 +3146,29 @@ export default function App() {
     if (!hasOverlayOpen) return undefined;
 
     const originalOverflow = document.body.style.overflow;
+    const originalPosition = document.body.style.position;
+    const originalTop = document.body.style.top;
+    const originalLeft = document.body.style.left;
+    const originalRight = document.body.style.right;
+    const originalWidth = document.body.style.width;
+    const lockY = window.scrollY || window.pageYOffset || 0;
+    scrollLockYRef.current = lockY;
+
     document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${lockY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
 
     return () => {
       document.body.style.overflow = originalOverflow;
+      document.body.style.position = originalPosition;
+      document.body.style.top = originalTop;
+      document.body.style.left = originalLeft;
+      document.body.style.right = originalRight;
+      document.body.style.width = originalWidth;
+      window.scrollTo(0, scrollLockYRef.current || 0);
     };
   }, [isMobileNavOpen, showPasswordRequestModal, mediaLightbox, showNdaModal]);
 
@@ -3700,25 +4096,39 @@ export default function App() {
                     <video
                       ref={soloClipRef}
                       src="/soloAIBrain.mp4"
-                      preload="metadata"
-                      controls
+                      preload="auto"
                       muted
                       playsInline
                       onCanPlay={() => setSoloClipReady(true)}
-                      onPlay={syncSoloNarrationOnVideoPlay}
-                      onPause={() => setIsSoloPlaying(false)}
-                      onEnded={pauseSoloNarratedClip}
+                      onLoadedMetadata={deriveSoloTimelineDuration}
+                      onEnded={() => {
+                        setIsSoloPlaying(false);
+                        syncSoloTimelineCurrent();
+                      }}
                     />
-                    <div className="videoActionsRow">
-                      <button className="officialGetStarted officialGetStartedSmall" type="button" onClick={playSoloNarratedClip}>
-                        Play Narrated AI Brain
+                    <div className="videoControlBar" role="group" aria-label="Original AI Brain clip controls">
+                      <button
+                        type="button"
+                        className="officialButton officialButtonSecondary"
+                        onClick={toggleSoloPlayback}
+                      >
+                        {isSoloPlaying ? "Pause" : soloTimelineCurrent > 0 ? "Resume" : "Play"}
                       </button>
-                      <button className="officialAuthBtn" type="button" onClick={pauseSoloNarratedClip}>
-                        Pause
-                      </button>
-                      <span className="videoReadyPill">
-                        {soloClipReady ? (isSoloPlaying ? "Now playing in sync" : "Ready") : "Loading..."}
-                      </span>
+                      <div className="videoTimelineWrap">
+                        <input
+                          type="range"
+                          min="0"
+                          max={Math.max(1, soloTimelineDuration)}
+                          step="0.1"
+                          value={Math.min(soloTimelineCurrent, soloTimelineDuration)}
+                          onChange={handleSoloTimelineScrub}
+                          aria-label="Original AI Brain clip timeline"
+                        />
+                        <div className="videoTimelineMeta">
+                          <span>{formatSeconds(Math.floor(soloTimelineCurrent))}</span>
+                          <span>{formatSeconds(Math.floor(soloTimelineDuration))}</span>
+                        </div>
+                      </div>
                     </div>
                     <audio
                       ref={soloNarrationRef}
@@ -3726,6 +4136,7 @@ export default function App() {
                       preload="metadata"
                       onEnded={() => {
                         setIsSoloPlaying(false);
+                        syncSoloTimelineCurrent();
                       }}
                     />
                   </article>
@@ -3735,33 +4146,39 @@ export default function App() {
                     <video
                       ref={inviteClipRef}
                       src={INVITE_FRIEND_AI_BRAIN_VIDEO}
-                      preload="metadata"
-                      controls={false}
+                      preload="auto"
                       muted
                       playsInline
                       onCanPlay={() => setInviteClipReady(true)}
-                      onPlay={syncSimulationNarrationOnVideoPlay}
-                      onPause={handleSimulationVideoPause}
+                      onLoadedMetadata={() => {
+                        setInviteClipReady(true);
+                        deriveSimulationTimelineDuration();
+                      }}
                       onEnded={handleSimulationVideoEnd}
                     />
-                    <div className="videoActionsRow">
-                      <button className="officialGetStarted officialGetStartedSmall" type="button" onClick={startTimedSimulationClip}>
-                        Click Here To Play
+                    <div className="videoControlBar" role="group" aria-label="Invite a Friend clip controls">
+                      <button
+                        type="button"
+                        className="officialButton officialButtonSecondary"
+                        onClick={toggleSimulationPlayback}
+                      >
+                        {isSimulationPlaying ? "Pause" : simulationTimelineCurrent > 0 ? "Resume" : "Play"}
                       </button>
-                      <button className="officialAuthBtn" type="button" onClick={pauseTimedSimulationClip}>
-                        Pause
-                      </button>
-                      <span className="videoReadyPill">
-                        {!inviteClipReady
-                          ? "Loading..."
-                          : isSimulationWaitingForLeadIn
-                            ? `Audio playing. Video auto-starts in ${formatSeconds(simulationLeadInCountdown)}.`
-                            : isSimulationPlaying && simulationHasVideoStarted
-                              ? "Now playing in sync"
-                              : isSimulationPlaying
-                                ? "Audio started"
-                                : "Ready"}
-                      </span>
+                      <div className="videoTimelineWrap">
+                        <input
+                          type="range"
+                          min="0"
+                          max={Math.max(1, simulationTimelineDuration)}
+                          step="0.1"
+                          value={Math.min(simulationTimelineCurrent, simulationTimelineDuration)}
+                          onChange={handleSimulationTimelineScrub}
+                          aria-label="Invite a Friend clip timeline"
+                        />
+                        <div className="videoTimelineMeta">
+                          <span>{formatSeconds(Math.floor(simulationTimelineCurrent))}</span>
+                          <span>{formatSeconds(Math.floor(simulationTimelineDuration))}</span>
+                        </div>
+                      </div>
                     </div>
                     <audio
                       ref={simulationNarrationRef}
@@ -3778,6 +4195,7 @@ export default function App() {
                         setIsSimulationWaitingForLeadIn(false);
                         setSimulationHasVideoStarted(false);
                         setSimulationLeadInCountdown(SIMULATION_VIDEO_LEAD_IN_SECONDS);
+                        setSimulationTimelineCurrent(0);
                       }}
                     />
                   </article>

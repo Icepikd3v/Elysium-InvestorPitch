@@ -3453,6 +3453,36 @@ select.btn {
   font-size: 13px;
 }
 
+.videoControlBar {
+  padding: 0 14px 14px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+
+.videoTimelineWrap {
+  display: grid;
+  gap: 6px;
+}
+
+.videoTimelineWrap input[type="range"] {
+  width: 100%;
+}
+
+.videoTimelineMeta {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(220, 236, 255, 0.86);
+  font-size: 13px;
+}
+
+@media (max-width: 720px) {
+  .videoControlBar {
+    grid-template-columns: 1fr;
+  }
+}
+
 .investorMediaTwin {
   margin-top: 14px;
   display: grid;
@@ -5242,6 +5272,60 @@ select.btn {
     width: min(92vw, 780px) !important;
     max-width: 100% !important;
     margin-inline: auto !important;
+  }
+}
+
+/* Mid-range mobile/tablet landscape tuning:
+   keep the hero image large, but tighten the dark glow so it does not spill into lower sections. */
+@media (min-width: 821px) and (max-width: 1700px) {
+  .officialHeroVisual {
+    min-height: clamp(360px, 46vw, 560px) !important;
+    overflow: hidden !important;
+    isolation: isolate !important;
+  }
+
+  .officialHeroVisual::before {
+    display: block !important;
+    width: min(72%, 640px) !important;
+    top: 54.5% !important;
+    opacity: 0.68 !important;
+    filter: blur(18px) !important;
+  }
+
+  .officialHeroVisual::after {
+    display: block !important;
+    width: min(54%, 470px) !important;
+    top: 58% !important;
+    opacity: 0.44 !important;
+    filter: blur(14px) !important;
+  }
+
+  .officialHeroVisual img {
+    width: min(88vw, 780px) !important;
+    transform: translateY(calc(-3% + 8px)) !important;
+  }
+}
+
+@media (min-width: 1400px) and (max-width: 1700px) and (max-height: 980px) {
+  .officialHeroVisual::before {
+    width: min(66%, 575px) !important;
+    left: 51% !important;
+    top: 58.5% !important;
+    opacity: 0.9 !important;
+    filter: blur(15px) !important;
+  }
+
+  .officialHeroVisual::after {
+    width: min(48%, 410px) !important;
+    left: 51% !important;
+    top: 60.5% !important;
+    opacity: 0.64 !important;
+    filter: blur(11px) !important;
+  }
+
+  .officialHeroVisual img {
+    width: min(84vw, 730px) !important;
+    transform: translateY(calc(-4% + 14px)) !important;
   }
 }
 
