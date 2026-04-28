@@ -2655,7 +2655,8 @@ select.btn {
 .officialAuthBtn:focus-visible,
 .officialMobileNavToggle:focus-visible,
 .officialMobileNavGroupTitle:focus-visible,
-.officialMobileNavLink:focus-visible {
+.officialMobileNavLink:focus-visible,
+.officialMobileNavPageButton:focus-visible {
   outline: 2px solid rgba(164, 205, 255, 0.98);
   outline-offset: 2px;
 }
@@ -2826,10 +2827,26 @@ select.btn {
 .investorSplitHeader h2,
 .investorSummaryBlock h2 {
   margin: 8px 0 0;
-  color: #eef6ff;
   font-size: clamp(30px, 3.4vw, 50px);
   letter-spacing: -0.02em;
   line-height: 1.08;
+}
+
+.investorHeader h2,
+.investorSplitHeader h2,
+.investorSummaryBlock h2,
+.investorImmersionCopy h2,
+.officialSectionHeader h2 {
+  color: transparent;
+  background:
+    linear-gradient(105deg, #ffffff 0%, #c4d5ee 30%, #f7fbff 48%, #91a9cb 66%, #ffffff 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow:
+    0 0 18px rgba(198, 221, 255, 0.24),
+    0 2px 0 rgba(0, 0, 0, 0.18);
+  animation: mobileSilverTextShimmer 5.5s linear infinite;
 }
 
 .investorHeader p,
@@ -3401,6 +3418,21 @@ select.btn {
     linear-gradient(160deg, rgba(7, 15, 54, 0.78), rgba(9, 19, 70, 0.56));
 }
 
+.investorActivityPanelCard .responsiveMediaImage,
+.investorActivityPanelImage {
+  background:
+    radial-gradient(circle at 48% 42%, rgba(120, 165, 255, 0.16), transparent 62%),
+    linear-gradient(160deg, rgba(7, 15, 54, 0.86), rgba(9, 19, 70, 0.68));
+}
+
+.investorActivityPanelImage {
+  height: auto !important;
+  max-height: none !important;
+  aspect-ratio: 2406 / 1602;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
 .investorMediaCard p,
 .investorVideoCard h3 {
   margin: 0;
@@ -3656,9 +3688,6 @@ select.btn {
 .rollout-progress-rail {
   transform-box: fill-box;
   transform-origin: left center;
-  animation:
-    rolloutRailGrow 2200ms cubic-bezier(0.2, 1, 0.3, 1) both,
-    rolloutRailBreath 2.8s ease-in-out 0ms infinite;
   transform: scaleX(1);
   opacity: 1;
 }
@@ -3666,7 +3695,6 @@ select.btn {
 .rollout-node-pop {
   transform-box: fill-box;
   transform-origin: center;
-  animation: rolloutNodePop 1400ms cubic-bezier(0.22, 1, 0.36, 1) both;
   transform: scale(1);
   opacity: 1;
 }
@@ -3674,9 +3702,6 @@ select.btn {
 .rollout-node-core {
   transform-box: fill-box;
   transform-origin: center;
-  animation:
-    rolloutNodePop 1400ms cubic-bezier(0.22, 1, 0.36, 1) both,
-    rolloutNodePulse 2.2s ease-in-out 0ms infinite;
   transform: scale(1);
   opacity: 1;
 }
@@ -3684,15 +3709,11 @@ select.btn {
 .rollout-milestone-group {
   opacity: 0;
   transform: translateY(8px);
-  animation: rolloutMilestoneIn 780ms ease-out forwards;
 }
 
 .raise-progress-rail {
   transform-box: fill-box;
   transform-origin: left center;
-  animation:
-    raiseRailGrow 2200ms cubic-bezier(0.2, 1, 0.3, 1) both,
-    raiseRailBreath 2.8s ease-in-out 0ms infinite;
   transform: scaleX(1);
   opacity: 1;
 }
@@ -3700,7 +3721,6 @@ select.btn {
 .raise-node-pop {
   transform-box: fill-box;
   transform-origin: center;
-  animation: raiseNodePop 1400ms cubic-bezier(0.22, 1, 0.36, 1) both;
   transform: scale(1);
   opacity: 1;
 }
@@ -3708,9 +3728,6 @@ select.btn {
 .raise-node-core {
   transform-box: fill-box;
   transform-origin: center;
-  animation:
-    raiseNodePop 1400ms cubic-bezier(0.22, 1, 0.36, 1) both,
-    raiseCorePulse 2.2s ease-in-out 0ms infinite;
   transform: scale(1);
   opacity: 1;
 }
@@ -3718,7 +3735,57 @@ select.btn {
 .raise-step-group {
   opacity: 0;
   transform: translateY(8px);
-  animation: raiseStepIn 780ms ease-out forwards;
+}
+
+.raise-flow-arrow {
+  opacity: 0.42;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.is-chart-visible .rollout-progress-rail,
+.mediaLightboxChart .rollout-progress-rail {
+  animation: rolloutRailLoop 6.4s cubic-bezier(0.2, 1, 0.3, 1) infinite;
+}
+
+.is-chart-visible .rollout-node-pop,
+.mediaLightboxChart .rollout-node-pop {
+  animation: rolloutNodeLoop 6.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.is-chart-visible .rollout-node-core,
+.mediaLightboxChart .rollout-node-core {
+  animation: rolloutCoreLoop 6.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.is-chart-visible .rollout-milestone-group,
+.mediaLightboxChart .rollout-milestone-group {
+  animation: rolloutMilestoneLoop 6.4s ease-in-out infinite;
+}
+
+.is-chart-visible .raise-progress-rail,
+.mediaLightboxChart .raise-progress-rail {
+  animation: raiseRailLoop 6.4s cubic-bezier(0.2, 1, 0.3, 1) infinite;
+}
+
+.is-chart-visible .raise-node-pop,
+.mediaLightboxChart .raise-node-pop {
+  animation: raiseNodeLoop 6.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.is-chart-visible .raise-node-core,
+.mediaLightboxChart .raise-node-core {
+  animation: raiseCoreLoop 6.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.is-chart-visible .raise-flow-arrow,
+.mediaLightboxChart .raise-flow-arrow {
+  animation: raiseArrowLoop 6.4s ease-in-out infinite;
+}
+
+.is-chart-visible .raise-step-group,
+.mediaLightboxChart .raise-step-group {
+  animation: raiseStepLoop 6.4s ease-in-out infinite;
 }
 
 @keyframes rolloutRailGrow {
@@ -3782,6 +3849,105 @@ select.btn {
   }
 }
 
+@keyframes rolloutRailLoop {
+  0% {
+    transform: scaleX(0);
+    opacity: 0.64;
+    filter: brightness(1);
+  }
+  34% {
+    transform: scaleX(1);
+    opacity: 1;
+    filter: brightness(1.18);
+  }
+  72% {
+    transform: scaleX(1);
+    opacity: 0.9;
+    filter: brightness(1);
+  }
+  88%,
+  100% {
+    transform: scaleX(0);
+    opacity: 0.64;
+    filter: brightness(1);
+  }
+}
+
+@keyframes rolloutNodeLoop {
+  0%,
+  10% {
+    transform: scale(0.45);
+    opacity: 0;
+  }
+  24% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+  34%,
+  72% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  88%,
+  100% {
+    transform: scale(0.45);
+    opacity: 0;
+  }
+}
+
+@keyframes rolloutCoreLoop {
+  0%,
+  10% {
+    transform: scale(0.45);
+    opacity: 0;
+    filter: brightness(1);
+  }
+  24% {
+    transform: scale(1.18);
+    opacity: 1;
+    filter: brightness(1.34);
+  }
+  42% {
+    transform: scale(1);
+    opacity: 1;
+    filter: brightness(1);
+  }
+  58% {
+    transform: scale(1.28);
+    opacity: 1;
+    filter: brightness(1.36);
+  }
+  72% {
+    transform: scale(1);
+    opacity: 1;
+    filter: brightness(1);
+  }
+  88%,
+  100% {
+    transform: scale(0.45);
+    opacity: 0;
+    filter: brightness(1);
+  }
+}
+
+@keyframes rolloutMilestoneLoop {
+  0%,
+  12% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  24%,
+  72% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  88%,
+  100% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
 @keyframes raiseRailGrow {
   from {
     transform: scaleX(0);
@@ -3840,6 +4006,123 @@ select.btn {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes raiseRailLoop {
+  0% {
+    transform: scaleX(0);
+    opacity: 0.62;
+    filter: brightness(1);
+  }
+  34% {
+    transform: scaleX(1);
+    opacity: 1;
+    filter: brightness(1.16);
+  }
+  72% {
+    transform: scaleX(1);
+    opacity: 0.9;
+    filter: brightness(1);
+  }
+  88%,
+  100% {
+    transform: scaleX(0);
+    opacity: 0.62;
+    filter: brightness(1);
+  }
+}
+
+@keyframes raiseNodeLoop {
+  0%,
+  10% {
+    transform: scale(0.55);
+    opacity: 0;
+  }
+  24% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+  34%,
+  72% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  88%,
+  100% {
+    transform: scale(0.55);
+    opacity: 0;
+  }
+}
+
+@keyframes raiseCoreLoop {
+  0%,
+  10% {
+    transform: scale(0.55);
+    opacity: 0;
+    filter: brightness(1);
+  }
+  24% {
+    transform: scale(1.18);
+    opacity: 1;
+    filter: brightness(1.34);
+  }
+  42% {
+    transform: scale(1);
+    opacity: 1;
+    filter: brightness(1);
+  }
+  58% {
+    transform: scale(1.28);
+    opacity: 1;
+    filter: brightness(1.34);
+  }
+  72% {
+    transform: scale(1);
+    opacity: 1;
+    filter: brightness(1);
+  }
+  88%,
+  100% {
+    transform: scale(0.55);
+    opacity: 0;
+    filter: brightness(1);
+  }
+}
+
+@keyframes raiseArrowLoop {
+  0%,
+  18% {
+    opacity: 0;
+    transform: translateX(-5px) scale(0.86);
+  }
+  30%,
+  68% {
+    opacity: 0.44;
+    transform: translateX(0) scale(1);
+  }
+  82%,
+  100% {
+    opacity: 0;
+    transform: translateX(5px) scale(0.86);
+  }
+}
+
+@keyframes raiseStepLoop {
+  0%,
+  12% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  24%,
+  72% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  88%,
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
   }
 }
 
@@ -3976,7 +4259,6 @@ select.btn {
 
 .investorImmersionCopy h2 {
   margin: 16px 0 0;
-  color: #eef6ff;
   font-size: clamp(46px, 5.2vw, 88px);
   line-height: 1.04;
   letter-spacing: -0.02em;
@@ -4156,11 +4438,14 @@ select.btn {
 }
 
 .mediaLightboxImage {
-  width: 100%;
+  width: auto;
+  max-width: 100%;
+  height: auto;
   max-height: calc(94vh - 80px);
   object-fit: contain;
   display: block;
   border-radius: 12px;
+  margin-inline: auto;
 }
 
 .mediaLightboxChart {
@@ -4325,6 +4610,15 @@ select.btn {
   }
 }
 
+@keyframes mobileSilverTextShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 160% 50%;
+  }
+}
+
 @keyframes tableRowBreath {
   0%,
   100% {
@@ -4346,6 +4640,7 @@ select.btn {
   .raise-progress-rail,
   .raise-node-pop,
   .raise-node-core,
+  .raise-flow-arrow,
   .raise-step-group {
     animation: none !important;
   }
@@ -4369,7 +4664,8 @@ select.btn {
   .rollout-node-pop,
   .rollout-node-core,
   .raise-node-pop,
-  .raise-node-core {
+  .raise-node-core,
+  .raise-flow-arrow {
     transform: scale(1) !important;
     opacity: 1 !important;
   }
@@ -4429,7 +4725,6 @@ select.btn {
 
 .officialSectionHeader h2 {
   margin: 0;
-  color: #eef5ff;
   font-size: clamp(24px, 2.1vw, 36px);
   letter-spacing: -0.01em;
 }
@@ -4937,6 +5232,7 @@ select.btn {
   }
 
   .officialMobileNavGroupTitle {
+    margin: 0;
     color: rgba(214, 230, 255, 0.96);
     font-size: 11px;
     font-weight: 700;
@@ -4954,6 +5250,23 @@ select.btn {
     background:
       linear-gradient(145deg, rgba(31, 66, 168, 0.46), rgba(19, 48, 136, 0.28));
     box-shadow: inset 0 1px 0 rgba(168, 199, 255, 0.14);
+  }
+
+  .officialMobileNavPageButton {
+    width: 100%;
+    border: 1px solid rgba(126, 171, 255, 0.18);
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .officialMobileNavPageButton.isActive {
+    border-color: rgba(183, 216, 255, 0.58);
+    background:
+      linear-gradient(145deg, rgba(72, 120, 255, 0.58), rgba(30, 67, 168, 0.42));
+    box-shadow:
+      inset 0 1px 0 rgba(196, 222, 255, 0.22),
+      0 0 0 1px rgba(183, 216, 255, 0.12);
   }
 
   .officialMobileNavGroupTitle:hover,
@@ -5330,6 +5643,84 @@ select.btn {
 }
 
 @media (max-width: 820px) {
+  .officialLanding.is-mobile-paged .officialCanvas > .officialSection:not(.is-mobile-page-active) {
+    display: none;
+  }
+
+  .officialSection {
+    min-height: calc(100svh - 196px);
+    margin-top: 16px;
+  }
+
+  .investorHeader p,
+  .investorSplitHeader p {
+    color: rgba(223, 237, 255, 0.88);
+  }
+
+  .investorListCard,
+  .investorPointCard,
+  .investorTakeawayCard,
+  .investorInfoMiniCard,
+  .phaseFramingCard,
+  .investorSummaryBlock {
+    background: linear-gradient(180deg, rgba(12, 27, 88, 0.62), rgba(9, 20, 73, 0.48));
+  }
+
+  .investorBarGraphCard {
+    padding: 12px;
+  }
+
+  .investorBarRow,
+  .investorBarRowWide {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px 10px;
+    align-items: baseline;
+  }
+
+  .investorBarRow div {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .investorBarRow span {
+    font-size: 12px;
+    line-height: 1.25;
+  }
+
+  .investorBarRow b {
+    font-size: 12px;
+    line-height: 1.25;
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  .investorMediaTwinCompact .investorMediaCard img,
+  #ai-brain-system .investorMediaCard img,
+  #ai-brain-system .responsiveMediaImage,
+  #ai-brain-system picture {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .investorMediaTwinCompact .investorMediaCard img,
+  #ai-brain-system .investorMediaCard img {
+    object-fit: contain !important;
+    object-position: center center;
+  }
+
+  .investorMediaCard p,
+  .investorVideoCard h3 {
+    font-size: 16px;
+    line-height: 1.35;
+  }
+
+  .investorEnlargeableBlock::after,
+  .investorMediaCard::after {
+    top: 8px;
+    right: 8px;
+    max-width: calc(100% - 16px);
+  }
+
   .officialHeroVisual {
     overflow: hidden !important;
     isolation: isolate !important;

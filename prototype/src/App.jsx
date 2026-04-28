@@ -35,6 +35,43 @@ const SIMULATION_NARRATION_AUDIO = "/voiceovers/simulation-voiceover-20260318.m4
 const SIMULATION_VIDEO_LEAD_IN_SECONDS = 26;
 const SIMULATION_TIMELINE_PADDING_SECONDS = 27;
 const INVITE_FRIEND_AI_BRAIN_VIDEO = "/InviteFriendSimDemo.mp4";
+const MOBILE_PAGE_QUERY = "(max-width: 820px)";
+
+const getMobileSectionTitle = (section, index) => {
+  const heading = section?.querySelector("h2, h3");
+  const rawTitle = heading?.textContent?.trim();
+  return rawTitle || `Section ${index + 1}`;
+};
+
+const MOBILE_MENU_PAGE_GROUPS = [
+  { label: "Overview", pages: [0, 1, 2, 3, 4] },
+  { label: "AI Brain / SmartMall", pages: [5, 6] },
+  { label: "Market Plan / Contract", pages: [7, 8] },
+  { label: "Financials / IPO", pages: [9, 10, 11] },
+  { label: "Capitalization / Investors", pages: [12] },
+  { label: "Management / Platform", pages: [13, 14, 15] },
+  { label: "Contact", pages: [16] },
+];
+
+const MOBILE_MENU_PAGE_TITLES = [
+  "Multi-Dimensional Immersion Into a Virtual Shopping Experience",
+  "SmartMall Overview Support",
+  "Investor Overview",
+  "Digital Shopping Is Still Frustrating",
+  "Predictability",
+  "How The AI Brain Works",
+  "Shop Experience",
+  "Growth Plan",
+  "Projected Rollout Schedule",
+  "Financial Upside & Implementation Plan",
+  "Financials / IPO",
+  "Investor Information",
+  "Capital Plan",
+  "Leadership",
+  "Management Team",
+  "What Backend Is Required To Make Elysium Real",
+  "Ready To Review Phase 1",
+];
 
 function RevenueYearOneChartInvestor() {
   const W = 920;
@@ -379,7 +416,12 @@ function RaiseMilestonesChartInvestor() {
           />
 
           {idx < steps.length - 1 ? (
-            <polygon points={`${step.x + 62},200 ${step.x + 52},193 ${step.x + 52},207`} fill="rgba(0,0,0,0.20)" />
+            <polygon
+              className="raise-flow-arrow"
+              points={`${step.x + 62},200 ${step.x + 52},193 ${step.x + 52},207`}
+              fill="rgba(0,0,0,0.20)"
+              style={{ animationDelay: `${0.18 + idx * 0.12}s` }}
+            />
           ) : null}
 
           <g className="raise-step-group" style={{ animationDelay: `${0.18 + idx * 0.08}s` }}>
@@ -871,6 +913,7 @@ function ResponsiveMediaImage({
   enableModernSources = false,
 }) {
   const [isLoaded, setIsLoaded] = useState(false);
+  const imageRef = useRef(null);
   const modernBase = src.replace(/\.(png|jpe?g)$/i, "");
   const hasModernCandidates = modernBase !== src;
   const [preferModernSources, setPreferModernSources] = useState(
@@ -880,6 +923,16 @@ function ResponsiveMediaImage({
   useEffect(() => {
     setIsLoaded(false);
     setPreferModernSources(enableModernSources && hasModernCandidates);
+
+    const syncLoadedImage = () => {
+      const image = imageRef.current;
+      if (image?.complete && image.naturalWidth > 0) {
+        setIsLoaded(true);
+      }
+    };
+
+    const frame = window.requestAnimationFrame(syncLoadedImage);
+    return () => window.cancelAnimationFrame(frame);
   }, [src, hasModernCandidates, enableModernSources]);
 
   return (
@@ -892,6 +945,7 @@ function ResponsiveMediaImage({
           </>
         ) : null}
         <img
+          ref={imageRef}
           src={src}
           alt={alt}
           className={className}
@@ -1023,6 +1077,9 @@ export default function App() {
   const [showLandingMallTransition, setShowLandingMallTransition] = useState(false);
   const [showLandingPage, setShowLandingPage] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [isMobilePaged, setIsMobilePaged] = useState(false);
+  const [mobilePageIndex, setMobilePageIndex] = useState(0);
+  const [mobilePageOptions, setMobilePageOptions] = useState([]);
   const [error, setError] = useState("");
   // Flow: brand_intro -> landing/auth/verify -> scan -> app
   const [flowStage, setFlowStage] = useState(() => {
@@ -1120,6 +1177,18 @@ export default function App() {
       window.removeEventListener("orientationchange", handleOrientationChange);
       mobileQuery.removeEventListener("change", handleViewportChange);
     };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+
+    const pageQuery = window.matchMedia(MOBILE_PAGE_QUERY);
+    const syncPagedMode = () => setIsMobilePaged(pageQuery.matches);
+
+    syncPagedMode();
+    pageQuery.addEventListener("change", syncPagedMode);
+
+    return () => pageQuery.removeEventListener("change", syncPagedMode);
   }, []);
 
   useEffect(() => {
@@ -3081,6 +3150,95 @@ export default function App() {
   const showNdaModal =
     ndaStatus === "pending" && showPublicLanding && flowStage !== "brand_intro";
 
+  const syncMobilePagerSections = useCallback((nextIndex = mobilePageIndex, shouldScroll = false) => {
+    if (typeof document === "undefined") return;
+
+    const sections = Array.from(document.querySelectorAll(".officialCanvas .officialSection"));
+    const total = sections.length;
+    const safeIndex = Math.max(0, Math.min(nextIndex, Math.max(0, total - 1)));
+    const activeSection = sections[safeIndex] || null;
+
+    sections.forEach((section, index) => {
+      const isActive = !isMobilePaged || index === safeIndex;
+      section.classList.toggle("is-mobile-page-active", isActive);
+      section.toggleAttribute("inert", isMobilePaged && !isActive);
+      section.setAttribute("aria-hidden", isMobilePaged && !isActive ? "true" : "false");
+      section.querySelectorAll("[data-chart-enlarge]").forEach((chart) => {
+        if (isMobilePaged) {
+          chart.classList.toggle("is-chart-visible", isActive);
+        }
+      });
+    });
+
+    setMobilePageOptions(
+      sections.map((section, index) => ({
+        index,
+        title: getMobileSectionTitle(section, index),
+      })),
+    );
+
+    if (safeIndex !== mobilePageIndex) {
+      setMobilePageIndex(safeIndex);
+    }
+
+    if (shouldScroll && activeSection) {
+      window.requestAnimationFrame(() => {
+        activeSection.scrollIntoView({ block: "start", behavior: "smooth" });
+      });
+    }
+  }, [isMobilePaged, mobilePageIndex]);
+
+  useEffect(() => {
+    if (!showPublicLanding) return undefined;
+    const syncNow = () => syncMobilePagerSections(mobilePageIndex, false);
+    const frameId = window.requestAnimationFrame(syncNow);
+    const timers = [80, 240, 720].map((delay) => window.setTimeout(syncNow, delay));
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      timers.forEach((timer) => window.clearTimeout(timer));
+    };
+  }, [showPublicLanding, isMobilePaged, mobilePageIndex, syncMobilePagerSections]);
+
+  useEffect(() => {
+    if (!showPublicLanding || !isMobilePaged || typeof window === "undefined") return undefined;
+
+    const intervalId = window.setInterval(() => {
+      const hasSections = document.querySelectorAll(".officialCanvas .officialSection").length > 0;
+      const hasActiveSection = document.querySelectorAll(".officialSection.is-mobile-page-active").length > 0;
+      if (hasSections && !hasActiveSection) {
+        syncMobilePagerSections(mobilePageIndex, false);
+      }
+    }, 250);
+
+    return () => window.clearInterval(intervalId);
+  }, [showPublicLanding, isMobilePaged, mobilePageIndex, syncMobilePagerSections]);
+
+  useEffect(() => {
+    if (!showPublicLanding || !isMobilePaged || typeof window === "undefined") return undefined;
+
+    const syncFromHash = () => {
+      const hash = decodeURIComponent(window.location.hash || "").replace(/^#/, "");
+      if (!hash) return;
+      const target = document.getElementById(hash);
+      const section = target?.closest?.(".officialCanvas .officialSection");
+      if (!section) return;
+      const sections = Array.from(document.querySelectorAll(".officialCanvas .officialSection"));
+      const nextIndex = sections.indexOf(section);
+      if (nextIndex >= 0) syncMobilePagerSections(nextIndex, true);
+    };
+
+    syncFromHash();
+    window.addEventListener("hashchange", syncFromHash);
+
+    return () => window.removeEventListener("hashchange", syncFromHash);
+  }, [showPublicLanding, isMobilePaged, syncMobilePagerSections]);
+
+  const openMobileMenuPage = useCallback((pageIndex) => {
+    syncMobilePagerSections(pageIndex, true);
+    setIsMobileNavOpen(false);
+  }, [syncMobilePagerSections]);
+
   useEffect(() => {
     if (typeof window === "undefined" || typeof document === "undefined") return undefined;
 
@@ -3348,7 +3506,7 @@ export default function App() {
           </div>
         </div>
       ) : showPublicLanding ? (
-        <div id="home" className="officialLanding">
+        <div id="home" className={`officialLanding ${isMobilePaged ? "is-mobile-paged" : ""}`}>
           <header className="officialHeader">
             <div className="officialHeaderInner">
               <nav className="officialNavLinks" aria-label="Primary">
@@ -3414,103 +3572,6 @@ export default function App() {
                 </div>
                 <a href="#contact-review" className="officialNavItem">Contact Us</a>
               </nav>
-              <div
-                id="official-mobile-nav-panel"
-                ref={mobileNavPanelRef}
-                className={`officialMobileNavPanel ${isMobileNavOpen ? "isOpen" : ""}`}
-                aria-label="Mobile Navigation"
-                aria-hidden={!isMobileNavOpen}
-                hidden={!isMobileNavOpen}
-                tabIndex={-1}
-              >
-                <a href="#home" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
-                  Home
-                </a>
-                <div className="officialMobileNavGroup">
-                  <a href="#overview-summary" className="officialMobileNavGroupTitle" onClick={() => setIsMobileNavOpen(false)}>
-                    Overview
-                  </a>
-                  <a href="#overview-summary" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
-                    Summary
-                  </a>
-                  <a href="#problem-solution" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
-                    Problem + Solution
-                  </a>
-                  <a href="#elysium-market-solution" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
-                    Elysium Market Solutions
-                  </a>
-                </div>
-                <div className="officialMobileNavGroup">
-                  <a href="#elysium-market-solution" className="officialMobileNavGroupTitle" onClick={() => setIsMobileNavOpen(false)}>
-                    AI Brain/SmartMall
-                  </a>
-                  <a href="#social-media" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
-                    Social Media
-                  </a>
-                  <a href="#ai-brain-system" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
-                    AI Brain
-                  </a>
-                  <a href="#avatar-experience" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
-                    Advanced Avatar
-                  </a>
-                </div>
-                <div className="officialMobileNavGroup">
-                  <a href="#growth-plan" className="officialMobileNavGroupTitle" onClick={() => setIsMobileNavOpen(false)}>
-                    Market Plan/Contract
-                  </a>
-                  <a href="#growth-plan" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
-                    Plan Summary
-                  </a>
-                  <a href="#market-contracts" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
-                    Contracts
-                  </a>
-                  <a href="#rollout-financials" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
-                    Rollout Plan
-                  </a>
-                </div>
-                <div className="officialMobileNavGroup">
-                  <a href="#financial-projections" className="officialMobileNavGroupTitle" onClick={() => setIsMobileNavOpen(false)}>
-                    Financials/IPO
-                  </a>
-                  <a href="#financial-projections" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
-                    Financial Projections
-                  </a>
-                  <a href="#financial-ipo" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
-                    Budget + Assumptions
-                  </a>
-                  <a href="#ipo-pathway" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
-                    IPO Pathway
-                  </a>
-                </div>
-                <div className="officialMobileNavGroup">
-                  <a href="#capital-plan" className="officialMobileNavGroupTitle" onClick={() => setIsMobileNavOpen(false)}>
-                    Capitalization/Investors
-                  </a>
-                  <a href="#capital-overview" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
-                    Capitalization Overview
-                  </a>
-                  <a href="#draft-cap-tables" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
-                    Draft Cap Tables
-                  </a>
-                  <a href="#capital-raise-pre-ipo" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
-                    Capital Raise Pre-IPO
-                  </a>
-                </div>
-                <div className="officialMobileNavGroup">
-                  <a href="#management-team" className="officialMobileNavGroupTitle" onClick={() => setIsMobileNavOpen(false)}>
-                    Management Team
-                  </a>
-                  <a href="#leadership" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
-                    Leadership
-                  </a>
-                  <a href="#management-team" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
-                    Management Team
-                  </a>
-                </div>
-                <a href="#contact-review" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
-                  Contact Us
-                </a>
-              </div>
               <div className="officialNavAuth">
                 <a className="officialAuthBtn officialNavJumpBtn" href="#ai-brain-system">
                   Simulation Videos
@@ -3537,6 +3598,42 @@ export default function App() {
                   <span className="officialMobileNavDots" aria-hidden="true">⋯</span>
                   <span className="officialMobileNavLabel">{isMobileNavOpen ? "Close" : "Menu"}</span>
                 </button>
+              </div>
+              <div
+                id="official-mobile-nav-panel"
+                ref={mobileNavPanelRef}
+                className={`officialMobileNavPanel ${isMobileNavOpen ? "isOpen" : ""}`}
+                aria-label="Mobile Navigation"
+                aria-hidden={!isMobileNavOpen}
+                hidden={!isMobileNavOpen}
+                tabIndex={-1}
+              >
+                <a href="#home" className="officialMobileNavLink" onClick={() => setIsMobileNavOpen(false)}>
+                  Home
+                </a>
+                {MOBILE_MENU_PAGE_GROUPS.map((group) => (
+                  <div className="officialMobileNavGroup" key={group.label}>
+                    <p className="officialMobileNavGroupTitle">{group.label}</p>
+                    {group.pages.map((pageIndex) => {
+                      const page = mobilePageOptions[pageIndex] || {
+                        index: pageIndex,
+                        title: MOBILE_MENU_PAGE_TITLES[pageIndex] || `Section ${pageIndex + 1}`,
+                      };
+                      return (
+                        <button
+                          className={`officialMobileNavLink officialMobileNavPageButton ${
+                            mobilePageIndex === pageIndex ? "isActive" : ""
+                          }`}
+                          type="button"
+                          key={pageIndex}
+                          onClick={() => openMobileMenuPage(pageIndex)}
+                        >
+                          {page.title}
+                        </button>
+                      );
+                    })}
+                  </div>
+                ))}
               </div>
             </div>
           </header>
@@ -3644,6 +3741,7 @@ export default function App() {
                     src="/illustrations/store3-red.png"
                     alt="Digital storefront mock UI"
                     sizes="(max-width: 1200px) 100vw, 44vw"
+                    loading="eager"
                   />
                   <p>
                     <span>Digital Storefront (Mock UI)</span>
@@ -4044,10 +4142,10 @@ export default function App() {
                   </article>
 
                   <div className="investorMediaTwin investorMediaTwinCompact">
-                    <article className="investorMediaCard">
+                    <article className="investorMediaCard investorActivityPanelCard">
                       <ResponsiveMediaImage
-                        className="investorMediaContain"
-                        src="/illustrations/AI Dash.png"
+                        className="investorMediaContain investorActivityPanelImage"
+                        src="/illustrations/Activity%20Panel.png"
                         alt="Elly command panel live scan and ranking output"
                         sizes="(max-width: 1200px) 100vw, 30vw"
                       />
